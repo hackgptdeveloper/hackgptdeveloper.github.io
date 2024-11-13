@@ -1,2 +1,2 @@
 
-# Mathematical Art for Fun and Profile
+# Mathematical Art for Fun and Profit
