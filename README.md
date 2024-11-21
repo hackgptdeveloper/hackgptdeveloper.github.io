@@ -1,365 +1,282 @@
-### devlopr-jekyll - A Beautiful Jekyll Theme Built for Developers
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-[![Gem Version](https://badge.fury.io/rb/devlopr.svg)](https://badge.fury.io/rb/devlopr)
-![workflow-badge](https://github.com/sujaykundu777/devlopr-jekyll/actions/workflows/deploy.yml/badge.svg)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/4232ac2b-63e0-4c78-92e0-e95aad5ab8c3/deploy-status)](https://app.netlify.com/sites/devlopr/deploys)
-![](https://ruby-gem-downloads-badge.herokuapp.com/devlopr?type=total&color=brightgreen&style=plastic)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-[![Bakers](https://opencollective.com/devlopr-jekyll/tiers/badge.svg)](https://opencollective.com/devlopr-jekyll/)
 
 
-You can use Devlopr as a starter for building your own Site. we purposely keep the styling minimal and bare to make it easier to add your own flare and markup. (Under Active Development) !
+![](https://raw.githubusercontent.com/qiubaiying/qiubaiying.github.io/master/img/readme-home.png)
 
-Highly Customizable and No Hosting or Maintainence Cost is required !
-
-![devlopr jekyll](https://github.com/sujaykundu777/devlopr-jekyll/blob/master/assets/img/screenshot.PNG?raw=true)
-
-devlopr uses Markdown Files to generate data like Blog Posts, Gallery, Shop Products etc. No external database is required.
-
-
-### Launch your Static Site using Devlopr in minutes :rocket:
-
-To get started follow this [Tutorial](https://devlopr.netlify.app/get-started)
-
-or if you want to try fast :
-
-### Follow this steps in browser (takes 5-10 mins): 
-1. Fork this Repo with your name as  your_username.github.io
-2. Visit your Fork repo at https://github.com/your_username/your_username.github.io
-3. Press "." in keyboard (this will open up vs-code editor in browser) of the repo.
-4. Customize config.yml file according to your needs (eg. change your Name, Email... etc.)
-5. Commit your changes, and push 
-6. Wait for CI/CD to build your website. Visit Github Actions to see the build process.
-7. Once Ready, Your website will be ready at https://your_username.github.io :sparkles: 
-8. Happy Hacking your new site ! For Local changes you can clone locally.
+[![Build Status](https://travis-ci.org/qiubaiying/qiubaiying.github.io.svg?branch=master)](https://travis-ci.org/qiubaiying/qiubaiying.github.io)
+[![codebeat badge](https://codebeat.co/badges/5f031df3-f6c1-4ec0-911a-ff6617ca50b9)](https://codebeat.co/projects/github-com-qiubaiying-qiubaiying-github-io-master)
+[![GitHub issues](https://img.shields.io/github/issues/qiubaiying/qiubaiying.github.io.svg?style=flat)](https://github.com/qiubaiying/qiubaiying.github.io/issues)
+[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/home-assistant/home-assistant-iOS/blob/master/LICENSE)
+[![](https://img.shields.io/github/stars/qiubaiying/qiubaiying.github.io.svg?style=social&label=Star)](https://github.com/qiubaiying/qiubaiying.github.io)
+[![](https://img.shields.io/github/forks/qiubaiying/qiubaiying.github.io.svg?style=social&label=Fork)](https://github.com/qiubaiying/qiubaiying.github.io)
 
 
-## Local Development Steps :
+博客的搭建教程修改自 [Hux](https://github.com/Huxpro/huxpro.github.io) 
+ 
+更为详细的教程戳这 [《利用 GitHub Pages 快速搭建个人博客》](http://www.jianshu.com/p/e68fba58f75c) 或 [wiki](https://github.com/qiubaiying/qiubaiying.github.io/wiki/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B)
 
-Step 1: Fork this repo with your github username.
+>
+### [查看博客戳这里 👆](http://qiubaiying.github.io)
 
-Step 2: Clone Locally
 
-```s
-$ git clone https://github.com/your_github_username/your_github_username.github.io.git
-$ cd your_github_username
+
+## 使用
+
+* 开始
+	* [环境](#环境)
+	* [开始](#开始)
+	* [撰写博文](#撰写博文)
+* 组件
+	* [侧边栏](#侧边栏)
+	* [迷你关于我](#mini-about-me)
+	* [推荐标签](#featured-tags)
+	* [好友链接](#friends)
+	* [HTML5 演示文档布局](#keynote-layout)
+* 评论与 Google/Baidu Analytics
+	* [评论](#comment)
+	* [网站分析](#analytics) 
+* 高级部分
+	* [自定义](#customization)
+	* [标题底图](#header-image)
+	* [搜索展示标题-头文件](#seo-title)
+
+
+
+### 环境
+
+如果你安装了 [jekyll](http://jekyllcn.com/)，那你只需要在命令行输入`jekyll serve` 或 `jekyll s`就能在本地浏览器中输入`http://127.0.0.1:4000/`预览主题，对主题的修改也能实时展示（需要强刷浏览器）。
+
+
+
+### 开始
+
+你可以通用修改 `_config.yml`文件来轻松的开始搭建自己的博客:
+
+```
+# Site settings
+title: BY Blog                    # 你的博客网站标题
+SEOTitle: 柏荧的博客 | BY Blog		# SEO 标题
+description: "Hey"	   	   # 随便说点，描述一下
+
+# SNS settings      
+github_username: qiubaiying     # 你的github账号
+jianshu_username: e71990ada2fd  # 你的简书ID。
+
+# Build settings
+# paginate: 10              # 一页你准备放几篇文章
 ```
 
-Step 3: Now follow the below guides based on your OS.
+Jekyll官方网站还有很多的参数可以调，比如设置文章的链接形式...网址在这里：[Jekyll - Official Site](http://jekyllrb.com/) 中文版的在这里：[Jekyll中文](http://jekyllcn.com/).
 
-### For Linux : (Ubuntu 20.04)
+### 撰写博文
 
-To work locally with ubuntu, follow this commands.
+要发表的文章一般以 **Markdown** 的格式放在这里`_posts/`，你只要看看这篇模板里的文章你就立刻明白该如何设置。
 
-Install Ruby :
-```s
-$ sudo apt install ruby-full
-$ ruby --version
-ruby 2.7.0p0 (2019-12-25 revision 647ee6f091) [x86_64-linux-gnu]
+yaml 头文件长这样:
 
-$ gem install jekyll bundler
-$ bundle update
-$ bundle install
-$ bundle exec jekyll -v
-jekyll 4.2.2
+```
+---
+layout:     post
+title:      定时器 你真的会使用吗？
+subtitle:   iOS定时器详解
+date:       2016-12-13
+author:     BY
+header-img: img/post-bg-ios9-web.jpg
+catalog: 	 true
+tags:
+    - iOS
+    - 定时器
+---
 
-$ bundle exec jekyll serve --livereload
 ```
 
-### For Windows :
+### 侧边栏
 
-To work locally with windows machine, follow this commands. You might need to download and install [ruby (with devkit)](https://www.ruby-lang.org/en/downloads/) and [git](https://git-scm.com/downloads).
+看右边:
+![](https://raw.githubusercontent.com/qiubaiying/qiubaiying.github.io/master/img/readme-side.png)
 
-```s
-$ ruby -v 
-(ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [universal.x86_64-darwin21])
+设置是在 `_config.yml`文件里面的`Sidebar settings`那块。
 
-$ gem install jekyll bundler
-
-$ bundler -v
-Bundler version 2.3.23
-
-$ bundle update
-$ bundle install
-$ bundle exec jekyll -v 
-jekyll 4.2.2
-
-$ bundle exec jekyll serve --livereload
+```
+# Sidebar settings
+sidebar: true  #添加侧边栏
+sidebar-about-description: "简单的描述一下你自己"
+sidebar-avatar: /img/avatar-by.jpg     #你的大头贴，请使用绝对地址.注意：名字区分大小写！后缀名也是
 ```
 
-If you are running into permission issues running bundler, try the following:
+侧边栏是响应式布局的，当屏幕尺寸小于992px的时候，侧边栏就会移动到底部。具体请见bootstrap栅格系统 <http://v3.bootcss.com/css/>
 
-```s
-$ sudo rm -rf _site
-$ bundle update
-$ bundle install
-$ bundle exec jekyll serve
+
+### Mini About Me
+
+Mini-About-Me 这个模块将在你的头像下面，展示你所有的社交账号。这个也是响应式布局，当屏幕变小时候，会将其移动到页面底部，只不过会稍微有点小变化，具体请看代码。
+
+### Featured Tags
+
+看到这个网站 [Medium](http://medium.com) 的推荐标签非常的炫酷，所以我将他加了进来。
+这个模块现在是独立的，可以呈现在所有页面，包括主页和发表的每一篇文章标题的头上。
+
 ```
-Start the server locally at http://127.0.0.1:4000/ or http://localhost:4000/
-
-### For MacOS :
-
-Run the following in your terminal :
-
-#### Option 1. Install ruby using Homebrew
-
-`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-
-`brew install ruby`
-
-Add the below in ~/.zshrc file: 
-
-Edit either the  ~/.zshrc and ~/.zprofile files:
-
-`$ open -e ~/.zshrc`
-
-### For Mac M1, M2, M3
-
-```sh
-# override system ruby with homebrew-installed ruby
-if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
-  export PATH=/opt/homebrew/opt/ruby/bin:$PATH
-  export PATH=`gem environment gemdir`/bin:$PATH
+# Featured Tags
+featured-tags: true  
+featured-condition-size: 1     # A tag will be featured if the size of it is more than this condition value
 ```
 
-### For Mac Intel 
+唯一需要注意的是`featured-condition-size`: 如果一个标签的 SIZE，也就是使用该标签的文章数大于上面设定的条件值，这个标签就会在首页上被推荐。
+ 
+内部有一个条件模板 `{% if tag[1].size > {{site.featured-condition-size}} %}` 是用来做筛选过滤的.
 
-On Mac Intel, add this at the end of your ~/.zshrc or ~/.zprofile file.
+### Social-media Account
 
-```sh
-if [ -d "/usr/local/opt/ruby/bin" ]; then
-  export PATH=/usr/local/opt/ruby/bin:$PATH
-  export PATH=`gem environment gemdir`/bin:$PATH
-fi
+在下面输入的社交账号，没有的添加的不会显示在侧边框中。新加入了[简书](https:/www.jianshu.com)链接, <http://www.jianshu.com/u/e71990ada2fd>
+
+	# SNS settings
+	RSS: false
+	jianshu_username: 	jianshu_id 
+	zhihu_username:     username
+	facebook_username:  username
+	github_username:    username
+	# weibo_username:   username
+	
+	
+
+![](http://ww4.sinaimg.cn/large/006tKfTcgy1fgrgbgf77aj308i02v748.jpg)
+
+### Friends
+
+好友链接部分。这会在全部页面显示。
+
+设置是在 `_config.yml`文件里面的`Friends`那块，自己加吧。
+
 ```
-Save the file. This sets the Homebrew-installed Ruby to a higher priority than the system Ruby and adds the directory used for Ruby gems.
-
-### Reset the shell session
-Close and reopen the Terminal window to pick up the changes to the configuration file. Or enter source ~/.zshrc or source ~/.zprofile to reset the shell environment without closing the Terminal window.
-
-```sh
-$ source ~/.zprofile
-$ source ~/.zshrc
-```
-The source command reads and executes a shell script file, resetting the shell environment.
-
-You should be able to see this :
-```sh
-$ ruby -v
-ruby 3.3.4 (2024-07-09 revision be1089c8ec) [arm64-darwin23]
-```
-
-2. Install churby and ruby-install with Homebrew
-
-We will be using [ruby-install](https://github.com/postmodern/ruby-install) to install ruby and [chruby](https://github.com/postmodern/chruby) to change the current ruby version.
-
-`brew install chruby ruby-install`
- Install latest ruby version 
-
-`ruby-install ruby`
-
-This will take a few minutes, and once it’s done, configure your shell to automatically use chruby:
-
-```sh
-echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
-echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
-echo "chruby ruby-3.3.4" >> ~/.zshrc
-```
-If you are facing any problems not getting the version that you just now installed, here is a amazing guide :
-[how to uninstall ruby on mac](https://mac.install.guide/ruby/9)
-
-If you’re using Bash, replace *.zshrc* with *.bash_profile*.
-
-Quit and relaunch Terminal, then check that everything is working:
-
-`$ ruby -v`
-ruby 3.3.4 (2024-07-09 revision be1089c8ec) [arm64-darwin23]
-
-5. Install latest gems
-
-```sh
-$ gem install jekyll bundler
-$ gem update --system 3.5.15
-
-$ bundler -v
-Bundler version 2.5.15
-
-$ bundle update
-
-$ bundle exec jekyll -v 
-jekyll 4.3.3
-
-$ bundle exec jekyll serve --livereload
+# Friends
+friends: [
+    {
+        title: "BY Blog",
+        href: "https://qiubaiying.github.io/"
+    },
+    {
+        title: "Apple",
+        href: "https://apple.com/"
+    }
+]
 ```
 
-### Security 
 
-We use codeQL and dependabot alerts for vulnerabality analysis & fixes.
+### Keynote Layout
 
-```s
-$ bundle audit
+HTML5幻灯片的排版：
+
+![](https://camo.githubusercontent.com/f30347a118171820b46befdf77e7b7c53a5641a9/687474703a2f2f6875616e677875616e2e6d652f696d672f626c6f672d6b65796e6f74652e6a7067)
+
+这部分是用于占用html格式的幻灯片的，一般用到的是 Reveal.js, Impress.js, Slides, Prezi 等等.我认为一个现代化的博客怎么能少了放html幻灯的功能呢~
+
+其主要原理是添加一个 `iframe`，在里面加入外部链接。你可以直接写到头文件里面去，详情请见下面的yaml头文件的写法。
+
+```
+---
+layout:     keynote
+iframe:     "http://huangxuan.me/js-module-7day/"
+---
 ```
 
-### Deploy your devlopr-jekyll blog - One Click Deploy
-
-[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/sujaykundu777/devlopr-jekyll)
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sujaykundu777/devlopr-jekyll)
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sujaykundu777/devlopr-jekyll)
-
-### Github Actions
-
-This Project has actions to auto deploy jekyll to github pages and firebase. The deployment target can be set by editing the `DEPLOY_STRATEGY` file. Valid values are:
-- `none`: default value. use this if you don't want to deploy the site.
-- `gh-pages`: deploys to github pages. This uses a custom action available in the Marketplace - [Jekyll Deploy Action](https://github.com/marketplace/actions/deploy-jekyll-site)
-- `firebase`: deploys to firebase. Before you can use this you need to first create a firebase project [here](https://console.firebase.google.com/). You can signup for a Free Spark Plan. Then, in your github repo's settings, go to the secrets section and add the following:
-  * `FIREBASE_TOKEN`: your firebase token. you can get this by running `firebase login:ci` with the firebase cli.
-  * `FIREBASE_PROJECT_ID`: the project id of the project you just created
-
-### Demo (Hosted Apps)
-
-- Github Pages Demo - [here](https://sanketkundu.github.io/)
-- Firebase Demo - [here](https://devlopr.web.app)
-- Netlify Demo - [here](https://devlopr.netlify.com)
-- Vercel Demo - [here](https://devlopr-jekyll.vercel.app/#/)
-- Heroku Demo - [here](https://devlopr-jekyll.herokuapp.com)
-- AWS Amplify Demo - [here](https://master.d3t30wwddt6jju.amplifyapp.com/)
-
-#### Features :
-
-- Local CMS Admin Support using [Jekyll Admin](https://jekyll.github.io/jekyll-admin/)
-- Headless CMS Admin Support using [Netlify CMS](https://sujaykundu.com/blog/how-to-setup-netlify-cms-with-github-pages-hosted-jekyll-blog/)
-- Supports Latest [Jekyll 4.x](https://jekyllrb.com) and [Bundler](https://bundler.io)
-- Stylesheet built using Sass
-- Comments using [Hyvor](https://talk.hyvor.com/) and [Disqus](https://disqus.com/)
-- SEO-optimized
-- Real Time Search - [Algolia](https://sujaykundu.com/blog/adding-real-time-search-to-jekyll-site-using-algolia/)
-- Sell Stuff (Ecommerce) in your Blog using [Snipcart](https://snipcart.com/)
-- Send Newsletters using [Mailchimp](https://mailchimp.com/)
-- Contact Forms Support for [Getform](https://getform.io), [Formspree](https://formspree.io/)
-- Coding Activity using [Wakatime](https://wakatime.com/)
-- Hosting Support for [Github Pages](https://pages.github.com), [Netlify](https://netlify.com), [Vercel](https://vercel.com), [Heroku](https://heroku.com), [AWS Amplify](aws.amplify.com), [Firebase](https://firebase.com)
-- CI/CD Support using [Travis CI](https://sujaykundu.com/blog/deploy-jekyll-blog-using-github-pages-and-travis-ci/)
-
-#### Jekyll Admin
-You can easily manage the site locally using the Jekyll admin : [http://localhost:4000/admin](http://localhost:4000/admin)
-
-![Jekyll Admin](https://github.com/sujaykundu777/devlopr-jekyll/blob/master/assets/img/jekyll-admin.PNG?raw=true)
+iframe在不同的设备中，将会自动的调整大小。保留内边距是为了让手机用户可以向下滑动，以及添加更多的内容。
 
 
-You can check out for all changelogs [here](https://devlopr.olvy.co/)
+### Comment
 
-## Pull the latest changes
+博客不仅支持 [Disqus](http://disqus.com) 评论系统,还加入了 [Gitalk](https://gitalk.github.io/) 评论系统，[支持 Markdwon 语法](https://guides.github.com/features/mastering-markdown/)，cool~
 
-```s
-git remote -v
-git remote add upstream https://github.com/sujaykundu777/devlopr-jekyll.git
-git fetch upstream
-git checkout master
-git merge upstream/master
-git push
+#### Disqus
+
+优点：国际比较流行，界面也很大气、简洁，如果有人评论，还能实时通知，直接回复通知的邮件就行了；
+
+缺点：评论必须要去注册一个disqus账号，分享一般只有Facebook和Twitter，另外在墙内加载速度略慢了一点。想要知道长啥样，可以看以前的版本点[这里](http://brucezhaor.github.io/about.html) 最下面就可以看到。
+
+> Node：有很多人反映 Disqus 插件加载不出来，可能墙又架高了，有条件的话翻个墙就好了~
+
+**使用：**
+
+**首先**，你需要去注册一个Disqus帐号。**不要直接使用我的啊！**
+
+**其次**，你只需要在下面的 yaml 头文件中设置一下就可以了。
+
+```
+# 评论系统
+# Disqus（https://disqus.com/）
+disqus_username: qiubaiying
 ```
 
-## Using Docker :
+#### Gitalk
 
-Building the Image :
+优点：界面干净简洁，利用 Github issue API 做的评论插件，使用 Github 帐号进行登录和评论，最喜欢的支持 Markdown 语法，对于程序员来说真是太 cool 了。
 
-`docker build -t my-devlopr-jekyll-blog .`
+缺点：配置比较繁琐，每篇文章的评论都需要初始化。
 
-Running the container :
+**使用：**
 
-`docker run -d -p 4000:4000 -it --volume="$PWD:/srv/jekyll" --name "my_blog" my-devlopr-jekyll-blog:latest jekyll serve --watch`
+参考我的这篇文章：[《为博客添加 Gitalk 评论插件》](http://qiubaiying.top/2017/12/19/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0-Gitalk-%E8%AF%84%E8%AE%BA%E6%8F%92%E4%BB%B6/)
 
-## Using Docker Compose :
 
-### Development :
+### Analytics
 
-You can run the app in development mode : (your changes will be reflected --watch moded)
+网站分析，现在支持百度统计和Google Analytics。需要去官方网站注册一下，然后将返回的code贴在下面：
 
-Serve the site at http://localhost:4000 :
+```
+# Baidu Analytics
+ba_track_id: 4cc1f2d8f3067386cc5cdb626a202900
 
-`docker-compose -f docker-compose-dev.yml up --build --remove-orphans`
+# Google Analytics
+ga_track_id: 'UA-49627206-1'            # 你用Google账号去注册一个就会给你一个这样的id
+ga_domain: huangxuan.me			# 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto。
+```
 
-### Production :
+### Customization
 
-You can run the app in production mode : (your changes will be reflected --watch moded)
+如果你喜欢折腾，你可以去自定义这个模板的 Code。
 
-Serve the site at http://localhost:4000 :
+**如果你可以理解 `_include/` 和 `_layouts/`文件夹下的代码（这里是整个界面布局的地方），你就可以使用 Jekyll 使用的模版引擎 [Liquid](https://github.com/Shopify/liquid/wiki)的语法直接修改/添加代码，来进行更有创意的自定义界面啦！**
 
-`docker-compose -f docker-compose-prod.yml up --build --remove-orphans`
+### Header Image
 
-Stop the app :
-`docker-compose -f docker-compose-prod.yml down`
-Once everything is good and ready to go live -
+博客每页的标题底图是可以自己选的，看看几篇示例post你就知道如何设置了。
+  
+标题底图的选取完全是看个人的审美了。每一篇文章可以有不同的底图，你想放什么就放什么，最后宽度要够，大小不要太大，否则加载慢啊。
 
-`docker-compose -f docker-compose-prod.yml up --build --detach`
+> 上传的图片最好先压缩，这里推荐 imageOptim 图片压缩软件，让你的博客起飞。
 
-## Contributors:
+但是需要注意的是本模板的标题是**白色**的，所以背景色要设置为**灰色**或者**黑色**，总之深色系就对了。当然你还可以自定义修改字体颜色，总之，用github pages就是可以完全的个性定制自己的博客。
 
-This project exists thanks to all the people who contribute.
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center"><a href="https://sujaykundu.com"><img src="https://avatars.githubusercontent.com/u/10703200?v=4?s=100" width="100px;" alt="Sujay Kundu"/><br /><sub><b>Sujay Kundu</b></sub></a><br /><a href="#infra-sujaykundu777" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#design-sujaykundu777" title="Design">🎨</a> <a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=sujaykundu777" title="Code">💻</a></td>
-      <td align="center"><a href="https://rmrt1n.github.io/"><img src="https://avatars.githubusercontent.com/u/51780559?v=4?s=100" width="100px;" alt="Ryan Martin"/><br /><sub><b>Ryan Martin</b></sub></a><br /><a href="#infra-rmrt1n" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-      <td align="center"><a href="http://don't have one"><img src="https://avatars.githubusercontent.com/u/6252713?v=4?s=100" width="100px;" alt="Jack Wu"/><br /><sub><b>Jack Wu</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/issues?q=author%3Ajackneer" title="Bug reports">🐛</a></td>
-      <td align="center"><a href="https://github.com/russdreamer"><img src="https://avatars.githubusercontent.com/u/10559538?v=4?s=100" width="100px;" alt="Iga Kovtun"/><br /><sub><b>Iga Kovtun</b></sub></a><br /><a href="#design-russdreamer" title="Design">🎨</a> <a href="https://github.com/sujaykundu777/devlopr-jekyll/issues?q=author%3Arussdreamer" title="Bug reports">🐛</a></td>
-      <td align="center"><a href="https://csvance.github.io"><img src="https://avatars.githubusercontent.com/u/6805096?v=4?s=100" width="100px;" alt="Carroll Vance"/><br /><sub><b>Carroll Vance</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/issues?q=author%3Acsvance" title="Bug reports">🐛</a></td>
-      <td align="center"><a href="https://tzeny.com"><img src="https://avatars.githubusercontent.com/u/6255363?v=4?s=100" width="100px;" alt="Andrei Tenescu"/><br /><sub><b>Andrei Tenescu</b></sub></a><br /><a href="#design-Tzeny" title="Design">🎨</a> <a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=Tzeny" title="Code">💻</a></td>
-      <td align="center"><a href="http://raghwendra-dey.github.io"><img src="https://avatars.githubusercontent.com/u/45457947?v=4?s=100" width="100px;" alt="Raghwendra Dey"/><br /><sub><b>Raghwendra Dey</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/issues?q=author%3ARaghwendra-Dey" title="Bug reports">🐛</a></td>
-    </tr>
-    <tr>
-      <td align="center"><a href="https://www.dsantini.it"><img src="https://avatars.githubusercontent.com/u/8406735?v=4?s=100" width="100px;" alt="Daniele Santini"/><br /><sub><b>Daniele Santini</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/issues?q=author%3ADanysan1" title="Bug reports">🐛</a></td>
-      <td align="center"><a href="http://chivaszx.netlify.app"><img src="https://avatars.githubusercontent.com/u/57280995?v=4?s=100" width="100px;" alt="Chivaszx"/><br /><sub><b>Chivaszx</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=aekkasit114" title="Code">💻</a></td>
-      <td align="center"><a href="https://github.com/resynth1943"><img src="https://avatars.githubusercontent.com/u/49915996?v=4?s=100" width="100px;" alt="resynth1943"/><br /><sub><b>resynth1943</b></sub></a><br /><a href="#infra-resynth1943" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=resynth1943" title="Code">💻</a></td>
-      <td align="center"><a href="https://blakedrumm.com"><img src="https://avatars.githubusercontent.com/u/17127926?v=4?s=100" width="100px;" alt="Blake Drumm"/><br /><sub><b>Blake Drumm</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=x-limitless-x" title="Code">💻</a></td>
-      <td align="center"><a href="https://blakedrumm.com"><img src="https://avatars.githubusercontent.com/u/63755224?v=4?s=100" width="100px;" alt="Blake Drumm"/><br /><sub><b>Blake Drumm</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=blakedrumm" title="Documentation">📖</a></td>
-      <td align="center"><a href="https://ledmington.github.io"><img src="https://avatars.githubusercontent.com/u/68538713?v=4?s=100" width="100px;" alt="Filippo Barbari"/><br /><sub><b>Filippo Barbari</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=Ledmington" title="Code">💻</a></td>
-      <td align="center"><a href="https://github.com/Apezdr"><img src="https://avatars.githubusercontent.com/u/2986979?v=4?s=100" width="100px;" alt="Adam Drumm"/><br /><sub><b>Adam Drumm</b></sub></a><br /><a href="https://github.com/sujaykundu777/devlopr-jekyll/commits?author=Apezdr" title="Documentation">📖</a></td>
-    </tr>
-  </tbody>
-</table>
+### SEO Title
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+我的博客标题是 **“BY Blog”** 但是我想要在搜索的时候显示 **“柏荧的博客 | BY Blog”** ，这个就需要 SEO Title 来定义了。
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+其实这个 SEO Title 就是定义了<head><title>标题</title></head>这个里面的东西和多说分享的标题，你可以自行修改的。
 
-Contributions are more than just welcome. Fork this repo and create a new branch, then submit a pull request
+### 关于收到"Page Build Warning"的 Email
 
-- 1.Fork it [http://github.com/sujaykundu777/devlopr-jekyll/fork](http://github.com/sujaykundu777/devlopr-jekyll/fork )
+由于jekyll升级到3.0.x,对原来的 pygments 代码高亮不再支持，现只支持一种-rouge，所以你需要在 `_config.yml`文件中修改`highlighter: rouge`.另外还需要在`_config.yml`文件中加上`gems: [jekyll-paginate]`.
 
-- 2.Create your feature branch
-`git checkout -b my-new-feature`
+同时,你需要更新你的本地 jekyll 环境.
 
-- 3.Commit your changes
-`git commit -am 'Add some feature'`
+使用`jekyll server`的同学需要这样：
 
-- 4.Push to the branch
-`git push origin my-new-feature`
+1. `gem update jekyll` # 更新jekyll
+2. `gem update github-pages` #更新依赖的包
 
-- 5.Create new Pull Request
+使用`bundle exec jekyll server`的同学在更新 jekyll 后，需要输入`bundle update`来更新依赖的包.
 
-## Support this Project:
+> Note：
+> 可以使用 `jekyll -s` 命令在本地实时配置博客，提高效率。详见 [Jekyll.com](http://jekyllcn.com/)
 
-Back this project by Donating to our [Open Collective](https://opencollective.com/devlopr-jekyll/donate) or if you like my work [Buymeacoffee](https://buymeacoffee.com/sujaykundu).
+参考文档：[using jekyll with pages](https://help.github.com/articles/using-jekyll-with-pages/) & [Upgrading from 2.x to 3.x](http://jekyllrb.com/docs/upgrading/2-to-3/)
 
-Thanks to all our Backers ! [Become a Backer](https://opencollective.com/devlopr-jekyll/donate)
 
-<a href="https://opencollective.com/devlopr-jekyll#backers" target="_blank"><img src="https://opencollective.com/devlopr-jekyll/backers.svg?width=890" /></a>
+## 致谢
 
-<a href="https://opencollective.com/devlopr-jekyll#backers" target="_blank"><img src="https://opencollective.com/devlopr-jekyll/tiers/backer.svg?avatarHeight=36" /></a>
+1. 这个模板是从这里 [Hux](https://github.com/Huxpro/huxpro.github.io) fork 的, 感谢这个作者。 
+2. 感谢 Jekyll、Github Pages 和 Bootstrap!
 
-### For Help :
+## License
 
-You can contact me, if you need any help via [Email](mailto:sujaykundu777@gmail.com). If you like the project. Don't forget to :star: !
-
-## Licence
-
-The theme is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT). You can do anything you want, including projects for your clients, as long as you mention an attribution back (credit links in footer). See the [Licence](https://github.com/sujaykundu777/devlopr-jekyll/blob/master/LICENSE) file
+遵循 MIT 许可证。有关详细,请参阅 [LICENSE](https://github.com/qiubaiying/qiubaiying.github.io/blob/master/LICENSE)。
 
