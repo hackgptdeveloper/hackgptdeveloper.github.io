@@ -2,14 +2,6 @@
 layout: default
 ---
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Blog</title>
-</head>
-<body>
-    <h1>Welcome to My Blog</h1>
     <ul>
         {% for post in site.posts %}
         <li>
@@ -19,6 +11,3 @@ layout: default
         {% endfor %}
     </ul>
     {{post.myiframe}}
-</body>
-</html>
-
