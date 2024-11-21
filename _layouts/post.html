@@ -9,6 +9,10 @@ layout: default
 
 {{content}}
 
+{% if post.myiframe %}
+{{ post.myiframe }}
+{% endif %}
+
 {% if page.tags %}
   <small>tags: <em>{{ page.tags | join: "</em> - <em>" }}</em></small>
 {% endif %}
