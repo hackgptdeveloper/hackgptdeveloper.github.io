@@ -6,6 +6,15 @@ tags:
   - AI, chatbot, Mathematics, graphics
 ---
 
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.
+
 <style>
         canvas {
             background-color: white;
