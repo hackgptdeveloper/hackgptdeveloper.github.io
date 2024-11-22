@@ -28,6 +28,13 @@
         document.addEventListener("contextmenu", function(event) { event.preventDefault(); });
 </script>
 
+<style>
+ canvas {
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+</style>
+
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ site.skin | default: '/assets/css/skins/default.css' | relative_url }}">
   {% if site.google_fonts %}
