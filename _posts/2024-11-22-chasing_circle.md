@@ -8,9 +8,8 @@ tags:
 
 This is just drawing two circles and joing lines from one circle to another, and input parameter is just adjusting the index offset from 0 to connect.
 
-    <canvas id="circleCanvas" width="600" height="600"></canvas>
-    <!-- Scrollbar Controls -->
-    <div class="controls">
+<canvas id="circleCanvas" width="600" height="600"></canvas>
+<div class="controls">
         <div class="control-container">
             <label for="aaaa">Index offset on first circle: </label>
             <input type="range" id="aaaa" name="aaaa" min="0" max="360" value="0">
@@ -26,9 +25,9 @@ This is just drawing two circles and joing lines from one circle to another, and
             <input type="range" id="totalPoints" name="totalPoints" min="3" max="360" value="360">
             <div><span id="totalPointsValue">360</span></div>
         </div>
-    </div>
+</div>
 
-    <script>
+<script>
         const canvas = document.getElementById("circleCanvas");
         const ctx = canvas.getContext("2d");
         const centerX = canvas.width / 2;
@@ -127,4 +126,4 @@ This is just drawing two circles and joing lines from one circle to another, and
             drawLinesForAllPoints();
         });
 
-    </script>
+</script>

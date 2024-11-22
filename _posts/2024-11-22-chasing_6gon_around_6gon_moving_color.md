@@ -8,8 +8,8 @@ tags:
 
 Chasing diagram on hexagon around hexagon animated with color shifting.
 
-    <canvas id="hexagonCanvas" width="600" height="600"></canvas>
-    <script> 
+<canvas id="hexagonCanvas" width="600" height="600"></canvas>
+<script> 
         const canvas = document.getElementById('hexagonCanvas');
         const ctx = canvas.getContext('2d');
         const centerX = canvas.width / 2;
@@ -140,24 +140,6 @@ Chasing diagram on hexagon around hexagon animated with color shifting.
         }
     }
 
-    // Initial points for the first hexagon ABCDE
-    //const radius = 150;
-
-    // Generate points for the initial hexagon ABCDE
-    //const initialhexagon = [];
-    //for (let i = 0; i < 3; i++) {
-    //    const angle = (2 * Math.PI / 3) * i - Math.PI / 2; // Starting from the top
-    //    initialhexagon.push({
-    //        x: centerX + radius * Math.cos(angle),
-    //        y: centerY + radius * Math.sin(angle)
-    //    });
-    //}
-
-    // Create and draw 3 iterations of hexagons
-/////////////////////////////////////////////
-
-
-
         // Call the function to generate and draw the hexagons
         generateAndDrawhexagons();
-    </script>
+</script>

@@ -8,8 +8,8 @@ tags:
 
 Chasing lines on rotating hexagon.
 
-    <canvas id="canvas" width="800" height="600"></canvas>
-    <script>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
         function drawRotating3DHexagon() {
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
@@ -121,4 +121,4 @@ Chasing lines on rotating hexagon.
         }
 
         drawRotating3DHexagon();
-    </script>
+</script>

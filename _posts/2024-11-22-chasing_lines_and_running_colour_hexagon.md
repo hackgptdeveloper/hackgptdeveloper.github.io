@@ -7,9 +7,9 @@ tags:
 ---
 
 Chasing lines and special effects of running color.
-    <canvas id="canvas" width="800" height="600"></canvas>
-    <script>
 
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
         function draw3DHexagon() {
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
@@ -101,4 +101,4 @@ Chasing lines and special effects of running color.
         }
 
         draw3DHexagon();
-    </script>
+</script>

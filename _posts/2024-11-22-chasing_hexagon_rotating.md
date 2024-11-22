@@ -9,7 +9,7 @@ tags:
 Chasing diagram on rotating hexagon.
 
 <canvas id="pentagonCanvas" width="500" height="500"></canvas>
-    <script> 
+<script> 
 const canvas = document.getElementById('pentagonCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -92,5 +92,4 @@ function animatePentagons() {
 
 // Start the animation
 animatePentagons();
-
 </script>

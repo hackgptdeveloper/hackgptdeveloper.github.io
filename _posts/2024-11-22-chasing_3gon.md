@@ -9,7 +9,7 @@ tags:
 How to draw triangle.  This method of drawing lines is called chasing diagram.   The two adjacent edge of the pentagon are specified.
 
 <canvas id="pentagonCanvas" width="500" height="500"></canvas>
-    <script> 
+<script> 
     const canvas = document.getElementById('pentagonCanvas');
     const ctx = canvas.getContext('2d');
 

@@ -8,8 +8,8 @@ tags:
 
 Drawing chasing diagram on pentagon around pentagon.
 
-    <canvas id="pentagonCanvas" width="600" height="600"></canvas>
-    <script> 
+<canvas id="pentagonCanvas" width="600" height="600"></canvas>
+<script> 
         const canvas = document.getElementById('pentagonCanvas');
         const ctx = canvas.getContext('2d');
         const centerX = canvas.width / 2;
@@ -136,24 +136,6 @@ Drawing chasing diagram on pentagon around pentagon.
         }
     }
 
-    // Initial points for the first pentagon ABCDE
-    //const radius = 150;
-
-    // Generate points for the initial pentagon ABCDE
-    //const initialPentagon = [];
-    //for (let i = 0; i < 3; i++) {
-    //    const angle = (2 * Math.PI / 3) * i - Math.PI / 2; // Starting from the top
-    //    initialPentagon.push({
-    //        x: centerX + radius * Math.cos(angle),
-    //        y: centerY + radius * Math.sin(angle)
-    //    });
-    //}
-
-    // Create and draw 3 iterations of pentagons
-/////////////////////////////////////////////
-
-
-
-        // Call the function to generate and draw the pentagons
-        generateAndDrawPentagons();
-    </script>
+    // Call the function to generate and draw the pentagons
+    generateAndDrawPentagons();
+</script>

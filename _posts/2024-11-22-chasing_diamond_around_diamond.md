@@ -8,9 +8,9 @@ tags:
 
 Chasing diagram on diamond around a diamond.
 
-    <canvas id="pentagonCanvas" width="600" height="600"></canvas>
+<canvas id="pentagonCanvas" width="600" height="600"></canvas>
     
-    <script> 
+<script> 
         const canvas = document.getElementById('pentagonCanvas');
         const ctx = canvas.getContext('2d');
         const centerX = canvas.width / 2;
@@ -137,24 +137,5 @@ Chasing diagram on diamond around a diamond.
         }
     }
 
-    // Initial points for the first pentagon ABCDE
-    //const radius = 150;
-
-    // Generate points for the initial pentagon ABCDE
-    //const initialDiamond = [];
-    //for (let i = 0; i < 3; i++) {
-    //    const angle = (2 * Math.PI / 3) * i - Math.PI / 2; // Starting from the top
-    //    initialDiamond.push({
-    //        x: centerX + radius * Math.cos(angle),
-    //        y: centerY + radius * Math.sin(angle)
-    //    });
-    //}
-
-    // Create and draw 3 iterations of pentagons
-/////////////////////////////////////////////
-
-
-
-        // Call the function to generate and draw the pentagons
-        generateAndDrawDiamonds();
-    </script>
+    generateAndDrawDiamonds();
+</script>
