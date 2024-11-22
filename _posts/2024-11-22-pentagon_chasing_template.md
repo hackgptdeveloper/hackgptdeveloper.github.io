@@ -1,9 +1,9 @@
 ---
 title: "Pentagon with Colored Line"
 categories:
-  - AI, chatbot
+  - Graphics
 tags:
-  - AI, chatbot
+  - AI, chatbot, Mathematics, graphics
 ---
 
 <style>
