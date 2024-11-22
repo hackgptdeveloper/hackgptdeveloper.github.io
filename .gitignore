@@ -13,3 +13,5 @@ Gemfile.lock
 node_modules
 npm-debug.log*
 old/*
+_posts/contextmenu.txt
+_posts/google.txt
