@@ -1,9 +1,9 @@
 ---
-title: "Video: AI agents"
+title: "AI for checking vulnerabilities in Java Source Code "
 categories:
   - AI
 tags:
-  - AI, chatbot
+  - AI, chatbot, Java
 ---
 
 <style>

@@ -6,14 +6,7 @@ tags:
   - AI, chatbot, Mathematics, graphics
 ---
 
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
-How to draw pentagon with colored lines.
+How to draw pentagon with colored lines.   This method of drawing lines is called chasing diagram.   The two adjacent edge of the pentagon are specified.
 
 <style>
         canvas {
@@ -21,10 +14,8 @@ How to draw pentagon with colored lines.
             border: 1px solid #ccc;
         }
 </style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GEX61LPT08"></script> <script>   window.dataLayer = window.dataLayer || [];   function gtag(){dataLayer.push(arguments);}   gtag('js', new Date());   gtag('config', 'G-GEX61LPT08'); </script>
 <canvas id="canvas" width="600" height="600" style="border:1px solid #000;"></canvas>
 <script>
-        document.addEventListener("contextmenu", function(event) { event.preventDefault(); });
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
