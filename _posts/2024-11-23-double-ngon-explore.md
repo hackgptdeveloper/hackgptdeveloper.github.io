@@ -9,15 +9,6 @@ tags:
 AI generated javascript for drawing doubble polygon.
 
 <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
         canvas {
             background-color: white;
             border: 1px solid #ccc;
