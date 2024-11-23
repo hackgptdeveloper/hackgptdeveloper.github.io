@@ -1,5 +1,5 @@
 ---
-title: "Chasing diagram on squares around squares"
+title: "AI generated javascript: Chasing diagram on squares around squares"
 categories:
   - Graphics
 tags:

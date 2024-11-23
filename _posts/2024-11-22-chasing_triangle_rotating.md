@@ -1,5 +1,5 @@
 ---
-title: "Chasing rotating triangle"
+title: "AI generated javascript: Chasing rotating triangle"
 categories:
   - Graphics
 tags:

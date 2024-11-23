@@ -1,5 +1,5 @@
 ---
-title: "Chasing lines and running color"
+title: "AI generated javascript: Chasing lines and running color"
 categories:
   - Graphics
 tags:

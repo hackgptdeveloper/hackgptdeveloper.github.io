@@ -1,5 +1,5 @@
 ---
-title: "Chasing on hexagon"
+title: "AI generated javascript: Chasing on hexagon"
 categories:
   - Graphics
 tags:

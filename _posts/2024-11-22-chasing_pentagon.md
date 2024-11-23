@@ -1,5 +1,5 @@
 ---
-title: "Chasing pentagon"
+title: "AI generated javascript: Chasing pentagon"
 categories:
   - Graphics
 tags:

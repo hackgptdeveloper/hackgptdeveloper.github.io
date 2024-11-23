@@ -1,5 +1,5 @@
 ---
-title: "Triangle around triangle with chasing diagram"
+title: "AI generated javascript: Triangle around triangle with chasing diagram"
 categories:
   - Graphics
 tags:

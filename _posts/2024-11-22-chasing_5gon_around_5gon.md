@@ -1,5 +1,5 @@
 ---
-title: "Chasing diagram on pentagon around pentagon"
+title: "AI generated javascript: Chasing diagram on pentagon around pentagon"
 categories:
   - Graphics
 tags:

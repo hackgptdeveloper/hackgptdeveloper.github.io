@@ -1,5 +1,5 @@
 ---
-title: "Chasing diagram on rotating hexagon"
+title: "AI generated javascript: Chasing diagram on rotating hexagon"
 categories:
   - Graphics
 tags:

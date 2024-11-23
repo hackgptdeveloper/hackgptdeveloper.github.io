@@ -1,5 +1,5 @@
 ---
-title: "Chasing lines on rotating hexagon"
+title: "AI generated javascript: Chasing lines on rotating hexagon"
 categories:
   - Graphics
 tags:

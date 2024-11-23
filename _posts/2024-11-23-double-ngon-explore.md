@@ -1,12 +1,12 @@
 ---
-title: "AI generated javascript for drawing doubble polygon"
+title: "AI generated javascript: Drawing double polygon"
 categories:
   - AI
 tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript for drawing doubble polygon - about 60%.   And about 5% of code really needs lots of manual Chrome Devtool debugging + ChatGPT advise.
+AI generated javascript for drawing double polygon - about 60%.   And about 5% of code really needs lots of manual Chrome Devtool debugging + ChatGPT advise.
 
 
 <style>

@@ -1,5 +1,5 @@
 ---
-title: "Chasing diagram on triangle"
+title: "AI generated javascript: Chasing diagram on triangle"
 categories:
   - Graphics
 tags:

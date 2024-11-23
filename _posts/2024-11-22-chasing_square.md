@@ -1,5 +1,5 @@
 ---
-title: "Chasing on square"
+title: "AI generated javascript: Chasing on square"
 categories:
   - Graphics
 tags:

@@ -1,5 +1,5 @@
 ---
-title: "Pentagon with Colored Line"
+title: "AI generated javascript: Pentagon with Colored Line"
 categories:
   - Graphics
 tags:
