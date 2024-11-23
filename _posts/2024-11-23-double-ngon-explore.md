@@ -75,6 +75,14 @@ const largeRadiusValueDisplay = document.getElementById('largeRadiusValue');
 const smallRadiusSlider = document.getElementById('smallRadius');
 const smallRadiusValueDisplay = document.getElementById('smallRadiusValue');
 
+const gif = new GIF({
+	workers: 2,
+	quality: 10
+});
+
+let frameCount = 0;
+let maxFrames = 100; // Set how many frames to capture for the GIF
+
 // Event listeners for the scrollbars
 sidesSlider.addEventListener('input', (event) => {
     numSides = parseInt(event.target.value);
@@ -157,6 +165,11 @@ function animate() {
     // Update rotation angles
     rotationAngleLarge = (rotationAngleLarge + 2) % 360; // Rotate counterclockwise
     rotationAngleSmall = (rotationAngleSmall - 2) % 360; // Rotate clockwise
+
+    if (frameCount < maxFrames) {
+	gif.addFrame(canvas, {copy: true, delay: 100});
+	frameCount++;
+    }
 
     requestAnimationFrame(animate); // Continue the animation
 }
