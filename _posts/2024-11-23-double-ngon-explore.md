@@ -3,7 +3,7 @@ title: "AI generated javascript for drawing doubble polygon"
 categories:
   - AI
 tags:
-  - AI, chatbot, Java
+  - AI, chatbot, Javascript
 ---
 
 AI generated javascript for drawing doubble polygon.
