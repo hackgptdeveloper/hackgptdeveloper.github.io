@@ -1,12 +1,12 @@
 ---
-title: "AI for checking vulnerabilities in Java Source Code "
+title: "AI generated javascript for drawing doubble polygon"
 categories:
   - AI
 tags:
   - AI, chatbot, Java
 ---
 
-Double polygon exploration.
+AI generated javascript for drawing doubble polygon.
 
 <style>
         body {
