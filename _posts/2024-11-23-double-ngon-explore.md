@@ -77,8 +77,8 @@ const smallRadiusValueDisplay = document.getElementById('smallRadiusValue');
 
 const gif = new GIF({
 	workers: 2,
-	quality: 10
-});
+        workerScript: "/assets/js/gif.worker.js", 
+	quality: 10 });
 
 let frameCount = 0;
 let maxFrames = 100; // Set how many frames to capture for the GIF
