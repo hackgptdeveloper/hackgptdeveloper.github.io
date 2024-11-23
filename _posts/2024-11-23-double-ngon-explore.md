@@ -41,6 +41,8 @@ AI generated javascript for drawing doubble polygon.
             cursor: pointer;
         }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+
 <canvas id="animationCanvas" width="600" height="600"></canvas>
 <div class="controls">
 <div>
@@ -59,6 +61,7 @@ AI generated javascript for drawing doubble polygon.
             <span id="smallRadiusValue">150</span>
         </div>
         <button id="captureBtn">Capture JPG</button>
+	<button id="generateGif">Generate GIF</button>
 </div>
 
 <script>
@@ -183,6 +186,26 @@ document.getElementById('captureBtn').addEventListener('click', function() {
     link.click();
 });
 
+// Generate GIF when the button is clicked
+document.getElementById('generateGif').addEventListener('click', function() {
+            gif.on('finished', function(blob) {
+                const url = URL.createObjectURL(blob);
+                const img = document.createElement('img');
+                img.src = url;
+                document.body.appendChild(img);
+                
+                // Optionally, download the GIF
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'animation.gif';
+                link.click();
+            });
+
+            // Render the GIF
+            gif.render();
+});
 // Start the animation
+
 animate();
+
 </script>
