@@ -6,7 +6,8 @@ tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript for drawing doubble polygon.
+AI generated javascript for drawing doubble polygon - about 60%.   And about 5% of code really needs lots of manual Chrome Devtool debugging + ChatGPT advise.
+
 
 <style>
         canvas {
@@ -33,7 +34,6 @@ AI generated javascript for drawing doubble polygon.
         }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
-
 <canvas id="animationCanvas" width="600" height="600"></canvas>
 <div class="controls">
 <div>
@@ -215,6 +215,28 @@ animate();
 </script>
 
 ```
+<script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+<canvas id="animationCanvas" width="600" height="600"></canvas>
+<div class="controls">
+<div>
+            <label for="sides">Number of sides:</label>
+            <input type="range" id="sides" name="sides" min="3" max="15" step="1" value="5">
+            <span id="sidesValue">5</span>
+        </div>
+        <div>
+            <label for="largeRadius">Large Radius:</label>
+            <input type="range" id="largeRadius" name="largeRadius" min="100" max="300" step="1" value="200">
+            <span id="largeRadiusValue">200</span>
+        </div>
+        <div>
+            <label for="smallRadius">Small Radius:</label>
+            <input type="range" id="smallRadius" name="smallRadius" min="50" max="250" step="1" value="150">
+            <span id="smallRadiusValue">150</span>
+        </div>
+        <button id="captureBtn">Capture JPG</button>
+	<button id="generateGif">Generate GIF</button>
+</div>
+
 <script>
 const canvas = document.getElementById('animationCanvas');
 const ctx = canvas.getContext('2d');
@@ -234,6 +256,14 @@ const largeRadiusSlider = document.getElementById('largeRadius');
 const largeRadiusValueDisplay = document.getElementById('largeRadiusValue');
 const smallRadiusSlider = document.getElementById('smallRadius');
 const smallRadiusValueDisplay = document.getElementById('smallRadiusValue');
+
+const gif = new GIF({
+	workers: 2,
+        workerScript: "/assets/js/gif.worker.js", 
+	quality: 10 });
+
+let frameCount = 0;
+let maxFrames = 100; // Set how many frames to capture for the GIF
 
 // Event listeners for the scrollbars
 sidesSlider.addEventListener('input', (event) => {
@@ -317,6 +347,11 @@ function animate() {
     // Update rotation angles
     rotationAngleLarge = (rotationAngleLarge + 2) % 360; // Rotate counterclockwise
     rotationAngleSmall = (rotationAngleSmall - 2) % 360; // Rotate clockwise
+
+    if (frameCount < maxFrames) {
+	gif.addFrame(canvas, {copy: true, delay: 100});
+	frameCount++;
+    }
 
     requestAnimationFrame(animate); // Continue the animation
 }
