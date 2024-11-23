@@ -6,6 +6,8 @@ tags:
   - AI, chatbot, Java
 ---
 
+Java source vulnerability analyzer.
+
 <style>
     .external-link-button {
         display: inline-flex;
