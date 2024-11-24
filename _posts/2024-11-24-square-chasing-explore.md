@@ -26,9 +26,9 @@ AI generated javascript: Square with Colored Lines
 <div class="slider-container">
         <label for="offsetRange">Offset:</label>
         <input type="range" id="offsetRange" min="0" max="59" value="0">
-    </div>
-    <canvas id="canvas" width="600" height="600"></canvas>
-    <script>
+</div>
+<canvas id="canvas" width="600" height="600"></canvas>
+<script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const offsetRange = document.getElementById('offsetRange');
