@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Variable Petal Lines Animation
+title: "AI generated javascript: Variable Petal Lines Animation"
 categories:
   - AI
 tags:

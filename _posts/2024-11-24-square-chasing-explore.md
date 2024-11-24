@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Square with Colored Lines
+title: "AI generated javascript: Square with Colored Lines"
 categories:
   - AI
 tags:
