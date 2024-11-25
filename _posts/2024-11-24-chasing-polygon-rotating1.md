@@ -12,11 +12,20 @@ This is a generalization of this:
 
 [chasing_triangle_rotating.html](/graphics/2024/11/22/chasing_triangle_rotating.html)
 
+<style>
+        .controls {
+            margin: 10px 0;
+            font-family: Arial, sans-serif;
+        }
+        .controls label {
+            margin-right: 10px;
+        }
+</style>
+<div class="controls">
+	<label for="ngonRange">Number of sides (n-gon): <span id="ngonValue">4</span></label>
+	<input type="range" id="ngonRange" min="3" max="12" value="4">
+</div>
 <canvas id="polygonCanvas" width="500" height="500"></canvas>
-<br>
-<label for="ngonRange">Number of sides (n-gon): </label>
-<input type="range" id="ngonRange" min="3" max="12" value="4">
-<span id="ngonValue">4</span>
 <script>
     const canvas = document.getElementById('polygonCanvas');
     const ctx = canvas.getContext('2d');
@@ -109,6 +118,4 @@ This is a generalization of this:
     
     // Start the animation
     animatePolygons();
-
 </script>
-
