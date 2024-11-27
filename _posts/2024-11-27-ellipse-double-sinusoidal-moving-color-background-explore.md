@@ -111,7 +111,7 @@ function drawWaveEllipse(major, minor, amplitude, frequencyA, frequencyB, phaseS
   
   ctx.beginPath(); // Begin a new path for the curve
   for (let i = 0; i < steps; i++) {
-    const angle = (i * Math.PI) / 180; // Convert degrees to radians
+    const angle = (i * Math.PI) / 180 / 10; // Convert degrees to radians
 
     // Calculate the elliptical position with sinusoidal radial displacement
     const r = amplitude * Math.sin(frequencyB * angle + phaseShift) * Math.sin(frequencyA * angle);
