@@ -55,11 +55,6 @@ feed:
 paginate: 10
 paginate_path: /page:num/
 
-header_pages:
-  - index.md  # Home
-  - about.md    # Include the "About" page
-  - contact.md  # Include the "Contact" page
-
 # Search
 search_full_content: false # can have performance implications for large sites
 
