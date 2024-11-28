@@ -37,7 +37,7 @@ AI generated javascript: Polygon with Colored Lines
         const ctx = canvas.getContext('2d');
         const sidesRange = document.getElementById('sidesRange');
         const sidesValue = document.getElementById('sidesValue');
-        const offsetValue = parseInt(document.getElementById('offsetRange'))/60;
+        const offsetValue = parseInt(document.getElementById('offsetRange').value)/60;
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const radius = 200;
@@ -84,8 +84,8 @@ AI generated javascript: Polygon with Colored Lines
             const midpoints = [];
             for (let i = 0; i < points.length; i++) {
                 const nextIndex = (i + 1) % points.length;
-                const midX = points[i].x + (points[nextindex].x - points[i].x) * offset;
-                const midY = points[i].y + (points[nextindex].y - points[i].y) * offset;
+                const midX = points[i].x + (points[nextIndex].x - points[i].x) * offset;
+                const midY = points[i].y + (points[nextIndex].y - points[i].y) * offset;
                 midpoints.push({ x: midX, y: midY });
             }
             return midpoints;
