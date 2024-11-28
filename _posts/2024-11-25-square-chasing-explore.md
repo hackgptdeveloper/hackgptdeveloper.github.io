@@ -108,8 +108,6 @@ AI generated javascript: Square with Colored Lines
             drawWithOffset(offset);
         });
 
-
-
 <script>
         const canvas = document.getElementById('polygonCanvas');
         const ctx = canvas.getContext('2d');
@@ -177,9 +175,5 @@ AI generated javascript: Square with Colored Lines
 
         // Initial draw
         drawPolygon(parseInt(sidesRange.value, 10));
-</script>
-
-
-
 
 </script>
