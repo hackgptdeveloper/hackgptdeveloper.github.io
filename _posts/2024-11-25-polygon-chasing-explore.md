@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Polygon with Colored Lines"
-categories:
-  - AI
 tags:
   - AI, chatbot, Javascript
 ---

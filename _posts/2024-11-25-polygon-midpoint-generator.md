@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Polygon Midpoint Generator"
-categories:
-  - AI
 tags:
   - AI, chatbot, Javascript
 ---

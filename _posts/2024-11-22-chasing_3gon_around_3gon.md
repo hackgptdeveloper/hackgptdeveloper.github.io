@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Triangle around triangle with chasing diagram"
-categories:
-  - Graphics
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

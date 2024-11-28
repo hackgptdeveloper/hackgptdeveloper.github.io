@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Chasing diagram on squares around squares"
-categories:
-  - Graphics
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

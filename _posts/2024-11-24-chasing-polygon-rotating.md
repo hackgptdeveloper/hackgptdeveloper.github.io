@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Generalized chasing rotating polygon"
-categories:
-  - Graphics
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

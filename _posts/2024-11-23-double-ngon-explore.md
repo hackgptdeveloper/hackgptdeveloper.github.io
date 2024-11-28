@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Drawing double polygon"
-categories:
-  - AI
 tags:
   - AI, chatbot, Javascript
 ---

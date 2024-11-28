@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Chasing diagram on hexagon around hexagon animated with color."
-categories:
-  - Graphics
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

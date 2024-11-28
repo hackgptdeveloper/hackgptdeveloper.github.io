@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Variable Petal Lines Animation"
-categories:
-  - AI
 tags:
   - AI, chatbot, Javascript
 ---

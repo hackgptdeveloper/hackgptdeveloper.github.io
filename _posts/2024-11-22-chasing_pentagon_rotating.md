@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Chasing on rotating pentagon"
-categories:
-  - Graphics
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

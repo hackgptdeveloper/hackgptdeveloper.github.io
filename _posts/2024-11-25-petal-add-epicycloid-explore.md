@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Epicycloid Curves with Petal with Scrollbars, Labels, and Color Picker"
-categories:
-  - AI
 tags:
   - AI, chatbot, Javascript
 ---

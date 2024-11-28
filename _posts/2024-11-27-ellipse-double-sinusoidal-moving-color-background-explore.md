@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Animated Sinusoidal Wave on Ellipse"
-categories:
-  - AI
 tags:
   - AI, chatbot, Javascript
 ---

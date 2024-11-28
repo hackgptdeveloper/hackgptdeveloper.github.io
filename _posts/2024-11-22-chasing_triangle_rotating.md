@@ -1,7 +1,5 @@
 ---
 title: "AI generated javascript: Chasing rotating triangle"
-categories:
-  - Graphics
 tags:
   - AI, chatbot, Mathematics, graphics
 ---
