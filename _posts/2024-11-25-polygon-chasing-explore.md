@@ -43,13 +43,13 @@ AI generated javascript: Polygon with Colored Lines
         const radius = 200;
 
         // Function to draw the polygon and midpoints recursively
-        function drawPolygon(sides) {
+        function drawPolygon(sides, offset) {
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
             let points = generatePolygonPoints(centerX, centerY, radius, sides);
 
 	    for (let i=0;i < sides + 3; i++) {
                drawShape(points);
-               points = calculateMidpoints(points);
+               points = calculateMidpoints(points, offset);
 	    }
         }
 
@@ -80,12 +80,12 @@ AI generated javascript: Polygon with Colored Lines
         }
 
         // Calculate midpoints of the edges of a polygon
-        function calculateMidpoints(points) {
+        function calculateMidpoints(points, offset) {
             const midpoints = [];
             for (let i = 0; i < points.length; i++) {
                 const nextIndex = (i + 1) % points.length;
-                const midX = (points[i].x + points[nextIndex].x) / 2;
-                const midY = (points[i].y + points[nextIndex].y) / 2;
+                const midX = (points[i].x + points[nextIndex].x) * offset;
+                const midY = (points[i].y + points[nextIndex].y) * offset;
                 midpoints.push({ x: midX, y: midY });
             }
             return midpoints;
