@@ -84,8 +84,8 @@ AI generated javascript: Polygon with Colored Lines
             const midpoints = [];
             for (let i = 0; i < points.length; i++) {
                 const nextIndex = (i + 1) % points.length;
-                const midX = (points[i].x + points[nextIndex].x) * offset;
-                const midY = (points[i].y + points[nextIndex].y) * offset;
+                const midX = points[i].x + (points[nextindex].x - points[i].x) * offset;
+                const midY = points[i].y + (points[nextindex].y - points[i].y) * offset;
                 midpoints.push({ x: midX, y: midY });
             }
             return midpoints;
