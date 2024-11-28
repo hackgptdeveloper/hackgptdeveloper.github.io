@@ -37,7 +37,7 @@ AI generated javascript: Polygon with Colored Lines
         const ctx = canvas.getContext('2d');
         const sidesRange = document.getElementById('sidesRange');
         const sidesValue = document.getElementById('sidesValue');
-        const offsetValue = parseInt(document.getElementById('offsetRange').value)/60;
+        const offsetValue = document.getElementById('offsetValue');
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const radius = 200;
@@ -72,8 +72,11 @@ AI generated javascript: Polygon with Colored Lines
             ctx.beginPath();
             ctx.moveTo(points[0].x, points[0].y);
 
+	    let i=0;
             points.forEach(point => {
+		ctx.strokeStyle = `hsl(${(i / points.length) * 360}, 100%, 50%)`;
                 ctx.lineTo(point.x, point.y);
+		i = i+1;
             });
             ctx.closePath();
             ctx.stroke();
