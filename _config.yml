@@ -77,7 +77,6 @@ exclude:
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-gist
   - jekyll-seo-tag
   - jekyll-feed
 
