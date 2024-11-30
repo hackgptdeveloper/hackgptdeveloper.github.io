@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing lines and running color"
+title: "Chasing lines and running color"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

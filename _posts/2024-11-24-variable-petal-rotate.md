@@ -1,10 +1,10 @@
 ---
-title: "AI generated javascript: Variable Petal Lines Animation"
+title: "Variable Petal Lines Animation"
 tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript: Variable Petal Lines Animation
+Variable Petal Lines Animation
 
 <style>
         canvas {

@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing diagram on diamond around a diamond"
+title: "Chasing diagram on diamond around a diamond"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

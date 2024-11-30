@@ -1,10 +1,10 @@
 ---
-title: "AI generated javascript: Polygon with Colored Lines"
+title: "Polygon with Colored Lines"
 tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript: Polygon with Colored Lines
+Polygon with Colored Lines
 
 <style>
         canvas {

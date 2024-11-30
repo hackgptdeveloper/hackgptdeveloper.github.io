@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing and rotating square"
+title: "Chasing and rotating square"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

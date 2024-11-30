@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing on rotating pentagon"
+title: "Chasing on rotating pentagon"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

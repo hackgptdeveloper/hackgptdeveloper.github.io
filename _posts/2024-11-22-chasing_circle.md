@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing diagram on a circle"
+title: "Chasing diagram on a circle"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

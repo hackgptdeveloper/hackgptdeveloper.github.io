@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing diagram on triangle"
+title: "Chasing diagram on triangle"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

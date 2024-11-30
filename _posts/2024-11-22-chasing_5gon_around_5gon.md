@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing diagram on pentagon around pentagon"
+title: "Chasing diagram on pentagon around pentagon"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

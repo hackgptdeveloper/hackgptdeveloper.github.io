@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing hexagon around hexagon"
+title: "Chasing hexagon around hexagon"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

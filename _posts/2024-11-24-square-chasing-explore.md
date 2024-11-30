@@ -1,10 +1,10 @@
 ---
-title: "AI generated javascript: Square with Colored Lines"
+title: "Square with Colored Lines"
 tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript: Square with Colored Lines
+Square with Colored Lines
 
 <style>
         canvas {

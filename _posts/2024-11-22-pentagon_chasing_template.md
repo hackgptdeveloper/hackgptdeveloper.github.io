@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Pentagon with Colored Line"
+title: "Pentagon with Colored Line"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

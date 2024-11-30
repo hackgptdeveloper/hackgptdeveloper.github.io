@@ -1,5 +1,5 @@
 ---
-title: "AI generated javascript: Chasing on square"
+title: "Chasing on square"
 tags:
   - AI, chatbot, Mathematics, graphics
 ---

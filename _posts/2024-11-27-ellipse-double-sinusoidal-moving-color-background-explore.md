@@ -1,10 +1,10 @@
 ---
-title: "AI generated javascript: Animated Sinusoidal Wave on Ellipse"
+title: "Animated Sinusoidal Wave on Ellipse"
 tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript: Animated Sinusoidal Wave on Ellipse 
+Animated Sinusoidal Wave on Ellipse 
 
 Amplitude * sin(B * theta) * sin (A * theta)
 

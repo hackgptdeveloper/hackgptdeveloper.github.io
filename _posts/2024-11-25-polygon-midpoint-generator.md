@@ -1,10 +1,10 @@
 ---
-title: "AI generated javascript: Polygon Midpoint Generator"
+title: "Polygon Midpoint Generator"
 tags:
   - AI, chatbot, Javascript
 ---
 
-AI generated javascript: Polygon Midpoint Generator
+Polygon Midpoint Generator
 
 <style>
         canvas {
