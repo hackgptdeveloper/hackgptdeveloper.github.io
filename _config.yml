@@ -75,10 +75,11 @@ exclude:
 #   - vendor/ruby/
 
 plugins:
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-feed
   - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-seo-tag
+  - jekyll-feed
 
 # Front Matter Defaults
 defaults:
