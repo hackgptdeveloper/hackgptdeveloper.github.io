@@ -1,7 +1,7 @@
 ---
 title: "Cardioid Shape"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Cardioid Shape

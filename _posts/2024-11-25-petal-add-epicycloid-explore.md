@@ -1,7 +1,7 @@
 ---
 title: "Epicycloid Curves with Petal with Scrollbars, Labels, and Color Picker"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Epicycloid Curves with Petal with Scrollbars, Labels, and Color Picker

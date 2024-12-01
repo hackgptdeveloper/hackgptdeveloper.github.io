@@ -1,7 +1,7 @@
 ---
 title: "Vortex Parametric Equation Visualization"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Vortex Parametric Equation Visualization

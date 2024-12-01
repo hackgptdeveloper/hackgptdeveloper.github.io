@@ -1,7 +1,7 @@
 ---
 title: "Hypotrochoid Curve with Additional Scrollbars"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Hypotrochoid Curve with Additional Scrollbars
@@ -49,21 +49,6 @@ Hypotrochoid Curve with Additional Scrollbars
             <label for="d">d (Distance):</label>
             <input type="range" id="d" min="10" max="150" value="150">
             <span id="d-value" class="value-label">150</span>
-        </div>
-        <div class="control-group">
-            <label for="R1">R1 (Modifier):</label>
-            <input type="range" id="R1" min="0" max="2" step="0.01" value="1">
-            <span id="R1-value" class="value-label">1.00</span>
-        </div>
-        <div class="control-group">
-            <label for="f1">f1 (Frequency 1):</label>
-            <input type="range" id="f1" min="1" max="10" value="1">
-            <span id="f1-value" class="value-label">1</span>
-        </div>
-        <div class="control-group">
-            <label for="f2">f2 (Frequency 2):</label>
-            <input type="range" id="f2" min="1" max="10" value="1">
-            <span id="f2-value" class="value-label">1</span>
         </div>
         <div class="control-group">
             <label for="color">Select Color:</label>
@@ -133,3 +118,14 @@ Hypotrochoid Curve with Additional Scrollbars
     // Initial draw
     drawHypotrochoid();
 </script>
+
+
+```
+Basically the core of the curves is implemented with the following formula (notice the 3 lobes is characteristics of the "3" in the formula.   If you change it to 2 or 4, or 5 then you get the corresponding number of lobes.:
+
+        for (let t = 0; t <= period; t += 0.01) {
+            const x = centerX + (R - r) * Math.cos(t) * (1 + Math.cos(3*t)) + d * Math.cos(((R - r) / r) * t);
+            const y = centerY + (R - r) * Math.sin(t) * (1 + Math.cos(3*t)) - d * Math.sin(((R - r) / r) * t);
+        }
+
+```

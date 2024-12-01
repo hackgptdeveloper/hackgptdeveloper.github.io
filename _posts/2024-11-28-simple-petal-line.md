@@ -1,7 +1,7 @@
 ---
 title: "Dynamic Petals"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Dynamic Petals

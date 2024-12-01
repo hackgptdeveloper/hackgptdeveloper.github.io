@@ -1,7 +1,7 @@
 ---
 title: "Variable Petal Lines Animation"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Variable Petal Lines Animation

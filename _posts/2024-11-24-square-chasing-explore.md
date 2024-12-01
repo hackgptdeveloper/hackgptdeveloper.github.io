@@ -1,7 +1,7 @@
 ---
 title: "Square with Colored Lines"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Square with Colored Lines

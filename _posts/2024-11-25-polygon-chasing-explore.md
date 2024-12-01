@@ -1,7 +1,7 @@
 ---
 title: "Polygon with Colored Lines"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Polygon with Colored Lines

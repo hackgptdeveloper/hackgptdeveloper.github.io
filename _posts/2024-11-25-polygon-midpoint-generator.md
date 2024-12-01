@@ -1,7 +1,7 @@
 ---
 title: "Polygon Midpoint Generator"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Polygon Midpoint Generator

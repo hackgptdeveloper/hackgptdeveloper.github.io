@@ -1,7 +1,7 @@
 ---
 title: "Dynamic Petals with Red-Blue-Yellow Gradient"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Dynamic Petals with Red-Blue-Yellow Gradient

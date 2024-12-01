@@ -1,7 +1,7 @@
 ---
 title: "Animated Sinusoidal Wave on Ellipse"
 tags:
-  - AI, chatbot, Javascript
+  - Graphics
 ---
 
 Animated Sinusoidal Wave on Ellipse 
