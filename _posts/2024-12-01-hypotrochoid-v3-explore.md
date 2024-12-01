@@ -42,12 +42,12 @@ Hypotrochoid Curve with Additional Scrollbars
         </div>
         <div class="control-group">
             <label for="r">r (Inner radius):</label>
-            <input type="range" id="r" min="10" max="150" value="40">
+            <input type="range" id="r" min="10" max="300" value="40">
             <span id="r-value" class="value-label">40</span>
         </div>
         <div class="control-group">
             <label for="d">d (Distance):</label>
-            <input type="range" id="d" min="10" max="150" value="150">
+            <input type="range" id="d" min="10" max="300" value="150">
             <span id="d-value" class="value-label">150</span>
         </div>
         <div class="control-group">
