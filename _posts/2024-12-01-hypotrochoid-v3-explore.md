@@ -32,7 +32,7 @@ Hypotrochoid Curve with Additional Scrollbars
             font-weight: bold;
         }
 </style>
-<canvas id="canvas" width="1200" height="1200"></canvas>
+<canvas id="canvas" width="800" height="800"></canvas>
 
 <div class="controls">
         <div class="control-group">
