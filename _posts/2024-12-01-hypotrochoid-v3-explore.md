@@ -52,12 +52,12 @@ Hypotrochoid Curve with Additional Scrollbars
         </div>
         <div class="control-group">
             <label for="f1">f1 (Frequency 1):</label>
-            <input type="range" id="f1" min="1" max="10" value="1">
+            <input type="range" id="f1" min="1" max="30" value="1">
             <span id="f1-value" class="value-label">1</span>
         </div>
         <div class="control-group">
             <label for="f2">f2 (Frequency 2):</label>
-            <input type="range" id="f2" min="1" max="10" value="1">
+            <input type="range" id="f2" min="1" max="30" value="1">
             <span id="f2-value" class="value-label">1</span>
         </div>
         <div class="control-group">
@@ -72,6 +72,8 @@ Hypotrochoid Curve with Additional Scrollbars
     let R = 240;
     let r = 40;
     let d = 150;
+    let f1 = 1;
+    let f2 = 3;
     let selectedColor = '#0000ff';
 
     // Function to calculate the GCD
@@ -122,6 +124,18 @@ Hypotrochoid Curve with Additional Scrollbars
 
     document.getElementById('color').addEventListener('input', function () {
         selectedColor = this.value;
+        drawHypotrochoid();
+    });
+
+    document.getElementById('f1').addEventListener('input', function () {
+        f1 = parseInt(this.value);
+        document.getElementById('f1-value').innerText = this.value;
+        drawHypotrochoid();
+    });
+
+    document.getElementById('f2').addEventListener('input', function () {
+        f2 = parseInt(this.value);
+        document.getElementById('f2-value').innerText = this.value;
         drawHypotrochoid();
     });
 
