@@ -1,10 +1,10 @@
 ---
-title: "Hypotrochoid Curves with Scrollbars, Labels, and Color Picker"
+title: "Hypotrochoid Curves (save as PNG feature)"
 tags:
   - Graphics
 ---
 
-Hypotrochoid Curves with Scrollbars, Labels, and Color Picker
+Hypotrochoid Curves (save as PNG feature)
 
 <style>
         canvas {

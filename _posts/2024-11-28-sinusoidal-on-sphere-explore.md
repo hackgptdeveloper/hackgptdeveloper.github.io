@@ -1,10 +1,10 @@
 ---
-title: "Cardioid Shape"
+title: "Generalized Cardioid Shape"
 tags:
   - Graphics
 ---
 
-Cardioid Shape
+Generalized Cardioid Shape
 
 <style>
         canvas {
@@ -38,28 +38,25 @@ Cardioid Shape
 
 <div class="controls">
         <label for="a1">a1:</label>
-        <input type="range" id="a1" min="1" max="30" value="1">
-        <span id="a1Value">1</span>
+        <input type="range" id="a1" min="1" max="30" value="3">
+        <span id="a1Value">3</span>
 
         <label for="b1">b1:</label>
-        <input type="range" id="b1" min="1" max="30" value="1">
-        <span id="b1Value">1</span>
+        <input type="range" id="b1" min="1" max="30" value="4">
+        <span id="b1Value">4</span>
 
         <label for="c1">c1:</label>
-        <input type="range" id="c1" min="1" max="30" value="1">
-        <span id="c1Value">1</span>
+        <input type="range" id="c1" min="1" max="30" value="4">
+        <span id="c1Value">4</span>
 
         <label for="d1">d1:</label>
-        <input type="range" id="d1" min="1" max="30" value="1">
-        <span id="d1Value">1</span>
+        <input type="range" id="d1" min="1" max="30" value="4">
+        <span id="d1Value">4</span>
 
         <label for="e1">e1:</label>
-        <input type="range" id="e1" min="1" max="30" value="1">
-        <span id="e1Value">1</span>
+        <input type="range" id="e1" min="1" max="30" value="3">
+        <span id="e1Value">3</span>
 
-        <label for="f1">f1:</label>
-        <input type="range" id="f1" min="1" max="200" value="1">
-        <span id="f1Value">1</span>
 </div>
 
 <script>
@@ -72,7 +69,7 @@ Cardioid Shape
         const delta = 2 * Math.PI / steps;
 
         // Initialize variables
-        let a1 = 1, b1 = 1, c1 = 1, d1 = 1, e1 = 1, f1 = 1;
+        let a1 = 1, b1 = 1, c1 = 1, d1 = 1, e1 = 1, f1 = 0;
 
         function drawCardioid() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -81,22 +78,28 @@ Cardioid Shape
             ctx.lineWidth = 2;
             ctx.beginPath();
 
-            for (let phasea = 0; phasea <= 2 * Math.PI ; phasea += a1*delta) {
-            for (let theta = 0; theta <= 2 * Math.PI * b1 *d1; theta += delta) {
-		phaseb = f1*delta;
-                let x = radius * (1 - Math.cos(b1 / c1 * theta + phasea)) * Math.sin(d1 / e1 * theta + phaseb) * Math.cos(theta) + centerX;
-                let y = radius * (1 - Math.cos(b1 / c1 * theta + phasea)) * Math.sin(d1 / e1 * theta + phaseb) * Math.sin(theta) + centerY;
+            for (let phasea = 0; phasea <= 2 * Math.PI ; phasea += a1 * delta) {
+                for (let theta = 0; theta <= 2 * Math.PI * b1 * d1; theta += delta) {
+                    let phaseb = f1 * delta;
+                    let x = radius * (1 - Math.cos(b1 / c1 * theta + phasea)) * Math.sin(d1 / e1 * theta + phaseb) * Math.cos(theta) + centerX;
+                    let y = radius * (1 - Math.cos(b1 / c1 * theta + phasea)) * Math.sin(d1 / e1 * theta + phaseb) * Math.sin(theta) + centerY;
 
-                if (theta === 0) {
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.lineTo(x, y);
+                    if (theta === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
                 }
-            }
             }
 
             ctx.closePath();
             ctx.stroke();
+        }
+
+        function animate() {
+            f1 += 0.1; // Increment f1 for animation
+            drawCardioid();
+            requestAnimationFrame(animate); // Request the next frame
         }
 
         // Update variables and redraw cardioid
@@ -106,16 +109,12 @@ Cardioid Shape
             c1 = parseInt(document.getElementById('c1').value);
             d1 = parseInt(document.getElementById('d1').value);
             e1 = parseInt(document.getElementById('e1').value);
-            f1 = parseInt(document.getElementById('f1').value);
 
             document.getElementById('a1Value').textContent = a1;
             document.getElementById('b1Value').textContent = b1;
             document.getElementById('c1Value').textContent = c1;
             document.getElementById('d1Value').textContent = d1;
             document.getElementById('e1Value').textContent = e1;
-            document.getElementById('f1Value').textContent = f1;
-
-            drawCardioid();
         }
 
         // Attach event listeners to sliders
@@ -124,7 +123,19 @@ Cardioid Shape
         document.getElementById('c1').addEventListener('input', updateCardioid);
         document.getElementById('d1').addEventListener('input', updateCardioid);
         document.getElementById('e1').addEventListener('input', updateCardioid);
-        document.getElementById('f1').addEventListener('input', updateCardioid);
 
-        drawCardioid();
+        animate(); // Start the animation
 </script>
+
+
+```
+     The a1, b1, c1, d1, e1 parameters correspond to the variable in the following mathematical formula:
+
+       for (let phasea = 0; phasea <= 2 * Math.PI ; phasea += a1 * delta) {
+         for (let theta = 0; theta <= 2 * Math.PI * b1 * d1; theta += delta) {
+
+       x = radius * (1 - Math.cos(b1 / c1 * theta + phasea)) * Math.sin(d1 / e1 * theta + phaseb) * Math.cos(theta) ;
+
+       y = radius * (1 - Math.cos(b1 / c1 * theta + phasea)) * Math.sin(d1 / e1 * theta + phaseb) * Math.sin(theta) ;
+
+```
