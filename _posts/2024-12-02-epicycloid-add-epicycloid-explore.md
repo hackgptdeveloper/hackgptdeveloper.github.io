@@ -212,3 +212,9 @@ document.getElementById('saveButton').addEventListener('click', function() {
     saveCanvasAsImage(canvas);
 });
 </script>
+
+```
+	Formula for implementation are follows:
+        x = ((100) * Math.cos(t) - 96 * Math.cos(5 * t)) + (R + r) * Math.cos(t) - d * Math.cos((R + r) / r * t);
+        y = (100) * Math.sin(t) - 96 * Math.sin(5 * t) + (R + r) * Math.sin(t) - d * Math.sin((R + r) / r * t);
+```
