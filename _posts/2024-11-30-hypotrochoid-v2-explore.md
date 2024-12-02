@@ -1,5 +1,5 @@
 ---
-title: "Hypotrochoid Curve with Additional Scrollbars"
+title: "Hypotrochoid Curve (v2)"
 tags:
   - Graphics
 ---
