@@ -32,7 +32,7 @@ Hypotrochoid Curve with Additional Scrollbars
             font-weight: bold;
         }
 </style>
-<canvas id="canvas" width="800" height="800"></canvas>
+<canvas id="canvas" width="1200" height="1200"></canvas>
 
 <div class="controls">
         <div class="control-group">
@@ -47,7 +47,7 @@ Hypotrochoid Curve with Additional Scrollbars
         </div>
         <div class="control-group">
             <label for="r1">r1:</label>
-            <input type="range" id="r1" min="-3" max="3" value="1" step="0.2">
+            <input type="range" id="r1" min="-10" max="10" value="1" step="0.2">
             <span id="r1-value" class="value-label">1</span>
         </div>
         <div class="control-group">
