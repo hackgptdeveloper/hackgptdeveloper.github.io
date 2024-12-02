@@ -69,7 +69,7 @@ Generalized Cardioid Shape
         const delta = 2 * Math.PI / steps;
 
         // Initialize variables
-        let a1 = 1, b1 = 1, c1 = 1, d1 = 1, e1 = 1, f1 = 0;
+        let a1 = 3, b1 = 4, c1 = 4, d1 = 4, e1 = 3, f1 = 0;
 
         function drawCardioid() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
