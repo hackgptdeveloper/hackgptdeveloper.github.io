@@ -65,8 +65,6 @@ Epicycloid Curves with Scrollbars, Labels, and Color Picker
 </div>
 
 <script>
-        document.addEventListener("contextmenu", function(event) { event.preventDefault(); });
-
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const gradientCanvas = document.getElementById('gradientCanvas');

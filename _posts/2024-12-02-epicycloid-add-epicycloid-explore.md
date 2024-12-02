@@ -36,7 +36,7 @@ Epicycloid Curves with Scrollbars, Labels, and Color Picker
             font-weight: bold;
         }
 </style>
-<canvas id="canvas" width="1200" height="1200"></canvas>
+<canvas id="canvas" width="800" height="800"></canvas>
 
 <div class="controls">
         <div class="control-group">
@@ -65,8 +65,6 @@ Epicycloid Curves with Scrollbars, Labels, and Color Picker
 </div>
 
 <script>
-        document.addEventListener("contextmenu", function(event) { event.preventDefault(); });
-
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const gradientCanvas = document.getElementById('gradientCanvas');
@@ -95,8 +93,8 @@ function drawEpicycloid() {
 
     ctx.beginPath();
     for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
-        const x = centerX + ((200) * Math.cos(t) - 96 * Math.cos(5 * t)) + (R + r) * Math.cos(t) - d * Math.cos((R + r) / r * t);
-        const y = centerY + (200) * Math.sin(t) - 96 * Math.sin(5 * t) + (R + r) * Math.sin(t) - d * Math.sin((R + r) / r * t);
+        const x = centerX + ((100) * Math.cos(t) - 96 * Math.cos(5 * t)) + (R + r) * Math.cos(t) - d * Math.cos((R + r) / r * t);
+        const y = centerY + (100) * Math.sin(t) - 96 * Math.sin(5 * t) + (R + r) * Math.sin(t) - d * Math.sin((R + r) / r * t);
 
 	if (t/(2*Math.PI) - Math.floor(t/(2*Math.PI)) < 0.001)
         ctx.strokeStyle = colors[colorIndex % colors.length];

@@ -89,8 +89,6 @@ Dynamic Petals
         return (points);
     }
     
-    document.addEventListener("contextmenu", function(event) { event.preventDefault(); });
-    
     const canvas = document.getElementById('simple_petal');
     const ctx = canvas.getContext('2d');
     const nPoints = 120;
