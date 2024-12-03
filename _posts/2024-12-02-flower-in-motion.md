@@ -79,3 +79,14 @@ Flower in Motion
 
         drawComplexPattern();
 </script>
+
+
+```
+Notice in this drawing, it is just two circular sinusoidal curve moving at different speed: one is twice the speed of another.
+
+                const angle2 = 2*angle1;
+                x1 = radius1 * Math.cos((angle2 + angleOffset)) * Math.sin(angle1 + angleOffset);
+                y1 = radius1 * Math.sin((angle2 + angleOffset)) * Math.sin(angle1 + angleOffset);
+                x2 = radius2 * Math.cos(angle1 + angleOffset) * Math.sin(angle2 + angleOffset);
+                y2 = radius2 * Math.sin(angle1 + angleOffset) * Math.sin(angle2 + angleOffset);
+```
