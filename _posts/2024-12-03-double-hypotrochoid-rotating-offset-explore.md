@@ -20,7 +20,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
     let offset = parseInt(offsetSlider.value);
     let isAnimating = false;
     let animationFrameId;
-
     offsetSlider.addEventListener('input', function() {
         offset = parseInt(this.value);
     });
