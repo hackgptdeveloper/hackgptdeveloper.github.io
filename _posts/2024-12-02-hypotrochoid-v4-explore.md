@@ -157,11 +157,11 @@ Hypotrochoid Curve with Additional Scrollbars
 
 
 ```
-Basically the core of the curves is implemented with the following formula (notice the 3 lobes is characteristics of the "3" in the formula.   If you change it to 2 or 4, or 5 then you get the corresponding number of lobes.:
+Basically the core of the curves is implemented with the following formula (notice the number lobes is characteristics of the "f2/f1" in the formula.   If you change f2 or f1, then you get the corresponding number of lobes.:
 
         for (let t = 0; t <= period; t += 0.01) {
-            const x = centerX + (R - r) * Math.cos(f1*t) * (r1 + Math.cos(f2*t)) + d * Math.cos(((R - r) / r) * t);
-            const y = centerY + (R - r) * Math.sin(f1*t) * (r1 + Math.cos(f2*t)) - d * Math.sin(((R - r) / r) * t);
+            const x = (R - r) * Math.cos(f1*t) * (r1 + Math.cos(f2*t)) + d * Math.cos(((R - r) / r) * t);
+            const y = (R - r) * Math.sin(f1*t) * (r1 + Math.cos(f2*t)) - d * Math.sin(((R - r) / r) * t);
         }
 
 ```
