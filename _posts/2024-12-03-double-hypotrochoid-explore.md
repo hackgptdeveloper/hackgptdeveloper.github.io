@@ -110,19 +110,8 @@ This is the result of direct addition of two hypotrochoids on top of each other,
             ctx.strokeStyle = gradient;
             ctx.lineWidth = 2;
 
-            // Move to the starting point
-            let t0 = 0;
-            let x1_0 = (R1 - r1) * Math.cos(t0) + d1 * Math.cos(((R1 - r1) / r1) * t0);
-            let y1_0 = (R1 - r1) * Math.sin(t0) - d1 * Math.sin(((R1 - r1) / r1) * t0);
-            let x2_0 = (R2 - r2) * Math.cos(t0) + d2 * Math.cos(((R2 - r2) / r2) * t0);
-            let y2_0 = (R2 - r2) * Math.sin(t0) - d2 * Math.sin(((R2 - r2) / r2) * t0);
-            let x0 = x1_0 + x2_0;
-            let y0 = y1_0 + y2_0;
-
-            ctx.moveTo(width / 2 + x0, height / 2 - y0);
-
             // Draw composite curve
-            for (let t = 0; t <= 2 * Math.PI * r1 / Math.gcd(R1, r1); t += 0.01) {
+            for (let t = 0; t <= 2 * Math.PI * (R1-r1)*(R2-r2) ; t += 0.01) {
                 const x1 = (R1 - r1) * Math.cos(t) + d1 * Math.cos(((R1 - r1) / r1) * t);
                 const y1 = (R1 - r1) * Math.sin(t) - d1 * Math.sin(((R1 - r1) / r1) * t);
 
@@ -132,7 +121,10 @@ This is the result of direct addition of two hypotrochoids on top of each other,
                 const x = x1 + x2;
                 const y = y1 + y2;
 
-                ctx.lineTo(width / 2 + x, height / 2 - y);
+		if (t==0) 
+            		ctx.moveTo(width / 2 + x, height / 2 - y);
+		else
+                	ctx.lineTo(width / 2 + x, height / 2 - y);
             }
 
             ctx.stroke();
