@@ -76,48 +76,48 @@ Hypotrochoid Curves (save as PNG feature)
         let rotationAngle = 0;
         let selectedColor = '#0000ff';
 
-function drawHypotrochoid() {
-    const width = canvas.width;
-    const height = canvas.height;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.translate(width / 2, height / 2);
-    ctx.rotate(rotationAngle * Math.PI / 180);
-    ctx.translate(-width / 2, -height / 2);
-
-    const colors = generateGradientColors(selectedColor, 16); // Create more colors for a smoother gradient
-    let colorIndex = 0;
-
-    let x0 = (R - r) * Math.cos(0) + d * Math.cos(((R - r) / r) * 0);
-    let y0 = (R - r) * Math.sin(0) - d * Math.sin(((R - r) / r) * 0);
-    ctx.moveTo(width / 2 + x0, height / 2 - y0);
-
-    for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
-        const x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
-        const y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+        function drawHypotrochoid() {
+            const width = canvas.width;
+            const height = canvas.height;
         
-        // Set strokeStyle to the current color in the gradient array
-
-	if (t/(2*Math.PI) - Math.floor(t/(2*Math.PI)) < 0.001)
-        ctx.strokeStyle = colors[colorIndex % colors.length];
-
-        ctx.beginPath();
-        ctx.moveTo(width / 2 + x0, height / 2 - y0);
-        ctx.lineTo(width / 2 + x, height / 2 - y);
-        ctx.stroke();
-
-        // Move to the next color in the gradient
-        colorIndex++;
-
-        // Update previous point
-        x0 = x;
-        y0 = y;
-    }
-
-    ctx.restore();
-    rotationAngle += 1;
-}
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            ctx.rotate(rotationAngle * Math.PI / 180);
+            ctx.translate(-width / 2, -height / 2);
+        
+            const colors = generateGradientColors(selectedColor, 16); // Create more colors for a smoother gradient
+            let colorIndex = 0;
+        
+            let x0 = (R - r) * Math.cos(0) + d * Math.cos(((R - r) / r) * 0);
+            let y0 = (R - r) * Math.sin(0) - d * Math.sin(((R - r) / r) * 0);
+            ctx.moveTo(width / 2 + x0, height / 2 - y0);
+        
+            for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
+                const x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+                const y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+                
+                // Set strokeStyle to the current color in the gradient array
+        
+        	if (t/(2*Math.PI) - Math.floor(t/(2*Math.PI)) < 0.001)
+                ctx.strokeStyle = colors[colorIndex % colors.length];
+        
+                ctx.beginPath();
+                ctx.moveTo(width / 2 + x0, height / 2 - y0);
+                ctx.lineTo(width / 2 + x, height / 2 - y);
+                ctx.stroke();
+        
+                // Move to the next color in the gradient
+                colorIndex++;
+        
+                // Update previous point
+                x0 = x;
+                y0 = y;
+            }
+        
+            ctx.restore();
+            rotationAngle += 1;
+        }
 
         function drawHypotrochoidOLD() {
             const width = canvas.width;
@@ -213,42 +213,24 @@ function drawHypotrochoid() {
         setInterval(drawHypotrochoid, 100);
         drawColorGradient();
 
-        // Function to save the canvas as an image file
-//        function saveCanvasAsImage1111(canvas) {
-//            const dataURL = canvas.toDataURL('image/png');
-//            const link = document.createElement('a');
-//            link.href = dataURL;
-//            link.download = 'canvas_image.png';
-//            document.body.appendChild(link);
-//            link.click();
-//            document.body.removeChild(link);
-//        }
-
+        function saveCanvasAsImage(canvas) {
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // Create the filename with current values of R, r, and d
+            const filename = `hypotrochoid_R_${R}_r_${r}_d_${d}.png`;
+            
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
         // Event listener for the "Save as PNG" button
-        //document.getElementById('saveButton').addEventListener('click', function() {
-        //    saveCanvasAsImage(canvas);
-        //});
-
-
-// Function to save the canvas as an image file with dynamic filename
-function saveCanvasAsImage(canvas) {
-    const dataURL = canvas.toDataURL('image/png');
-    
-    // Create the filename with current values of R, r, and d
-    const filename = `hypotrochoid_R_${R}_r_${r}_d_${d}.png`;
-    
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-// Event listener for the "Save as PNG" button
-document.getElementById('saveButton').addEventListener('click', function() {
-    saveCanvasAsImage(canvas);
-});
+        document.getElementById('saveButton').addEventListener('click', function() {
+            saveCanvasAsImage(canvas);
+        });
 </script>
 
 ```
