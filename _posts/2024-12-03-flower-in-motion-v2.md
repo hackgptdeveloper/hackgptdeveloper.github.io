@@ -61,7 +61,6 @@ Flower in Motion (v2)
     const ctx = canvas.getContext('2d');
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const numLines = 150;
     let radius1 = 100;
     let radius2 = 200;
     let angleOffset = 0;
@@ -75,6 +74,8 @@ Flower in Motion (v2)
     // Update display and values dynamically
     let f1 = parseFloat(f1Slider.value);
     let f2 = parseFloat(f2Slider.value);
+    let numLines = f1*f2*60;
+    let delta = (1 / numLines) * 2 * Math.PI;
 
     f1Slider.addEventListener('input', () => {
         f1 = parseFloat(f1Slider.value);
@@ -93,7 +94,7 @@ Flower in Motion (v2)
         ctx.lineWidth = 0.5;
 
         for (let i = 0; i < numLines; i++) {
-            const angle1 = (i / numLines) * 2 * Math.PI;
+            const angle1 = (i * delta);
             const angle2 = (f1 / f2) * angle1;
             const x1 = centerX + radius1 * Math.cos((angle2 + angleOffset)) * Math.sin(angle1 + angleOffset);
             const y1 = centerY + radius1 * Math.sin((angle2 + angleOffset)) * Math.sin(angle1 + angleOffset);
