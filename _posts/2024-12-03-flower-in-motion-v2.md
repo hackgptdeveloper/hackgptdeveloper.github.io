@@ -74,7 +74,7 @@ Flower in Motion (v2)
     // Update display and values dynamically
     let f1 = parseFloat(f1Slider.value);
     let f2 = parseFloat(f2Slider.value);
-    let numLines = f1*f2*60;
+    let numLines = f1*150;
     let delta = (1 / numLines) * 2 * Math.PI;
 
     f1Slider.addEventListener('input', () => {
@@ -93,7 +93,7 @@ Flower in Motion (v2)
         //ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 0.5;
 
-        for (let i = 0; i < numLines; i++) {
+        for (let i = 0; i < numLines*f2; i++) {
             const angle1 = (i * delta);
             const angle2 = (f1 / f2) * angle1;
             const x1 = centerX + radius1 * Math.cos((angle2 + angleOffset)) * Math.sin(angle1 + angleOffset);
