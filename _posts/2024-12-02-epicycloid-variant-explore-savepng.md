@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epicycloid Curves with Scrollbars, Labels, and Color Picker</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
+---
+title: "Epicycloid Curves with Scrollbars, Labels, and Color Picker"
+tags:
+  - Graphics
+---
+
+Epicycloid Curves with Scrollbars, Labels, and Color Picker
+<style>
         canvas {
             border: 1px solid black;
         }
@@ -42,12 +34,10 @@
             margin-left: 10px;
             font-weight: bold;
         }
-    </style>
-</head>
-<body>
-    <canvas id="canvas" width="600" height="600"></canvas>
+</style>
+<canvas id="canvas" width="600" height="600"></canvas>
 
-    <div class="controls">
+<div class="controls">
         <div class="control-group">
             <label for="R">R (Outer radius):</label>
             <input type="range" id="R" min="50" max="300" value="125">

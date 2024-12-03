@@ -138,14 +138,13 @@ function drawHypotrochoid() {
             ctx.strokeStyle = gradient;
             ctx.lineWidth = 2;
 
-            let x0 = (R - r) * Math.cos(0) + d * Math.cos(((R - r) / r) * 0);
-            let y0 = (R - r) * Math.sin(0) - d * Math.sin(((R - r) / r) * 0);
-            ctx.moveTo(width / 2 + x0, height / 2 - y0);
-
             for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
-                const x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
-                const y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
-                ctx.lineTo(width / 2 + x, height / 2 - y);
+                const x = width/2 + (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+                const y = height/2 + (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+		if (t==0) 
+            		ctx.moveTo(x, y);
+		else
+                	ctx.lineTo(x, y);
             }
 
             ctx.stroke();
@@ -251,3 +250,10 @@ document.getElementById('saveButton').addEventListener('click', function() {
     saveCanvasAsImage(canvas);
 });
 </script>
+
+```
+	Implementing formula are as follows:
+
+        x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+        y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+

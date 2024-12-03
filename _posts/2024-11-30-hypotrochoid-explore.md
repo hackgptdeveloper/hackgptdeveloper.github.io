@@ -175,3 +175,12 @@ Hypotrochoid Curves with Scrollbars, Labels, and Color Picker
         setInterval(drawHypotrochoid, 100);
         drawColorGradient();
 </script>
+
+
+```
+	Implementing formula are as follows:
+
+        x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+        y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+
+```
