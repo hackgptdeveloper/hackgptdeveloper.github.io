@@ -5,6 +5,7 @@ tags:
 ---
 
 Epicycloid Curves with Scrollbars, Labels, and Color Picker
+
 <style>
         canvas {
             border: 1px solid black;
@@ -36,7 +37,6 @@ Epicycloid Curves with Scrollbars, Labels, and Color Picker
         }
 </style>
 <canvas id="canvas" width="600" height="600"></canvas>
-
 <div class="controls">
         <div class="control-group">
             <label for="R">R (Outer radius):</label>

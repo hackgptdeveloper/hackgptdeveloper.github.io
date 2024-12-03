@@ -37,7 +37,6 @@ Epicycloid Curves with Scrollbars, Labels, and Color Picker
         }
 </style>
 <canvas id="canvas" width="600" height="600"></canvas>
-
 <div class="controls">
         <div class="control-group">
             <label for="R">R (Outer radius):</label>
@@ -76,44 +75,44 @@ Epicycloid Curves with Scrollbars, Labels, and Color Picker
         let rotationAngle = 0;
         let selectedColor = '#0000ff';
 
-function drawEpicycloid() {
-    const width = canvas.width;
-    const height = canvas.height;
-    const centerX = width/2;
-    const centerY = height/2;
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(rotationAngle * Math.PI / 180);
-    ctx.translate(-centerX, -centerY);
-
-    const colors = generateGradientColors(selectedColor, 16); // Create more colors for a smoother gradient
-    let colorIndex = 0;
-
-    ctx.beginPath();
-    for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
-        const x = centerX + (R + r) * Math.cos(t) - d * Math.cos((R + r) / r * t);
-        const y = centerY + (R + r) * Math.sin(t) - d * Math.sin((R + r) / r * t);
-
-	if (t/(2*Math.PI) - Math.floor(t/(2*Math.PI)) < 0.001)
-        ctx.strokeStyle = colors[colorIndex % colors.length];
-
-	if (t==0) {
-        	ctx.moveTo(x,y);
-	} else {
-        	ctx.lineTo(x, y);
-        }
+        function drawEpicycloid() {
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width/2;
+            const centerY = height/2;
         
-        // Move to the next color in the gradient
-        colorIndex++;
-
-    }
-    ctx.stroke();
-
-    ctx.restore();
-    rotationAngle += 1;
-}
+            ctx.clearRect(0, 0, width, height);
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(rotationAngle * Math.PI / 180);
+            ctx.translate(-centerX, -centerY);
+        
+            const colors = generateGradientColors(selectedColor, 16); // Create more colors for a smoother gradient
+            let colorIndex = 0;
+        
+            ctx.beginPath();
+            for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
+                const x = centerX + (R + r) * Math.cos(t) - d * Math.cos((R + r) / r * t);
+                const y = centerY + (R + r) * Math.sin(t) - d * Math.sin((R + r) / r * t);
+        
+        	if (t/(2*Math.PI) - Math.floor(t/(2*Math.PI)) < 0.001)
+                ctx.strokeStyle = colors[colorIndex % colors.length];
+        
+        	if (t==0) {
+                	ctx.moveTo(x,y);
+        	} else {
+                	ctx.lineTo(x, y);
+                }
+                
+                // Move to the next color in the gradient
+                colorIndex++;
+        
+            }
+            ctx.stroke();
+        
+            ctx.restore();
+            rotationAngle += 1;
+        }
 
         Math.gcd = function(a, b) {
             return b ? Math.gcd(b, a % b) : Math.abs(a);
@@ -175,40 +174,23 @@ function drawEpicycloid() {
         setInterval(drawEpicycloid, 100);
         drawColorGradient();
 
-        // Function to save the canvas as an image file
-//        function saveCanvasAsImage1111(canvas) {
-//            const dataURL = canvas.toDataURL('image/png');
-//            const link = document.createElement('a');
-//            link.href = dataURL;
-//            link.download = 'canvas_image.png';
-//            document.body.appendChild(link);
-//            link.click();
-//            document.body.removeChild(link);
-//        }
-
+        // Function to save the canvas as an image file with dynamic filename
+        function saveCanvasAsImage(canvas) {
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // Create the filename with current values of R, r, and d
+            const filename = `epicycloid_R_${R}_r_${r}_d_${d}.png`;
+            
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
         // Event listener for the "Save as PNG" button
-        //document.getElementById('saveButton').addEventListener('click', function() {
-        //    saveCanvasAsImage(canvas);
-        //});
-
-
-// Function to save the canvas as an image file with dynamic filename
-function saveCanvasAsImage(canvas) {
-    const dataURL = canvas.toDataURL('image/png');
-    
-    // Create the filename with current values of R, r, and d
-    const filename = `epicycloid_R_${R}_r_${r}_d_${d}.png`;
-    
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-// Event listener for the "Save as PNG" button
-document.getElementById('saveButton').addEventListener('click', function() {
-    saveCanvasAsImage(canvas);
-});
+        document.getElementById('saveButton').addEventListener('click', function() {
+            saveCanvasAsImage(canvas);
+        });
 </script>
