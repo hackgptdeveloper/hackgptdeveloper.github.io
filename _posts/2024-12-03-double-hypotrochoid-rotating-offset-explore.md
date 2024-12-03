@@ -17,7 +17,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
     const height = canvas.height;
     const offsetSlider = document.getElementById('offsetSlider');
     const controlButton = document.getElementById('controlButton');
-
     let offset = parseInt(offsetSlider.value);
     let isAnimating = false;
     let animationFrameId;
@@ -25,12 +24,10 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
     offsetSlider.addEventListener('input', function() {
         offset = parseInt(this.value);
     });
-
     // Utility function to calculate the greatest common divisor (GCD)
     Math.gcd = function(a, b) {
         return b ? Math.gcd(b, a % b) : Math.abs(a);
     };
-
     function generateHypotrochoid(R, r, d, numPoints) {
         const points = [];
         const step = (2 * Math.PI * r / Math.gcd(R, r)) / numPoints;
@@ -41,7 +38,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
         }
         return points;
     }
-
     function rotatePoint(point, angle, cx, cy) {
         const cosAngle = Math.cos(angle);
         const sinAngle = Math.sin(angle);
@@ -52,21 +48,17 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
             y: cy + dx * sinAngle + dy * cosAngle
         };
     }
-
     function rotatePoints(points, angle, cx, cy) {
         return points.map(point => rotatePoint(point, angle, cx, cy));
     }
-
     const points1 = generateHypotrochoid(200, 40, 60, 240);
     let rotationAngle = 0;
     let rotationStep = 1 * Math.PI / 180;
     let rotationDirection = 1;
     const maxRotation = 720 * Math.PI / 180;
-
     function drawHypotrochoids() {
         const rotatedPoints2 = rotatePoints(generateHypotrochoid(300, 60, 100, 240), rotationAngle, width / 2, height / 2);
         ctx.clearRect(0, 0, width, height);
-
         for (let i = 0; i < points1.length - 1; i++) {
             const adjustedIndex = (i + offset) % points1.length;
             ctx.beginPath();
@@ -76,7 +68,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
             ctx.strokeStyle = 'rgba(0, 0, 255, 0.5)';
             ctx.stroke();
         }
-
         ctx.beginPath();
         ctx.moveTo(points1[0].x, points1[0].y);
         for (let i = 1; i < points1.length; i++) {
@@ -93,7 +84,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
         ctx.strokeStyle = 'green';
         ctx.stroke();
     }
-
     function animate() {
         if (isAnimating) {
             drawHypotrochoids();
@@ -106,7 +96,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
             animationFrameId = requestAnimationFrame(animate);
         }
     }
-
     controlButton.addEventListener('click', () => {
         isAnimating = !isAnimating;
         if (isAnimating) {
@@ -117,5 +106,4 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
             cancelAnimationFrame(animationFrameId);
         }
     });
-
 </script>
