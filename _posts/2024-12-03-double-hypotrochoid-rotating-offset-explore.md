@@ -74,7 +74,6 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
         }
         ctx.strokeStyle = 'red';
         ctx.stroke();
-
         ctx.beginPath();
         ctx.moveTo(rotatedPoints2[0].x, rotatedPoints2[0].y);
         for (let i = 1; i < rotatedPoints2.length; i++) {
@@ -87,11 +86,9 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
         if (isAnimating) {
             drawHypotrochoids();
             rotationAngle += rotationStep * rotationDirection;
-
             if (rotationAngle >= maxRotation || rotationAngle <= -maxRotation) {
                 rotationDirection *= -1;
             }
-
             animationFrameId = requestAnimationFrame(animate);
         }
     }
