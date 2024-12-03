@@ -1,7 +1,7 @@
 ---
 title: "Chasing on square"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing on square.

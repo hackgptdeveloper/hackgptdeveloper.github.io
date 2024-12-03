@@ -1,7 +1,7 @@
 ---
 title: "Drawing chasing triangle"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Drawing chasing triangle.

@@ -1,7 +1,7 @@
 ---
 title: "Chasing diagram on pentagon around pentagon"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Drawing chasing diagram on pentagon around pentagon.

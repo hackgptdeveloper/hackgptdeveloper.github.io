@@ -1,7 +1,7 @@
 ---
 title: "Triangle around triangle with chasing diagram"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 How to draw triangle around existing triangle.   This method of drawing lines is called chasing diagram.   The two adjacent edge of the pentagon are specified.

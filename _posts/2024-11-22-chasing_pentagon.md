@@ -1,7 +1,7 @@
 ---
 title: "Chasing pentagon"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing pentagon.

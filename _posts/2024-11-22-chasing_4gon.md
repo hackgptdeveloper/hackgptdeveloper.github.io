@@ -1,7 +1,7 @@
 ---
 title: "Chasing diagram inside a square"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing diagram inside a square.

@@ -1,7 +1,7 @@
 ---
 title: "Chasing diagram on hexagon around hexagon animated with color."
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing diagram on hexagon around hexagon animated with color shifting.

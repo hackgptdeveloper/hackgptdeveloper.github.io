@@ -1,7 +1,7 @@
 ---
 title: "Chasing hexagon around hexagon"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Drawing chasing hexagon around hexagon.

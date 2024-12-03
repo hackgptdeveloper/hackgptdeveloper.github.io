@@ -1,7 +1,7 @@
 ---
 title: "Chasing rotating triangle"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing rotating triangle.

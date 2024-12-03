@@ -1,7 +1,7 @@
 ---
 title: "Chasing lines and running color"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing lines and special effects of running color.

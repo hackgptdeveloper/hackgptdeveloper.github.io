@@ -1,7 +1,7 @@
 ---
 title: "Chasing on hexagon"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing diagram on hexagon.

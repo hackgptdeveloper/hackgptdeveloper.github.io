@@ -1,7 +1,7 @@
 ---
 title: "Chasing and rotating square"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Drawing chasing and rotating square.

@@ -1,7 +1,7 @@
 ---
 title: "Chasing diagram on diamond around a diamond"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Chasing diagram on diamond around a diamond.

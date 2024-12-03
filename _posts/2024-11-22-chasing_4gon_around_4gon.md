@@ -1,7 +1,7 @@
 ---
 title: "Chasing diagram on squares around squares"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Drawing squares around squares, while having chasing diagram inside each square.

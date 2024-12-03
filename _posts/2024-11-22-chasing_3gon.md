@@ -1,7 +1,7 @@
 ---
 title: "Chasing diagram on triangle"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 How to draw triangle.  This method of drawing lines is called chasing diagram.   The two adjacent edge of the pentagon are specified.

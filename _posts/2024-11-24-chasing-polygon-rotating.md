@@ -1,7 +1,7 @@
 ---
 title: "Generalized chasing rotating polygon"
 tags:
-  - AI, chatbot, Mathematics, graphics
+  - Graphics
 ---
 
 Generalized chasing rotating polygon.
