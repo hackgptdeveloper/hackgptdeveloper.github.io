@@ -41,8 +41,8 @@ Flower in Motion
 
         //let angleMultiplier1 = 2;
         //let angleMultiplier2 = 4;
-        let radius1 = 100;
-        let radius2 = 100;
+        let radius1 = 200;
+        let radius2 = 200;
         let radius_multiplier = 10;
         let angleOffset = 0;
 

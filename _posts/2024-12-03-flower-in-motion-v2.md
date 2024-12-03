@@ -63,7 +63,7 @@ Flower in Motion (v2)
     const centerY = canvas.height / 2;
     const numLines = 150;
     let radius1 = 100;
-    let radius2 = 100;
+    let radius2 = 200;
     let angleOffset = 0;
 
     // Get sliders and display elements
