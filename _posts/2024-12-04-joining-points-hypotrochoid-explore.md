@@ -6,7 +6,7 @@ tags:
 
 Joining points on the hypotrochoid.   Compare this with that of joining lines on the circle.
 
-[https://hackgptdeveloper.github.io/2024/12/04/heart5.html](https://hackgptdeveloper.github.io/2024/12/04/heart5.html)
+[/2024/12/04/heart5.html](/2024/12/04/heart5.html)
 
 <style>
     canvas {
