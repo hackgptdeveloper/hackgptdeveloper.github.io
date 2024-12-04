@@ -79,6 +79,7 @@ and the earlier version of the hypotrochoids line joining:
 
     rSlider.addEventListener('input', () => {
         r = parseInt(rSlider.value);
+	R = nos_r * r;
         rValueDisplay.textContent = r;
     	drawHeartLines();
     });
