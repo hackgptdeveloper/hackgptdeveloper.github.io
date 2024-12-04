@@ -30,7 +30,7 @@ Hypotrochoid Curves with Slow Rotation and Offset Control
     function generateHypotrochoid(R, r, d, numPoints) {
         const points = [];
         const step = (2 * Math.PI * r / Math.gcd(R, r)) / numPoints;
-        for (let t = 0; t < 2 * Math.PI * r / Math.gcd(R, r); t += step) {
+        for (let t = 0; t<2*Math.PI*r / Math.gcd(R, r); t += step) {
             const x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
             const y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
             points.push({ x: width / 2 + x, y: height / 2 - y });
