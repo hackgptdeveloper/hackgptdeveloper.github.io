@@ -59,6 +59,11 @@ Line Art:   Drawing lines joining points on the hypotrochoid.   Compare this wit
         skipValueDisplay.textContent = skip;
     	drawHeartLines();
     });
+
+    Math.gcd = function(a, b) {
+     	return b ? Math.gcd(b, a % b) : Math.abs(a);
+    };
+
     // Function to calculate the position of points around the circle
     function getPointOnHypotrochoid(index, totalPoints) {
         const angle = (2 * Math.PI * r / Math.gcd(R, r) * index) / totalPoints;
