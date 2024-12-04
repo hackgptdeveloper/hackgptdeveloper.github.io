@@ -37,7 +37,7 @@ This is the result of direct addition of two hypotrochoids on top of each other,
             font-weight: bold;
         }
 </style>
-<canvas id="canvas" width="600" height="600"></canvas>
+<canvas id="canvas" width="1000" height="1000"></canvas>
 <div class="controls">
         <!-- Curve 1 Controls -->
         <div class="control-group">
