@@ -34,9 +34,9 @@ and the earlier version of the hypotrochoids line joining:
         <label for="skip-slider">skip: <span id="skip-value">1</span></label><br>
         <input type="range" id="skip-slider" min="1" max="160" value="1" step="1"><br>
         <label for="r-slider">r: <span id="r-value">10</span></label><br>
-        <input type="range" id="r-slider" min="1" max="160" value="10" step="10"><br>
+        <input type="range" id="r-slider" min="0" max="200" value="10" step="10"><br>
         <label for="nos_r-slider">nos_r: <span id="nos_r-value">1</span></label><br>
-        <input type="range" id="nos_r-slider" min="1" max="20" value="1" step="1"><br>
+        <input type="range" id="nos_r-slider" min="1" max="20" value="1" step="0.5"><br>
         <label for="d-slider">d: <span id="d-value">10</span></label><br>
         <input type="range" id="d-slider" min="10" max="200" value="10" step="10"><br>
     </div>
@@ -65,7 +65,7 @@ and the earlier version of the hypotrochoids line joining:
     // Update display and values dynamically
     let skip = parseInt(skipSlider.value);
     let r = parseInt(rSlider.value);
-    let nos_r = parseInt(nos_rSlider.value);
+    let nos_r = parseFloat(nos_rSlider.value);
     let d = parseInt(dSlider.value);
     let R = nos_r * r;
     //let numLines = f1*150;
@@ -85,7 +85,7 @@ and the earlier version of the hypotrochoids line joining:
     });
 
     nos_rSlider.addEventListener('input', () => {
-        nos_r = parseInt(nos_rSlider.value);
+        nos_r = parseFloat(nos_rSlider.value);
 	R = nos_r * r;
         nos_rValueDisplay.textContent = nos_r;
     	drawHeartLines();
