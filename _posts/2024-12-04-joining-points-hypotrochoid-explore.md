@@ -118,7 +118,7 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
 
 	then we get another point on the hypotrochoid jumping further by "skip" steps:
 
-            const { x: x2, y: y2 } = getPointOnHypotrochoid((i * skip) % totalPoints, totalPoints);
+            const { x: x2, y: y2 } = getPointOnHypotrochoid((i + skip) % totalPoints, totalPoints);
 
 	then we join the two point:
 
