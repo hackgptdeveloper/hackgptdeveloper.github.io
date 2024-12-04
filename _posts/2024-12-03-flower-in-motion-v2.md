@@ -13,33 +13,14 @@ Flower in Motion (v2)
         display: block;
         margin: 20px auto;
     }
-
     .controls {
         display: flex;
         justify-content: center;
         margin: 10px 0;
     }
-
     .slider-container {
         margin: 0 10px;
         text-align: center;
-    }
-
-    .footer-link {
-        position: absolute;
-        bottom: 20px;
-        text-align: center;
-        width: 100%;
-    }
-
-    .footer-link a {
-        font-size: 16px;
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .footer-link a:hover {
-        text-decoration: underline;
     }
 </style>
 
