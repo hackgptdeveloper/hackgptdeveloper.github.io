@@ -28,11 +28,13 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
 <div class="controls">
     <div class="slider-container">
         <label for="skip-slider">skip: <span id="skip-value">5</span></label><br>
-        <input type="range" id="skip-slider" min="1" max="160" value="1" step="1">
+        <input type="range" id="skip-slider" min="1" max="160" value="1" step="1"><br>
         <label for="r-slider">r: <span id="r-value">5</span></label><br>
-        <input type="range" id="r-slider" min="1" max="160" value="1" step="1">
+        <input type="range" id="r-slider" min="1" max="160" value="1" step="1"><br>
         <label for="nos_r-slider">nos_r: <span id="nos_r-value">5</span></label><br>
-        <input type="range" id="nos_r-slider" min="1" max="20" value="1" step="1">
+        <input type="range" id="nos_r-slider" min="1" max="20" value="1" step="1"><br>
+        <label for="d-slider">d: <span id="d-value">5</span></label><br>
+        <input type="range" id="d-slider" min="1" max="20" value="1" step="1"><br>
     </div>
 </div>
 <canvas id="heartCanvas" width="600" height="600"></canvas>
@@ -42,7 +44,6 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
     const width = canvas.width;
     const height = canvas.height;
 
-    const d = 150;
     const centerX = width / 2;
     const centerY = height / 2;
     const totalPoints = 160; // Total points around the circle
@@ -54,11 +55,14 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
     const rValueDisplay = document.getElementById('r-value');
     const nos_rSlider = document.getElementById('nos_r-slider');
     const nos_rValueDisplay = document.getElementById('nos_r-value');
+    const dSlider = document.getElementById('d-slider');
+    const dValueDisplay = document.getElementById('d-value');
 
     // Update display and values dynamically
     let skip = parseInt(skipSlider.value);
     let r = parseInt(rSlider.value);
     let nos_r = parseInt(nos_rSlider.value);
+    let d = parseInt(dSlider.value);
     let R = nos_r * r;
     //let numLines = f1*150;
     //let delta = (1 / numLines) * 2 * Math.PI;
@@ -79,6 +83,12 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
         nos_r = parseInt(nos_rSlider.value);
 	R = nos_r * r;
         nos_rValueDisplay.textContent = nos_r;
+    	drawHeartLines();
+    });
+
+    dSlider.addEventListener('input', () => {
+        d = parseInt(dSlider.value);
+        dValueDisplay.textContent = r;
     	drawHeartLines();
     });
 
