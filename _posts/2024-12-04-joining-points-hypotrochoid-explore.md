@@ -91,7 +91,7 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
         // Draw the connecting lines
         for (let i = 0; i < totalPoints; i++) {
             const { x: x1, y: y1 } = getPointOnHypotrochoid(i, totalPoints);
-            const { x: x2, y: y2 } = getPointOnHypotrochoid((i * skip) % totalPoints, totalPoints);
+            const { x: x2, y: y2 } = getPointOnHypotrochoid((i + skip) % totalPoints, totalPoints);
             
             ctx.beginPath();
             ctx.moveTo(x1, y1);
