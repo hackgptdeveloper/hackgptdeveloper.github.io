@@ -66,9 +66,7 @@ Line Art:   Drawing lines joining points on the hypotrochoid.   Compare this wit
 
     // Function to calculate the position of points around the circle
     function getPointOnHypotrochoid(index, totalPoints) {
-        const angle = (2 * Math.PI * r / Math.gcd(R, r) * index) / totalPoints;
-        //const x = centerX + radius * Math.cos(angle);
-        //const y = centerY + radius * Math.sin(angle);
+        const t = (2 * Math.PI * r / Math.gcd(R, r) * index) / totalPoints;
 
         const x = centerX + (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
         const y = centerY + (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
