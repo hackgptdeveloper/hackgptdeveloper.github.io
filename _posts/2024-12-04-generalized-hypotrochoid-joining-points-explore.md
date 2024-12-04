@@ -88,7 +88,7 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
 
     dSlider.addEventListener('input', () => {
         d = parseInt(dSlider.value);
-        dValueDisplay.textContent = r;
+        dValueDisplay.textContent = d;
     	drawHeartLines();
     });
 
