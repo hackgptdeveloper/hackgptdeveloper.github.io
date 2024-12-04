@@ -181,36 +181,29 @@ This is the result of direct addition of two hypotrochoids on top of each other,
         document.getElementById('R1').addEventListener('input', function() {
             R1 = parseInt(this.value);
             document.getElementById('R1-value').innerText = this.value;
-            drawHypotrochoids();
         });
         document.getElementById('r1').addEventListener('input', function() {
             r1 = parseInt(this.value);
             document.getElementById('r1-value').innerText = this.value;
-            drawHypotrochoids();
         });
         document.getElementById('d1').addEventListener('input', function() {
             d1 = parseInt(this.value);
             document.getElementById('d1-value').innerText = this.value;
-            drawHypotrochoids();
         });
         document.getElementById('R2').addEventListener('input', function() {
             R2 = parseInt(this.value);
             document.getElementById('R2-value').innerText = this.value;
-            drawHypotrochoids();
         });
         document.getElementById('r2').addEventListener('input', function() {
             r2 = parseInt(this.value);
             document.getElementById('r2-value').innerText = this.value;
-            drawHypotrochoids();
         });
         document.getElementById('d2').addEventListener('input', function() {
             d2 = parseInt(this.value);
             document.getElementById('d2-value').innerText = this.value;
-            drawHypotrochoids();
         });
         document.getElementById('color').addEventListener('input', function() {
             selectedColor = this.value;
-            drawColorGradient();
             drawHypotrochoids();
         });
 
