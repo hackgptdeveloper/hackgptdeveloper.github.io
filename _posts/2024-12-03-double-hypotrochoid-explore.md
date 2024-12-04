@@ -204,7 +204,7 @@ This is the result of direct addition of two hypotrochoids on top of each other,
         });
         document.getElementById('color').addEventListener('input', function() {
             selectedColor = this.value;
-            drawHypotrochoids();
+            drawColorGradient();
         });
 
         // Initialize the drawing and the color gradient
