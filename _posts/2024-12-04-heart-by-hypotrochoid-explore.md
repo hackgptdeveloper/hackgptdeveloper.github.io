@@ -67,19 +67,8 @@ Line Art:   Drawing lines joining points on the hypotrochoid.   Compare this wit
 
         const x = centerX + (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
         const y = centerY + (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+
         return { x, y };
-            colors.forEach((color, index) => {
-                gradient.addColorStop(index / (colors.length - 1), color);
-            });
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 2;
-
-
-            for (let t = 0; t <= 2 * Math.PI * r / Math.gcd(R, r); t += 0.01) {
-		if (t==0) 
-            	ctx.moveTo(x, y);
-		else
-                ctx.lineTo(x, y);
     }
 
     // Draw the numbered points and connect them with lines
