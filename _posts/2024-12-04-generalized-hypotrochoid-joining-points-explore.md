@@ -1,13 +1,13 @@
 ---
-title: "Joining points on the circle"
+title: "Joining points on the hypotrochoids"
 tags:
   - Graphics
 ---
 
-Joining points on the circle to form heart-shaped line art.   If instead of circle we used hyptrochoid then we will get the following:
+Joining points on the hypotrochoid.   Compare this with that of joining lines on the circle.
 
-[https://hackgptdeveloper.github.io/2024/12/04/joining-points-hypotrochoid-explore.html](https://hackgptdeveloper.github.io/2024/12/04/joining-points-hypotrochoid-explore.html)
- 
+[https://hackgptdeveloper.github.io/2024/12/04/heart5.html](https://hackgptdeveloper.github.io/2024/12/04/heart5.html)
+
 <style>
     canvas {
         border: 1px solid black;
@@ -29,6 +29,10 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
     <div class="slider-container">
         <label for="skip-slider">skip: <span id="skip-value">5</span></label><br>
         <input type="range" id="skip-slider" min="1" max="160" value="1" step="1">
+        <label for="r-slider">r: <span id="r-value">5</span></label><br>
+        <input type="range" id="r-slider" min="1" max="160" value="1" step="1">
+        <label for="nos_r-slider">nos_r: <span id="nos_r-value">5</span></label><br>
+        <input type="range" id="nos_r-slider" min="1" max="160" value="1" step="1">
     </div>
 </div>
 <canvas id="heartCanvas" width="600" height="600"></canvas>
@@ -38,7 +42,9 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
     const width = canvas.width;
     const height = canvas.height;
 
-    const radius = Math.min(width, height) / 2 - 20; // Circle radius
+    const R = 160;
+    const r = 40;
+    const d = 150;
     const centerX = width / 2;
     const centerY = height / 2;
     const totalPoints = 160; // Total points around the circle
@@ -46,9 +52,16 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
     // Get sliders and display elements
     const skipSlider = document.getElementById('skip-slider');
     const skipValueDisplay = document.getElementById('skip-value');
+    const rSlider = document.getElementById('r-slider');
+    const rValueDisplay = document.getElementById('r-value');
+    const nos_rSlider = document.getElementById('nos_r-slider');
+    const nos_rValueDisplay = document.getElementById('nos_r-value');
 
     // Update display and values dynamically
     let skip = parseInt(skipSlider.value);
+    let r = parseInt(rSlider.value);
+    let nos_r = parseInt(nos_rSlider.value);
+    let R = nos_r * r;
     //let numLines = f1*150;
     //let delta = (1 / numLines) * 2 * Math.PI;
 
@@ -57,11 +70,31 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
         skipValueDisplay.textContent = skip;
     	drawHeartLines();
     });
+
+    rSlider.addEventListener('input', () => {
+        r = parseInt(rSlider.value);
+        rValueDisplay.textContent = r;
+    	drawHeartLines();
+    });
+
+    nos_rSlider.addEventListener('input', () => {
+        nos_r = parseInt(nos_rSlider.value);
+	R = nos_r * r;
+        nos_rValueDisplay.textContent = nos_r;
+    	drawHeartLines();
+    });
+
+    Math.gcd = function(a, b) {
+     	return b ? Math.gcd(b, a % b) : Math.abs(a);
+    };
+
     // Function to calculate the position of points around the circle
-    function getPointOnCircle(index, totalPoints) {
-        const angle = (2 * Math.PI * index) / totalPoints;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
+    function getPointOnHypotrochoid(index, totalPoints) {
+        const t = (2 * Math.PI * r / Math.gcd(R, r) * index) / totalPoints;
+
+        const x = centerX + (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+        const y = centerY + (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+
         return { x, y };
     }
 
@@ -72,7 +105,7 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
         // Draw the circle points
         ctx.fillStyle = "black";
         for (let i = 0; i < totalPoints; i++) {
-            const { x, y } = getPointOnCircle(i, totalPoints);
+            const { x, y } = getPointOnHypotrochoid(i, totalPoints);
             ctx.beginPath();
             ctx.arc(x, y, 3, 0, 2 * Math.PI);
             ctx.fill();
@@ -81,8 +114,8 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
 
         // Draw the connecting lines
         for (let i = 0; i < totalPoints; i++) {
-            const { x: x1, y: y1 } = getPointOnCircle(i, totalPoints);
-            const { x: x2, y: y2 } = getPointOnCircle((i * skip) % totalPoints, totalPoints);
+            const { x: x1, y: y1 } = getPointOnHypotrochoid(i, totalPoints);
+            const { x: x2, y: y2 } = getPointOnHypotrochoid((i + skip) % totalPoints, totalPoints);
             
             ctx.beginPath();
             ctx.moveTo(x1, y1);
@@ -103,8 +136,16 @@ Joining points on the circle to form heart-shaped line art.   If instead of circ
 
 
 ```
-            const { x: x1, y: y1 } = getPointOnCircle(i, totalPoints);
-            const { x: x2, y: y2 } = getPointOnCircle((i * skip) % totalPoints, totalPoints);
+	First we get one of the point on the hypotrochoid:
+
+            const { x: x1, y: y1 } = getPointOnHypotrochoid(i, totalPoints);
+
+	then we get another point on the hypotrochoid jumping further by "skip" steps:
+
+            const { x: x2, y: y2 } = getPointOnHypotrochoid((i + skip) % totalPoints, totalPoints);
+
+	then we join the two point:
+
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
 ```
