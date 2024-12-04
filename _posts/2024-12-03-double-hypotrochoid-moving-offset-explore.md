@@ -23,9 +23,11 @@ Hypotrochoid Curves with Rotation and Offset Control
         }
 </style>
 <canvas id="canvas" width="800" height="800"></canvas>
-<input type="range" id="offsetSlider" min="1" max="239" value="1">
-<label for="offsetSlider">Offset</label>
-<button id="startStopButton">Start</button>
+<div>
+	<input type="range" id="offsetSlider" min="1" max="239" value="1">
+	<label for="offsetSlider">Offset</label>
+	<button id="startStopButton">Start</button>
+</div>
 <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
