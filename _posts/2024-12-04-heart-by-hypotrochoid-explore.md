@@ -1,12 +1,12 @@
 ---
-title: "Heart 5"
+title: "Joining points on the hypotrochoids"
 tags:
   - Graphics
 ---
 
-Line Art:   Drawing lines joining points on the hypotrochoid.   Compare this with that of joining lines on the circle.
+Joining points on the hypotrochoid.   Compare this with that of joining lines on the circle.
 
-(https://hackgptdeveloper.github.io/2024/12/04/heart5.html)[https://hackgptdeveloper.github.io/2024/12/04/heart5.html]
+[https://hackgptdeveloper.github.io/2024/12/04/heart5.html](https://hackgptdeveloper.github.io/2024/12/04/heart5.html)
 
 <style>
     canvas {
@@ -112,8 +112,16 @@ Line Art:   Drawing lines joining points on the hypotrochoid.   Compare this wit
 
 
 ```
+	First we get one of the point on the hypotrochoid:
+
             const { x: x1, y: y1 } = getPointOnHypotrochoid(i, totalPoints);
+
+	then we get another point on the hypotrochoid jumping further by "skip" steps:
+
             const { x: x2, y: y2 } = getPointOnHypotrochoid((i * skip) % totalPoints, totalPoints);
+
+	then we join the two point:
+
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
 ```
