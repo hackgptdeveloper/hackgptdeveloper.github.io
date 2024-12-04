@@ -27,14 +27,14 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
 </style>
 <div class="controls">
     <div class="slider-container">
-        <label for="skip-slider">skip: <span id="skip-value">5</span></label><br>
+        <label for="skip-slider">skip: <span id="skip-value">1</span></label><br>
         <input type="range" id="skip-slider" min="1" max="160" value="1" step="1"><br>
-        <label for="r-slider">r: <span id="r-value">5</span></label><br>
-        <input type="range" id="r-slider" min="1" max="160" value="1" step="1"><br>
-        <label for="nos_r-slider">nos_r: <span id="nos_r-value">5</span></label><br>
+        <label for="r-slider">r: <span id="r-value">10</span></label><br>
+        <input type="range" id="r-slider" min="1" max="160" value="10" step="10"><br>
+        <label for="nos_r-slider">nos_r: <span id="nos_r-value">1</span></label><br>
         <input type="range" id="nos_r-slider" min="1" max="20" value="1" step="1"><br>
-        <label for="d-slider">d: <span id="d-value">5</span></label><br>
-        <input type="range" id="d-slider" min="1" max="20" value="1" step="1"><br>
+        <label for="d-slider">d: <span id="d-value">10</span></label><br>
+        <input type="range" id="d-slider" min="10" max="200" value="10" step="10"><br>
     </div>
 </div>
 <canvas id="heartCanvas" width="600" height="600"></canvas>
