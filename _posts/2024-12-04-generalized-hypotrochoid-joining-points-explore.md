@@ -32,7 +32,7 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
         <label for="r-slider">r: <span id="r-value">5</span></label><br>
         <input type="range" id="r-slider" min="1" max="160" value="1" step="1">
         <label for="nos_r-slider">nos_r: <span id="nos_r-value">5</span></label><br>
-        <input type="range" id="nos_r-slider" min="1" max="160" value="1" step="1">
+        <input type="range" id="nos_r-slider" min="1" max="20" value="1" step="1">
     </div>
 </div>
 <canvas id="heartCanvas" width="600" height="600"></canvas>
@@ -42,8 +42,6 @@ Joining points on the hypotrochoid.   Compare this with that of joining lines on
     const width = canvas.width;
     const height = canvas.height;
 
-    const R = 160;
-    const r = 40;
     const d = 150;
     const centerX = width / 2;
     const centerY = height / 2;
