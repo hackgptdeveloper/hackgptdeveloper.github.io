@@ -35,7 +35,7 @@ An improvement on:
         const freqValue = document.getElementById('freqValue');
         
         let FREQ = parseFloat(freqRange.value); // Initialize FREQ from range input
-        const nPoints = 240;
+        const nPoints = 300;
         let step = 1;
         let rotationAngle = 0;
 
