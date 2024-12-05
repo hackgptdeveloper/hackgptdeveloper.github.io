@@ -113,7 +113,7 @@ An improvement on:
             drawPoints(rotatedPoints);
             drawLines(rotatedPoints, step);
             
-            step = (step % (nPoints - 1)) + 1; // Increment step
+            step = (step + 1) % nPoints; // Increment step
             rotationAngle += 3; // Rotate by 3 degrees
 
             setTimeout(animate, 200); // Control animation speed
