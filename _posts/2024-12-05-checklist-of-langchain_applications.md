@@ -1,5 +1,5 @@
 ---
-title: "Check of LangChain applications"
+title: "List of LangChain applications"
 tags:
   - Langchain
 ---
