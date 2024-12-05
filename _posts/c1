@@ -1,0 +1,27 @@
+    canvas {
+        border: 1px solid black;
+        background-color: #333;
+        display: block;
+        margin: 20px auto;
+    }
+    .controls {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+    .slider-container {
+        margin: 0 10px;
+        text-align: center;
+    }
+</style>
+
+<div class="controls">
+    <div class="slider-container">
+        <label for="f1-slider">f1: <span id="f1-value">1</span></label><br>
+        <input type="range" id="f1-slider" min="1" max="20" value="1" step="1">
+    </div>
+    <div class="slider-container">
+        <label for="f2-slider">f2: <span id="f2-value">1</span></label><br>
+        <input type="range" id="f2-slider" min="1" max="20" value="1" step="1">
+    </div>
+</div>
