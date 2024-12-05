@@ -70,27 +70,40 @@ Double polygon double rotation
       return points;
     }
 
-    function drawPolygon(vertices, color) {
+    function drawPolygon(points, color, shine = false) {
       ctx.beginPath();
-      ctx.moveTo(vertices[0].x, vertices[0].y);
-      for (let i = 1; i < vertices.length; i++) {
-        ctx.lineTo(vertices[i].x, vertices[i].y);
-      }
-      ctx.closePath();
       ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      points.forEach((point, index) => {
+        const nextPoint = points[(index + 1) % points.length];
+        ctx.moveTo(point.x, point.y);
+        ctx.lineTo(nextPoint.x, nextPoint.y);
+      });
       ctx.stroke();
+
+      // Draw vertices with shine effect
+      points.forEach((point) => {
+        const gradient = ctx.createRadialGradient(point.x, point.y, 1, point.x, point.y, 5);
+        gradient.addColorStop(0, "white");
+        gradient.addColorStop(1, color);
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, shine ? 5 : 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
     }
 
-    function connectVertices(innerPoints, outerPoints) {
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-      innerPoints.forEach(innerPoint => {
-        outerPoints.forEach(outerPoint => {
-          ctx.beginPath();
+    function drawConnections(innerPoints, outerPoints) {
+      ctx.beginPath();
+      ctx.strokeStyle = "#666";
+      ctx.lineWidth = 1;
+      innerPoints.forEach((innerPoint) => {
+        outerPoints.forEach((outerPoint) => {
           ctx.moveTo(innerPoint.x, innerPoint.y);
           ctx.lineTo(outerPoint.x, outerPoint.y);
-          ctx.stroke();
         });
       });
+      ctx.stroke();
     }
 
     function animate() {
@@ -98,19 +111,18 @@ Double polygon double rotation
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-
       const outerRadius = 200;
       const innerRadius = 100;
 
       const outerPoints = getPolygonVertices(centerX, centerY, outerRadius, outerVertices, outerAngle);
       const innerPoints = getPolygonVertices(centerX, centerY, innerRadius, innerVertices, innerAngle);
 
-      connectVertices(innerPoints, outerPoints);
-      drawPolygon(outerPoints, 'red');
-      drawPolygon(innerPoints, 'blue');
+      drawConnections(innerPoints, outerPoints);
+      drawPolygon(outerPoints, "#0f0", true);
+      drawPolygon(innerPoints, "#f00", true);
 
-      outerAngle += outerSpeed * 0.01;
-      innerAngle += innerSpeed * 0.01;
+      outerAngle += (Math.PI / 180) * outerSpeed;
+      innerAngle += (Math.PI / 180) * innerSpeed;
 
       requestAnimationFrame(animate);
     }
