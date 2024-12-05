@@ -4,7 +4,10 @@ tags:
   - Graphics
 ---
 
-Variable Petal Lines Animation
+Variable Petal Lines Animation (v2) 
+
+An improvement on:
+[https://hackgptdeveloper.github.io/2024/11/24/variable-petal-rotate.html](https://hackgptdeveloper.github.io/2024/11/24/variable-petal-rotate.html)
 
 <style>
         canvas {
@@ -32,14 +35,13 @@ Variable Petal Lines Animation
         const freqValue = document.getElementById('freqValue');
         
         let FREQ = parseFloat(freqRange.value); // Initialize FREQ from range input
-        let nPoints = 240;
+        const nPoints = 240;
         let step = 1;
         let rotationAngle = 0;
 
         freqRange.addEventListener('input', () => {
             FREQ = parseFloat(freqRange.value); // Update FREQ whenever the slider changes
             freqValue.textContent = FREQ.toFixed(1); // Update displayed value
-            nPoints = FREQ * 240;
         });
 
         function getPoints() {
@@ -50,7 +52,7 @@ Variable Petal Lines Animation
 
             for (let i = 0; i < nPoints; i++) {
                 const theta = (2 * Math.PI * i) / nPoints;
-                const r = Math.cos(FREQ * theta);
+                const r = Math.cos(FREQ * theta)*Math.cos(theta);
                 const x = centerX + radius * r * Math.cos(theta);
                 const y = centerY + radius * r * Math.sin(theta);
                 points.push({ x, y });
