@@ -1,0 +1,206 @@
+---
+title: "Crypto Currency Setup Notes"
+tags:
+  - crypto
+---
+
+***Crypto Currency Setup Notes***
+
+- **Cryptocurrency Investing 101: The Ultimate Guide**:
+  - [https://gist.github.com/c682b4ddca5d6cd3a29afed4c50f1e20](https://gist.github.com/c682b4ddca5d6cd3a29afed4c50f1e20)
+- **Instruction on how to run HMC crypto trading bot on Bybit**:
+  - [https://gist.github.com/AkshaySapra/c4f9af6aff7966d13da7fb9eb8e40fdd](https://gist.github.com/AkshaySapra/c4f9af6aff7966d13da7fb9eb8e40fdd)
+- **Art of trading and analyse Bitcoin data_part1**:
+  - [https://gist.github.com/femtotrader/cd63f84c0e6bb5d483bd](https://gist.github.com/femtotrader/cd63f84c0e6bb5d483bd)
+- **A realtime order book for trading Spot on the Kraken ...**:
+  - [https://gist.github.com/btschwertfeger/6eea0eeff193f7cd1b262cfce4f0eb51](https://gist.github.com/btschwertfeger/6eea0eeff193f7cd1b262cfce4f0eb51)
+- **Why Kwenta is My Preferred Platform for Trading Perps on- ...**:
+  - [https://gist.github.com/f13end/9c24ab90d03cf8f43a0adf0b8ef87dcd](https://gist.github.com/f13end/9c24ab90d03cf8f43a0adf0b8ef87dcd)
+- **ChatGPT trading bot with ZenBot**:
+  - [https://gist.github.com/Manojbhat09/cfeba542ee6ffb81ec46a65e66c68e64](https://gist.github.com/Manojbhat09/cfeba542ee6ffb81ec46a65e66c68e64)
+- **No, your cryptocurrency cannot work**:
+  - [https://gist.github.com/joepie91/daa93b9686f554ac7097158383b97838?permalink_comment_id=4000123](https://gist.github.com/joepie91/daa93b9686f554ac7097158383b97838?permalink_comment_id=4000123)
+- **Explanation of how whales are disrupting the crypto market ...**:
+  - [https://gist.github.com/Senrith3/171710d54ae7963005c91f6f3b72b84e](https://gist.github.com/Senrith3/171710d54ae7963005c91f6f3b72b84e)
+- **Develop a React Cryptocurrency App and Master Redux ...**:
+  - [https://gist.github.com/adrianhajdin/1008c664fe7896b316f5efbff8d97935?permalink_comment_id=3999363](https://gist.github.com/adrianhajdin/1008c664fe7896b316f5efbff8d97935?permalink_comment_id=3999363)
+- **Develop a React Cryptocurrency App and Master Redux ...**:
+  - [https://gist.github.com/adrianhajdin/1008c664fe7896b316f5efbff8d97935](https://gist.github.com/adrianhajdin/1008c664fe7896b316f5efbff8d97935)
+- **Development Framework Trading and Backtesting ...**:
+  - [https://gist.github.com/18182324/7fd77218730c576495ae8fd1660dbad5](https://gist.github.com/18182324/7fd77218730c576495ae8fd1660dbad5)
+- **Short script for finding Binance Triangle arbitrage ...**:
+  - [https://gist.github.com/Valian/d16ef72a0e17ee82c0acf606d6a744d7](https://gist.github.com/Valian/d16ef72a0e17ee82c0acf606d6a744d7)
+- **web3-companies.tsv**:
+  - [https://gist.github.com/connor11528/85572182d80eb879925f65c16548a8ae](https://gist.github.com/connor11528/85572182d80eb879925f65c16548a8ae)
+- **Open-source blockchain security research (contributions ...**:
+  - [https://gist.github.com/TheHackerDev/403b8cb99eae2f52565874d8547fbc94](https://gist.github.com/TheHackerDev/403b8cb99eae2f52565874d8547fbc94)
+- **Crypto coins descriptions**:
+  - [https://gist.github.com/huseyinerdall/3806056b329459cb2486a94c0c0c9700](https://gist.github.com/huseyinerdall/3806056b329459cb2486a94c0c0c9700)
+- **summary notes on blockchain whitepaper reading**:
+  - [https://gist.github.com/miguelmota/c083bc4037a201e8089f7abc9e458527](https://gist.github.com/miguelmota/c083bc4037a201e8089f7abc9e458527)
+- **rUv ruvnet**:
+  - [https://gist.github.com/ruvnet](https://gist.github.com/ruvnet)
+- **Freewallet FAQ 2023 v0.9.23 - Write Up - Draft #5**:
+  - [https://gist.github.com/davestaxcp/1e2cc086a13c9a2d045876852b57e5be](https://gist.github.com/davestaxcp/1e2cc086a13c9a2d045876852b57e5be)
+- **Open-source blockchain security research (contributions ...**:
+  - [https://gist.github.com/1d3cb7c7c40e7cb528e58e36f486dbba](https://gist.github.com/1d3cb7c7c40e7cb528e58e36f486dbba)
+- **Dont trust James Altucher on Crypto.md**:
+  - [https://gist.github.com/Wrenbjor/d2e7e63f6e3938a2783d28f5210cf797](https://gist.github.com/Wrenbjor/d2e7e63f6e3938a2783d28f5210cf797)
+- **ESCHATON.md**:
+  - [https://gist.github.com/aakselrod/9964667](https://gist.github.com/aakselrod/9964667)
+- **Bot18 Licensing Model**:
+  - [https://gist.github.com/carlos8f/24643623499e9dcc57373b807ef90695](https://gist.github.com/carlos8f/24643623499e9dcc57373b807ef90695)
+- **Crypto Beta · GitHub**:
+  - [https://gist.github.com/liquiditygoblin/e8053cb6c3ae62b23f3b1c7bb302b19b](https://gist.github.com/liquiditygoblin/e8053cb6c3ae62b23f3b1c7bb302b19b)
+- **hide your atomic swaps using ordinary payment channels**:
+  - [https://gist.github.com/markblundeberg/ee027cb12b1e882145bebcd658a1630f](https://gist.github.com/markblundeberg/ee027cb12b1e882145bebcd658a1630f)
+- **robcowart's gists**:
+  - [https://gist.github.com/robcowart](https://gist.github.com/robcowart)
+- **jnun's gists**:
+  - [https://gist.github.com/jnun](https://gist.github.com/jnun)
+- **The 24 Risks of Equities with Michael Saylor**:
+  - [https://gist.github.com/bitstein/a47c5bcbf6d121cf30d5f839f0422d57](https://gist.github.com/bitstein/a47c5bcbf6d121cf30d5f839f0422d57)
+- **Predictive Narrative Framework & Prompt**:
+  - [https://gist.github.com/ruvnet/9aae2bf9b0f2dee01511d1118d817eb4](https://gist.github.com/ruvnet/9aae2bf9b0f2dee01511d1118d817eb4)
+- **The Official Lite Paper of MHGN: Money Hoarders Global ...**:
+  - [https://gist.github.com/moneyhoardersglobalnetwork/1aecdcfd320063f15d8fb28b15df3e64](https://gist.github.com/moneyhoardersglobalnetwork/1aecdcfd320063f15d8fb28b15df3e64)
+- **BusinessFinance.csv**:
+  - [https://gist.github.com/yyaaa1/3c3fe56101e54436773a939dff7bad95](https://gist.github.com/yyaaa1/3c3fe56101e54436773a939dff7bad95)
+- **Vow Is For Corporations.md**:
+  - [https://gist.github.com/ekkis/fb9e2dd99d250d9dbc472534953a401e](https://gist.github.com/ekkis/fb9e2dd99d250d9dbc472534953a401e)
+- **Extracting Stock Data Using a Python Library**:
+  - [https://gist.github.com/mmajdali/dac1d2132b85f30f9b632a224ecaf74d](https://gist.github.com/mmajdali/dac1d2132b85f30f9b632a224ecaf74d)
+- **Bitcoin Automated Alert Mock-up (SatRday 2018)**:
+  - [https://gist.github.com/vishalinp/b0916c06455ec0e39d6bd69eff70786d](https://gist.github.com/vishalinp/b0916c06455ec0e39d6bd69eff70786d)
+- **Tutorial to seting up a django website in production.**:
+  - [https://gist.github.com/Atem18/4696071](https://gist.github.com/Atem18/4696071)
+- **CFM 101 Final Assignment**:
+  - [https://gist.github.com/Ti1mmy/03a35f7816a1a3ba7c00df52d2bf80d0](https://gist.github.com/Ti1mmy/03a35f7816a1a3ba7c00df52d2bf80d0)
+- **A minimal reference to pine script v5**:
+  - [https://gist.github.com/kaigouthro/b95a8b4c43e607ea71897e204904b9c0](https://gist.github.com/kaigouthro/b95a8b4c43e607ea71897e204904b9c0)
+- **all twitter mentions of eip-1559 from the beginning of time ...**:
+  - [https://gist.github.com/tayvano/4fab15926fc3aae9632bde40cdd0e530?h=1](https://gist.github.com/tayvano/4fab15926fc3aae9632bde40cdd0e530?h=1)
+- **History|-1080ea1c|entries.json**:
+  - [https://gist.github.com/mike-bricknell-barlow/05f89424a18b05da2e72e4733c3d46f4](https://gist.github.com/mike-bricknell-barlow/05f89424a18b05da2e72e4733c3d46f4)
+- **secret size attack on cross-chain hash lock smart contracts**:
+  - [https://gist.github.com/markblundeberg/7a932c98179de2190049f5823907c016](https://gist.github.com/markblundeberg/7a932c98179de2190049f5823907c016)
+- **znc-freenode-#bitcoincash.log**:
+  - [https://gist.github.com/dymurray/5db686cc4e1add665b230f87ebaeafe8](https://gist.github.com/dymurray/5db686cc4e1add665b230f87ebaeafe8)
+- **dump.txt · GitHub**:
+  - [https://gist.github.com/vivekascoder/f27f0996663bd583aadd4aa5d9e7d2d5](https://gist.github.com/vivekascoder/f27f0996663bd583aadd4aa5d9e7d2d5)
+- **Indexed Solana Repositories April 2023 (expect 2% false ...**:
+  - [https://gist.github.com/TABASCOatw/f8a0b824a2ef153f4da11e89b1a6d7ba](https://gist.github.com/TABASCOatw/f8a0b824a2ef153f4da11e89b1a6d7ba)
+- **seed.csv**:
+  - [https://gist.github.com/henryanand/41f2c280d439545e21319796211bcf2d](https://gist.github.com/henryanand/41f2c280d439545e21319796211bcf2d)
+- **list of apps on the unplugged "app store" returned from /api ...**:
+  - [https://gist.github.com/aemmitt-ns/ad3f1d3ff34c36c0206fe6216fd56e19](https://gist.github.com/aemmitt-ns/ad3f1d3ff34c36c0206fe6216fd56e19)
+- **Final Assignment_Webscraping.ipynb**:
+  - [https://gist.github.com/AdamHuckaby/eb786d992657af16edea088993db8478](https://gist.github.com/AdamHuckaby/eb786d992657af16edea088993db8478)
+- **Awesome Quant resources**:
+  - [https://gist.github.com/sherrytp/58e0fdd4cfea1cba5dd4fd7aa168a322](https://gist.github.com/sherrytp/58e0fdd4cfea1cba5dd4fd7aa168a322)
+- **Deleted tweets by Brian Armstrong, CEO of Coinbase**:
+  - [https://gist.github.com/travisbrown/ef999d98e9f79c05221bebb36563e3ec](https://gist.github.com/travisbrown/ef999d98e9f79c05221bebb36563e3ec)
+- **capstone_class_data.csv · GitHub**:
+  - [https://gist.github.com/rasecresende/a6ed9119f2404dc16e43063fa6893cde](https://gist.github.com/rasecresende/a6ed9119f2404dc16e43063fa6893cde)
+- **PostgreSQL HA on Kubernetes**:
+  - [https://gist.github.com/akhdaniel/791719b42e0dc7a8c7902914382e75ac?permalink_comment_id=4116263](https://gist.github.com/akhdaniel/791719b42e0dc7a8c7902914382e75ac?permalink_comment_id=4116263)
+- **awesome-selfhosted-sorted-by-stars.md**:
+  - [https://gist.github.com/kvnxiao/27c14760cbec35b4e312e34c856b51a8?permalink_comment_id=5293763](https://gist.github.com/kvnxiao/27c14760cbec35b4e312e34c856b51a8?permalink_comment_id=5293763)
+- **sitemap.xml**:
+  - [https://gist.github.com/qnoox/88a1e37f27210a2396f99b01a23df746](https://gist.github.com/qnoox/88a1e37f27210a2396f99b01a23df746)
+- **awice · GitHub**:
+  - [https://gist.github.com/himerzi/d841c9c632425ee2d2821d22626ac390](https://gist.github.com/himerzi/d841c9c632425ee2d2821d22626ac390)
+- **starred · GitHub**:
+  - [https://gist.github.com/gruberdev/a5a2ddd58d205e9b3495df6dbe345664](https://gist.github.com/gruberdev/a5a2ddd58d205e9b3495df6dbe345664)
+- **App Store Review Guidelines.txt**:
+  - [https://gist.github.com/zeero/777939a856733347b81ac8639f77c6a8](https://gist.github.com/zeero/777939a856733347b81ac8639f77c6a8)
+- **dependents.py · GitHub**:
+  - [https://gist.github.com/samuelcolvin/cf692a2433863ea44c1059cfe751a08a](https://gist.github.com/samuelcolvin/cf692a2433863ea44c1059cfe751a08a)
+- **databricks-dolly-15k.csv**:
+  - [https://gist.github.com/aniketmaurya/b8e5bd3f1594bd31ed34375ed916f075](https://gist.github.com/aniketmaurya/b8e5bd3f1594bd31ed34375ed916f075)
+- **johnleung8888**:
+  - [https://gist.github.com/johnleung8888?direction=asc&sort=updated](https://gist.github.com/johnleung8888?direction=asc&sort=updated)
+- **Label layout example**:
+  - [https://gist.github.com/ColinEberhardt/27508a7c0832d6e8132a9d1d8aaf231c/a49aac43f1bd770506dc3660aba149193f7def8b](https://gist.github.com/ColinEberhardt/27508a7c0832d6e8132a9d1d8aaf231c/a49aac43f1bd770506dc3660aba149193f7def8b)
+- **Josephrp's gists**:
+  - [https://gist.github.com/Josephrp?direction=asc&sort=updated](https://gist.github.com/Josephrp?direction=asc&sort=updated)
+- **mabarm**:
+  - [https://gist.github.com/mabarm](https://gist.github.com/mabarm)
+- **devnews.sql**:
+  - [https://gist.github.com/anchetaWern/cacb62ab830d1793e81b](https://gist.github.com/anchetaWern/cacb62ab830d1793e81b)
+- **KTakitani**:
+  - [https://gist.github.com/KTakitani?direction=desc&sort=updated](https://gist.github.com/KTakitani?direction=desc&sort=updated)
+- **this is the content that supports my cv at https://grenade. ...**:
+  - [https://gist.github.com/grenade/8e487477663c8e57c7bf31e8371f454a](https://gist.github.com/grenade/8e487477663c8e57c7bf31e8371f454a)
+- **awesome-selfhosted-sorted-by-stars.md**:
+  - [https://gist.github.com/kvnxiao/27c14760cbec35b4e312e34c856b51a8](https://gist.github.com/kvnxiao/27c14760cbec35b4e312e34c856b51a8)
+- **List of repositories of PacktPublishing**:
+  - [https://gist.github.com/joaovitor/e1658abc0946ec9e5528c533f2f502a8](https://gist.github.com/joaovitor/e1658abc0946ec9e5528c533f2f502a8)
+- **Label layout example**:
+  - [https://gist.github.com/ColinEberhardt/27508a7c0832d6e8132a9d1d8aaf231c](https://gist.github.com/ColinEberhardt/27508a7c0832d6e8132a9d1d8aaf231c)
+- **chris Christina-an**:
+  - [https://gist.github.com/Christina-an](https://gist.github.com/Christina-an)
+- **Smokymirror81's gists**:
+  - [https://gist.github.com/Smokymirror81?direction=desc&sort=updated](https://gist.github.com/Smokymirror81?direction=desc&sort=updated)
+- **Which awesome resource has more awesomess in an ...**:
+  - [https://gist.github.com/jaimevalero/3db5c5753373b37d1e687700d2039b07?permalink_comment_id=2354141](https://gist.github.com/jaimevalero/3db5c5753373b37d1e687700d2039b07?permalink_comment_id=2354141)
+- **AWS re:Invent 2024 Sessions**:
+  - [https://gist.github.com/timothyjrogers/1b239edc65ebaeb239676992247ddad5](https://gist.github.com/timothyjrogers/1b239edc65ebaeb239676992247ddad5)
+- **Throughput Database Github Keywords**:
+  - [https://gist.github.com/SimonGoring/a89f5103dcb1b518a978709c457bf037](https://gist.github.com/SimonGoring/a89f5103dcb1b518a978709c457bf037)
+- **recent-activity.json**:
+  - [https://gist.github.com/plibither8/ea3780e4764315e354bc3f0655c81814](https://gist.github.com/plibither8/ea3780e4764315e354bc3f0655c81814)
+- **awesome-go-sorted-by-stars-2019-12-30.md**:
+  - [https://gist.github.com/kvnxiao/cb432fca8cd9b59e325286b8f33cf53d](https://gist.github.com/kvnxiao/cb432fca8cd9b59e325286b8f33cf53d)
+- **react_samples_list.md**:
+  - [https://gist.github.com/nghuuphuoc/302fb8ebc73d7424fb6a95272b8a1e6d](https://gist.github.com/nghuuphuoc/302fb8ebc73d7424fb6a95272b8a1e6d)
+- **React Samples List · GitHub**:
+  - [https://gist.github.com/jpalala/01226fd38fbb421279ef97d62d394c23?permalink_comment_id=2211555](https://gist.github.com/jpalala/01226fd38fbb421279ef97d62d394c23?permalink_comment_id=2211555)
+- **monster-transcript.txt**:
+  - [https://gist.github.com/molly/88eae60e2f9db9031c1661720e827e36](https://gist.github.com/molly/88eae60e2f9db9031c1661720e827e36)
+- **atomicdex-api.md**:
+  - [https://gist.github.com/blue-santa/5b9992a1620c6449bed8b0177a6f5503](https://gist.github.com/blue-santa/5b9992a1620c6449bed8b0177a6f5503)
+- **awesome-selfhosted-sorted-by-stars.md**:
+  - [https://gist.github.com/tomsihap/6dfce60165155dfef7d60293a5db1cd8](https://gist.github.com/tomsihap/6dfce60165155dfef7d60293a5db1cd8)
+- **Specifier vs LegacySpecifier analysis**:
+  - [https://gist.github.com/di/c4f02abf4041b61e2f0a3ca84163e0d7](https://gist.github.com/di/c4f02abf4041b61e2f0a3ca84163e0d7)
+- **Neo4j Twitter Graph**:
+  - [https://gist.github.com/mneedham/3c6a59fb5e7d87e20a2f5f1ae4fa2920](https://gist.github.com/mneedham/3c6a59fb5e7d87e20a2f5f1ae4fa2920)
+- **5000+ common words created as flashcards in logseq**:
+  - [https://gist.github.com/tridungpham/6cd0a46804025bfe1df62ee59d607c82](https://gist.github.com/tridungpham/6cd0a46804025bfe1df62ee59d607c82)
+- **shohrehsharifib**:
+  - [https://gist.github.com/shohrehsharifib](https://gist.github.com/shohrehsharifib)
+- **Financial offer/Business funding through Bank Instruments**:
+  - [https://gist.github.com/nathani01/556d4792e7fd55abd791ee2100112816?permalink_comment_id=2754443](https://gist.github.com/nathani01/556d4792e7fd55abd791ee2100112816?permalink_comment_id=2754443)
+- **1stleveldomainsbycount · GitHub**:
+  - [https://gist.github.com/bbhunter/51b9b094cf1d5d105e82b82055bd0fcc](https://gist.github.com/bbhunter/51b9b094cf1d5d105e82b82055bd0fcc)
+- **Odoo action window domain per user company.md**:
+  - [https://gist.github.com/akhdaniel/b0814992f66f719f0d8d4e74626370b6](https://gist.github.com/akhdaniel/b0814992f66f719f0d8d4e74626370b6)
+- **kenejane's gists**:
+  - [https://gist.github.com/kenejane](https://gist.github.com/kenejane)
+- **udemy-promocode-022017**:
+  - [https://gist.github.com/hscale/dabcf140d984571effa347ab181fd5e0](https://gist.github.com/hscale/dabcf140d984571effa347ab181fd5e0)
+- **Occurences of the word 'Chinese' in The Bulletin, 1880-1968**:
+  - [https://gist.github.com/wragge/25cd3de75048c401efe618115fcb881d](https://gist.github.com/wragge/25cd3de75048c401efe618115fcb881d)
+- **Default word list**:
+  - [https://gist.github.com/mjwsteenbergen/9ca33ead61d0c42475194ba1706139e2](https://gist.github.com/mjwsteenbergen/9ca33ead61d0c42475194ba1706139e2)
+- **btourn's gists**:
+  - [https://gist.github.com/btourn?direction=desc&sort=updated](https://gist.github.com/btourn?direction=desc&sort=updated)
+- **Our first AI autput**:
+  - [https://gist.github.com/duncte123/4f95fef712764440206c5e5f010bff6d](https://gist.github.com/duncte123/4f95fef712764440206c5e5f010bff6d)
+- **Source Draft for my main $$$ page.**:
+  - [https://gist.github.com/682304c5af3d63a0ea6279e1851b3ac4](https://gist.github.com/682304c5af3d63a0ea6279e1851b3ac4)
+- **Endavu Senior Front-End Engineer Take Home Assignment**:
+  - [https://gist.github.com/jesperborgstrup/a57aff4d66392b6c89473c57ef3eadf4](https://gist.github.com/jesperborgstrup/a57aff4d66392b6c89473c57ef3eadf4)
+- **Fathom Protocol 1.0 Whitepaper**:
+  - [https://gist.github.com/BaldyAsh/3676a18b003758057f634c9af2cfe49a](https://gist.github.com/BaldyAsh/3676a18b003758057f634c9af2cfe49a)
+- **List of most used passwords (Why this approach??)**:
+  - [https://gist.github.com/Lysak/a0ca30a3e6732d39199b27c170a8cd28](https://gist.github.com/Lysak/a0ca30a3e6732d39199b27c170a8cd28)
+- **A curated list of awesome Python frameworks, libraries, ...**:
+  - [https://gist.github.com/pvanfas/8b4518996136d1a5ffc79513b3105033](https://gist.github.com/pvanfas/8b4518996136d1a5ffc79513b3105033)
+- **trello public urls.md**:
+  - [https://gist.github.com/matsubo/fce759acc1449964047adebb8b861bb0](https://gist.github.com/matsubo/fce759acc1449964047adebb8b861bb0)
+- **Custom elements with attributes in httparchive**:
+  - [https://gist.github.com/zcorpan/56d1040e1afaa883b610c342c2e7a437](https://gist.github.com/zcorpan/56d1040e1afaa883b610c342c2e7a437)
+- **NYM · GitHub**:
+  - [https://gist.github.com/tsdcoin/c43cb5ede50903f31f72b9b5891b8b64](https://gist.github.com/tsdcoin/c43cb5ede50903f31f72b9b5891b8b64)
