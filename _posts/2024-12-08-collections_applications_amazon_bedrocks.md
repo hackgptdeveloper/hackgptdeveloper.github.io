@@ -1,0 +1,206 @@
+---
+title: "Examples of development of applications using Amazon Bedrocks"
+tags:
+  - AWS
+---
+
+***Examples of development of applications using Amazon Bedrocks***
+
+- **This script exemplifies the utilization of the AWS Bedrock ...**:
+  - [https://gist.github.com/addnightowl/0f08429a602ff84cf3b8ec7e0fdb8576](https://gist.github.com/addnightowl/0f08429a602ff84cf3b8ec7e0fdb8576)
+- **gettingstartedwithai's gists**:
+  - [https://gist.github.com/gettingstartedwithai](https://gist.github.com/gettingstartedwithai)
+- **AWS Powered WordPress (Bedrock)**:
+  - [https://gist.github.com/ajmalafif/9150212](https://gist.github.com/ajmalafif/9150212)
+- **Automated EKS setup with pod identity, AWS Bedrock ...**:
+  - [https://gist.github.com/inde5media/c53cc9033fd0629b3b45c75754ca8f17](https://gist.github.com/inde5media/c53cc9033fd0629b3b45c75754ca8f17)
+- **AWS re:Invent 2024 Sessions**:
+  - [https://gist.github.com/timothyjrogers/1b239edc65ebaeb239676992247ddad5](https://gist.github.com/timothyjrogers/1b239edc65ebaeb239676992247ddad5)
+- **ALL AWS Services JSON**:
+  - [https://gist.github.com/shubhamp-sf/2b0ea8a148f9acdece9b3c42702ff057](https://gist.github.com/shubhamp-sf/2b0ea8a148f9acdece9b3c42702ff057)
+- **List of AWS Service Principals**:
+  - [https://gist.github.com/shortjared/4c1e3fe52bdfa47522cfe5b41e5d6f22](https://gist.github.com/shortjared/4c1e3fe52bdfa47522cfe5b41e5d6f22)
+- **Using Bonito v1 on Amazon SageMaker to generate ...**:
+  - [https://gist.github.com/dgallitelli/170ad49235f6c17bb27b09a906c87ffd](https://gist.github.com/dgallitelli/170ad49235f6c17bb27b09a906c87ffd)
+- **List of AWS Service Principals**:
+  - [https://gist.github.com/shortjared/4c1e3fe52bdfa47522cfe5b41e5d6f22?permalink_comment_id=4163534](https://gist.github.com/shortjared/4c1e3fe52bdfa47522cfe5b41e5d6f22?permalink_comment_id=4163534)
+- **Turbo Engine**:
+  - [https://gist.github.com/11534408](https://gist.github.com/11534408)
+- **WIP: A mock API to be used in place of OpenAI endpoint ...**:
+  - [https://gist.github.com/oneamitj/c66baae30d723503bbbeeae61be55ec3](https://gist.github.com/oneamitj/c66baae30d723503bbbeeae61be55ec3)
+- **RAG Chatbot using Confluence**:
+  - [https://gist.github.com/chezou/2a6a58cd6bd21b001ca4d3c8d1318e14](https://gist.github.com/chezou/2a6a58cd6bd21b001ca4d3c8d1318e14)
+- **wordpress-documentation.md**:
+  - [https://gist.github.com/0bbc667ac448ea29cf2c165214569415](https://gist.github.com/0bbc667ac448ea29cf2c165214569415)
+- **Full Gem List Deployed in ruby applications monitored ...**:
+  - [https://gist.github.com/1250883](https://gist.github.com/1250883)
+- **wwwbbb8510's gists**:
+  - [https://gist.github.com/wwwbbb8510](https://gist.github.com/wwwbbb8510)
+- **Kotori316's gists · GitHub**:
+  - [https://gist.github.com/Kotori316](https://gist.github.com/Kotori316)
+- **SCRABBLE CHEATER YO**:
+  - [https://gist.github.com/971163](https://gist.github.com/971163)
+- **vids · GitHub**:
+  - [https://gist.github.com/4709576](https://gist.github.com/4709576)
+- **Trybe - Bootcamp: IA Generativa com AWS**:
+  - [https://gist.github.com/heliomarpm/f5f2aee0a6184f32981496e62bb17111](https://gist.github.com/heliomarpm/f5f2aee0a6184f32981496e62bb17111)
+- **olebedev's gists**:
+  - [https://gist.github.com/olebedev?direction=desc&sort=updated](https://gist.github.com/olebedev?direction=desc&sort=updated)
+- **Digram frequency in a common word list**:
+  - [https://gist.github.com/6054763](https://gist.github.com/6054763)
+- **Comenzi consola**:
+  - [https://gist.github.com/josanua/18d3a624f5da19bc265a4629aaa9b6dc](https://gist.github.com/josanua/18d3a624f5da19bc265a4629aaa9b6dc)
+- **13000 repositories · GitHub**:
+  - [https://gist.github.com/shakahl/31dce90015728ccddd31102c1273242a](https://gist.github.com/shakahl/31dce90015728ccddd31102c1273242a)
+- **gist:ca3b3bbff071f3b18c0d7da5171248f3**:
+  - [https://gist.github.com/JohnONolan/ca3b3bbff071f3b18c0d7da5171248f3](https://gist.github.com/JohnONolan/ca3b3bbff071f3b18c0d7da5171248f3)
+- **veri gud · GitHub**:
+  - [https://gist.github.com/MazeW/b75e9301188f3682dbbf3b4397808c68](https://gist.github.com/MazeW/b75e9301188f3682dbbf3b4397808c68)
+- **Popular Java class name prefixes.**:
+  - [https://gist.github.com/marcelkliemannel/27306557c9e926053df209d9be2adc1c](https://gist.github.com/marcelkliemannel/27306557c9e926053df209d9be2adc1c)
+- **pypi-download-stats-2024-03-01.json**:
+  - [https://gist.github.com/MartinThoma/c95c955352bd30b4cee06c0e9eff9715](https://gist.github.com/MartinThoma/c95c955352bd30b4cee06c0e9eff9715)
+- **Extract All Ruby Gem Names From - https://rubygems.org/ ...**:
+  - [https://gist.github.com/Splint3r7/c5aa692ea50365552932f56ab08a4e00](https://gist.github.com/Splint3r7/c5aa692ea50365552932f56ab08a4e00)
+- **harusametime's gists · GitHub**:
+  - [https://gist.github.com/harusametime?direction=desc&sort=updated](https://gist.github.com/harusametime?direction=desc&sort=updated)
+- **Hangman · GitHub**:
+  - [https://gist.github.com/daneah/303cf0d6650e50d721d75bf3afbebd22](https://gist.github.com/daneah/303cf0d6650e50d721d75bf3afbebd22)
+- **This Dataset contains Approx 1000 job listing for data ...**:
+  - [https://gist.github.com/naisargidave/a986ffee084bd1722e571db347b0ce4a](https://gist.github.com/naisargidave/a986ffee084bd1722e571db347b0ce4a)
+- **Linux Dotfiles**:
+  - [https://gist.github.com/Algorant/d1b3c7989cc23b3a25e9928fcf1f79c6](https://gist.github.com/Algorant/d1b3c7989cc23b3a25e9928fcf1f79c6)
+- **alexweberk's gists · GitHub**:
+  - [https://gist.github.com/alexweberk?direction=asc&sort=updated](https://gist.github.com/alexweberk?direction=asc&sort=updated)
+- **Testing Mozilla DeepSpeech for a Waasabi live ...**:
+  - [https://gist.github.com/flaki/3f112958308fe185ee9df700e7a51d36](https://gist.github.com/flaki/3f112958308fe185ee9df700e7a51d36)
+- **some acm data for fun.**:
+  - [https://gist.github.com/TerrorJack/ef1f8b231660ea3523bb](https://gist.github.com/TerrorJack/ef1f8b231660ea3523bb)
+- **neofetch.conf**:
+  - [https://gist.github.com/RichardBronosky/a5207af7702fb6b0c92b0a12c2bcb98e](https://gist.github.com/RichardBronosky/a5207af7702fb6b0c92b0a12c2bcb98e)
+- **Top 3000 Composer Packages**:
+  - [https://gist.github.com/jaydenireland/bf3aa72d19583d535338bb1c1c34b9c6](https://gist.github.com/jaydenireland/bf3aa72d19583d535338bb1c1c34b9c6)
+- **all_linked_skills.txt**:
+  - [https://gist.github.com/bragboy/89777a2eacb8ca46d2c13e44bf928b7e](https://gist.github.com/bragboy/89777a2eacb8ca46d2c13e44bf928b7e)
+- **roycewilliams-github-starred.md**:
+  - [https://gist.github.com/roycewilliams/b17feea61f39a96d75031930180ef6a6](https://gist.github.com/roycewilliams/b17feea61f39a96d75031930180ef6a6)
+- **aaronsw.com but as one markdown file but it's actually two ...**:
+  - [https://gist.github.com/chapmanjacobd/9a5d9eae393d059398b6b8b6369c0c71](https://gist.github.com/chapmanjacobd/9a5d9eae393d059398b6b8b6369c0c71)
+- **all companies · GitHub**:
+  - [https://gist.github.com/bojanbabic/f007ffd83ea20b1ac48812131325851e](https://gist.github.com/bojanbabic/f007ffd83ea20b1ac48812131325851e)
+- **English Dictionary + Definitions**:
+  - [https://gist.github.com/codorizzi/cc393e4ed88b2525b1b52a68cca4b75b](https://gist.github.com/codorizzi/cc393e4ed88b2525b1b52a68cca4b75b)
+- **Wordlist · GitHub**:
+  - [https://gist.github.com/yansern/26f3873d997f34537172](https://gist.github.com/yansern/26f3873d997f34537172)
+- **Master List of Logical Fallacies**:
+  - [https://gist.github.com/GLMeece/c902a83ddc1aadff95ff1bf4608987af](https://gist.github.com/GLMeece/c902a83ddc1aadff95ff1bf4608987af)
+- **python_hangman_game_comput...**:
+  - [https://gist.github.com/x011/ac232ac7f764738011602dd4f490a0f8](https://gist.github.com/x011/ac232ac7f764738011602dd4f490a0f8)
+- **real.planet.world-heritage.json**:
+  - [https://gist.github.com/rsicarelli/ba4b383a7b56c2f4292597e8c0965cc7](https://gist.github.com/rsicarelli/ba4b383a7b56c2f4292597e8c0965cc7)
+- **20240318 AWS生成AI体験ワークショップ JAWS-UG名古屋**:
+  - [https://gist.github.com/tsukumonasu/6bb265c33afec10297ba81abe8821219](https://gist.github.com/tsukumonasu/6bb265c33afec10297ba81abe8821219)
+- **RubyGems without "licenses" GemSpec license metadata ...**:
+  - [https://gist.github.com/kemitchell/641c56926f48003cdd4b](https://gist.github.com/kemitchell/641c56926f48003cdd4b)
+- **Python to find sequence of words from long to short ...**:
+  - [https://gist.github.com/ejrh/528c982eb4fe667e27f65a3b24ed35f6](https://gist.github.com/ejrh/528c982eb4fe667e27f65a3b24ed35f6)
+- **BairesDev Anagrams**:
+  - [https://gist.github.com/jbbn/a06ed0c63456f02d39e5cbfba0cc072a](https://gist.github.com/jbbn/a06ed0c63456f02d39e5cbfba0cc072a)
+- **kernel.txt**:
+  - [https://gist.github.com/RcColes/ee8c8c07a58e590e4ffe7d5681920bcd](https://gist.github.com/RcColes/ee8c8c07a58e590e4ffe7d5681920bcd)
+- **Anagram checker · GitHub**:
+  - [https://gist.github.com/leandrowd/e9ee3d9f05c2da272858](https://gist.github.com/leandrowd/e9ee3d9f05c2da272858)
+- **BeQuick Coding Challenge**:
+  - [https://gist.github.com/bobmeister/34413d83fb93506150e4](https://gist.github.com/bobmeister/34413d83fb93506150e4)
+- **Scopus bibliographical information about JVS papers ...**:
+  - [https://gist.github.com/zdealveindy/570edaff4e8e776e02d4277980bad842](https://gist.github.com/zdealveindy/570edaff4e8e776e02d4277980bad842)
+- **Raw data for golang.org/issue/31947. · GitHub**:
+  - [https://gist.github.com/dmitshur/39c7e2a101f7eb1d26692463efb98448](https://gist.github.com/dmitshur/39c7e2a101f7eb1d26692463efb98448)
+- **Create `username-generator.php` and see usage in ...**:
+  - [https://gist.github.com/wsams/e464d65621bc7151a6d8cd64bc2d61f4](https://gist.github.com/wsams/e464d65621bc7151a6d8cd64bc2d61f4)
+- **spark.ipynb**:
+  - [https://gist.github.com/david30907d/9aa5ae6b8f27fba81bf95ffc86c54a23?short_path=b122b8a](https://gist.github.com/david30907d/9aa5ae6b8f27fba81bf95ffc86c54a23?short_path=b122b8a)
+- **triviacheat.js · GitHub**:
+  - [https://gist.github.com/Meshiest/94aa6432fef6a64d48f9647ec1141301?permalink_comment_id=1742635](https://gist.github.com/Meshiest/94aa6432fef6a64d48f9647ec1141301?permalink_comment_id=1742635)
+- **neofetch · GitHub**:
+  - [https://gist.github.com/Janik-Tarverdyan/7a709ce6c971c9a04adc40dd4b744724](https://gist.github.com/Janik-Tarverdyan/7a709ce6c971c9a04adc40dd4b744724)
+- **Typo Correction Python**:
+  - [https://gist.github.com/LaobanAndMumu/44140e01eb382830476b9547ab1436fa](https://gist.github.com/LaobanAndMumu/44140e01eb382830476b9547ab1436fa)
+- **words · GitHub**:
+  - [https://gist.github.com/amias-channer/3b8b4344c1b09f2a96f3615b45ecb4e0](https://gist.github.com/amias-channer/3b8b4344c1b09f2a96f3615b45ecb4e0)
+- **wordz.lua · GitHub**:
+  - [https://gist.github.com/DoubleSlashDesign2/57424da5b8946ff4e897](https://gist.github.com/DoubleSlashDesign2/57424da5b8946ff4e897)
+- **A simple script to open notepad and type words that ...**:
+  - [https://gist.github.com/CodeByAidan/bb55af9115fcf72a5b9989a99d0e1eed](https://gist.github.com/CodeByAidan/bb55af9115fcf72a5b9989a99d0e1eed)
+- **T9 Dictionary**:
+  - [https://gist.github.com/sudipto80/2acccb95cd6d559bcf4c](https://gist.github.com/sudipto80/2acccb95cd6d559bcf4c)
+- **xray子域名爆破字典 提取自Version: 1.8.4/a47961e0 · GitHub**:
+  - [https://gist.github.com/akkuman/1097e1ba5a991c2993fe44f2fd8b7391](https://gist.github.com/akkuman/1097e1ba5a991c2993fe44f2fd8b7391)
+- **List of most used passwords (Why this approach??)**:
+  - [https://gist.github.com/Lysak/a0ca30a3e6732d39199b27c170a8cd28](https://gist.github.com/Lysak/a0ca30a3e6732d39199b27c170a8cd28)
+- **test-twitter.json**:
+  - [https://gist.github.com/kinlane/d27fe67e830ad5aa05929552e6a505fe](https://gist.github.com/kinlane/d27fe67e830ad5aa05929552e6a505fe)
+- **npm modules directly or indirectly dependant on graceful-fs ...**:
+  - [https://gist.github.com/ChALkeR/d39b49642e02277d2292d66c2ea0bced](https://gist.github.com/ChALkeR/d39b49642e02277d2292d66c2ea0bced)
+- **poor.txt**:
+  - [https://gist.github.com/Corei13/5f230b39c151aec4995e652dab49555f](https://gist.github.com/Corei13/5f230b39c151aec4995e652dab49555f)
+- **Acknowledgements.txt**:
+  - [https://gist.github.com/VladislavZavadskyy/e31ab07b03a5c22b11982c49669a400b](https://gist.github.com/VladislavZavadskyy/e31ab07b03a5c22b11982c49669a400b)
+- **Dublin Walk: a Nano-NaNoGenMo entry**:
+  - [https://gist.github.com/mewo2/3e6ad222e516367ada96fbd8c9a1106d](https://gist.github.com/mewo2/3e6ad222e516367ada96fbd8c9a1106d)
+- **gist:effe69784e28acb6e2b94b1bb7696fbd · GitHub**:
+  - [https://gist.github.com/x011/effe69784e28acb6e2b94b1bb7696fbd](https://gist.github.com/x011/effe69784e28acb6e2b94b1bb7696fbd)
+- **file extensions table**:
+  - [https://gist.github.com/CarlBoneri/b3a07221868a602418b8eca9269b7474](https://gist.github.com/CarlBoneri/b3a07221868a602418b8eca9269b7474)
+- **A look at download counts from Engrxiv**:
+  - [https://gist.github.com/moorepants/fec724cd389d482d42d1874ee7bbc2d3?short_path=08d22d0](https://gist.github.com/moorepants/fec724cd389d482d42d1874ee7bbc2d3?short_path=08d22d0)
+- **celltower.py · GitHub**:
+  - [https://gist.github.com/bennuttall/bcd7ab6c996f4e91fae68e18b84e8873](https://gist.github.com/bennuttall/bcd7ab6c996f4e91fae68e18b84e8873)
+- **Upwork Tally · GitHub**:
+  - [https://gist.github.com/JesseAldridge/1cc94b042fa7a89585108bd87fa6b112](https://gist.github.com/JesseAldridge/1cc94b042fa7a89585108bd87fa6b112)
+- **open-internet-footnotes.json**:
+  - [https://gist.github.com/adelevie/fb1128b0b7e80ed1abf3](https://gist.github.com/adelevie/fb1128b0b7e80ed1abf3)
+- **Lawrence Joseph Sarsfield Daly**:
+  - [https://gist.github.com/Zhomart/9e7c6f3735bc7221f874](https://gist.github.com/Zhomart/9e7c6f3735bc7221f874)
+- **word_counts.json · GitHub**:
+  - [https://gist.github.com/brianspiering/22c6ab9f9186ac357e8220db7922c76e](https://gist.github.com/brianspiering/22c6ab9f9186ac357e8220db7922c76e)
+- **Projekt.java · GitHub**:
+  - [https://gist.github.com/ttryy/a6f682cc88c83ce1b66c7aa6c34a3df9](https://gist.github.com/ttryy/a6f682cc88c83ce1b66c7aa6c34a3df9)
+- **perlineanisha**:
+  - [https://gist.github.com/perlineanisha?direction=desc&sort=updated](https://gist.github.com/perlineanisha?direction=desc&sort=updated)
+- **EthCC 2023 talks: CSV from https://docs. ...**:
+  - [https://gist.github.com/valer-cara/cf41cf56a6184dbfa8823350ee24a38a](https://gist.github.com/valer-cara/cf41cf56a6184dbfa8823350ee24a38a)
+- **usr-dict-words**:
+  - [https://gist.github.com/tb123/60f6f561d168ed7f72fc](https://gist.github.com/tb123/60f6f561d168ed7f72fc)
+- **freenode_channels.txt**:
+  - [https://gist.github.com/freddieventura/a7631340ff4450358d29ecb7ee4020ac](https://gist.github.com/freddieventura/a7631340ff4450358d29ecb7ee4020ac)
+- **dictionary.json**:
+  - [https://gist.github.com/SPeshov/d06929c85ca8976fb4e0c457441cf99d](https://gist.github.com/SPeshov/d06929c85ca8976fb4e0c457441cf99d)
+- **nouns.txt**:
+  - [https://gist.github.com/Merovex/eb1fbff5c8594c5bb73b47065f481fd1](https://gist.github.com/Merovex/eb1fbff5c8594c5bb73b47065f481fd1)
+- **6.00.1x problem set 5**:
+  - [https://gist.github.com/wongsyrone/1e22ffd6f5ea553be6c19228cc43ed43](https://gist.github.com/wongsyrone/1e22ffd6f5ea553be6c19228cc43ed43)
+- **kmeans - first iteration · GitHub**:
+  - [https://gist.github.com/LisaDawn/7003846](https://gist.github.com/LisaDawn/7003846)
+- **Generate a random password or randomized multiple-word ...**:
+  - [https://gist.github.com/pmarreck/28b3049a1a70b8b4f2eaff4466d0c76a](https://gist.github.com/pmarreck/28b3049a1a70b8b4f2eaff4466d0c76a)
+- **gist:09676b98c51778b6861efca6ca34eb9e**:
+  - [https://gist.github.com/ShalokShalom/09676b98c51778b6861efca6ca34eb9e](https://gist.github.com/ShalokShalom/09676b98c51778b6861efca6ca34eb9e)
+- **MBMBAM Yahoo Answers (Ep 1 - 472, filtered)**:
+  - [https://gist.github.com/gamesbyangelina/b5d299479002d6e491ffd37d768fb9a8](https://gist.github.com/gamesbyangelina/b5d299479002d6e491ffd37d768fb9a8)
+- **HBR extra · GitHub**:
+  - [https://gist.github.com/steffimp/495e2e1c08ad8e92d7a8467e732659f3](https://gist.github.com/steffimp/495e2e1c08ad8e92d7a8467e732659f3)
+- **hangman_computer_jargons.json**:
+  - [https://gist.github.com/x011/b49481d0c4cbcc21e01ff976ea0d463f](https://gist.github.com/x011/b49481d0c4cbcc21e01ff976ea0d463f)
+- **random dictionary upgraded with vivi v1 long words**:
+  - [https://gist.github.com/goofyclown/949b26b84a370ab9c041c57a89a9f65a](https://gist.github.com/goofyclown/949b26b84a370ab9c041c57a89a9f65a)
+- **meta.tsv · GitHub**:
+  - [https://gist.github.com/muthukumaranR/49919dab8fa9ab090476115e1ff48634](https://gist.github.com/muthukumaranR/49919dab8fa9ab090476115e1ff48634)
+- **CNN_data.csv**:
+  - [https://gist.github.com/Brenden2008/8e0a9316d3822e936fd32c47737fcbeb](https://gist.github.com/Brenden2008/8e0a9316d3822e936fd32c47737fcbeb)
+- **Master List of Logical Fallacies**:
+  - [https://gist.github.com/orther/8ee312745597c2342df4ecc81efc8955](https://gist.github.com/orther/8ee312745597c2342df4ecc81efc8955)
+- **Pengetahuan.md**:
+  - [https://gist.github.com/kawainime/8d878d64a4563a540e2968df1c2ab055](https://gist.github.com/kawainime/8d878d64a4563a540e2968df1c2ab055)
+- **wordz.lua is used to check for acceptable words ...**:
+  - [https://gist.github.com/jstrahan/6ea847f974a1b2a071a1](https://gist.github.com/jstrahan/6ea847f974a1b2a071a1)
