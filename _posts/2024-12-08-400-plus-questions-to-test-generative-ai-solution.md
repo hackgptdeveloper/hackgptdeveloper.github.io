@@ -6,6 +6,8 @@ tags:
 
 400 Plus (redacted) questions and answers to test any generative AI system.
 
+[https://gist.github.com/ruvnet/c9a6b4d88e887de392d0b10fe088f1f4](https://gist.github.com/ruvnet/c9a6b4d88e887de392d0b10fe088f1f4)
+
 **2. What is the next number in the sequence: 2, 4, 8, 16, ?**
 
     The next number is 32.
