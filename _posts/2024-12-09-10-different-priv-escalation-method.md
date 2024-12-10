@@ -80,7 +80,7 @@ List of Linux privilege escalation vulnerabilities with available Proof-of-Conce
   - [https://gist.github.com/ubogdan/d8c0ccfc64cb528deb7b4ad74be74c3f](https://gist.github.com/ubogdan/d8c0ccfc64cb528deb7b4ad74be74c3f)
 - **output_peas.txt**:
   - [https://gist.github.com/KevinLiebergen/6b86a1caacbb57248353bac3fe31592b](https://gist.github.com/KevinLiebergen/6b86a1caacbb57248353bac3fe31592b)
-- **ret2dir | CVE-2013-2094 | by Vasileios P. Kemerlis**:
+- **ret2dir CVE-2013-2094 by Vasileios P. Kemerlis**:
   - [https://gist.github.com/brant-ruan/c3ea2ae513456a650909187872446972](https://gist.github.com/brant-ruan/c3ea2ae513456a650909187872446972)
 - **disconnect3d's gists**:
   - [https://gist.github.com/disconnect3d](https://gist.github.com/disconnect3d)
