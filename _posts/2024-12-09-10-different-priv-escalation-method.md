@@ -66,7 +66,7 @@ List of Linux privilege escalation vulnerabilities with available Proof-of-Conce
   - [https://gist.github.com/0xPwny/efd5f667b53727f5f43a19188393d96b](https://gist.github.com/0xPwny/efd5f667b53727f5f43a19188393d96b)
 - **Linux Privilege Escalation Techniques**:
   - [https://gist.github.com/c0605da03558c69f11dc128f9cb06204](https://gist.github.com/c0605da03558c69f11dc128f9cb06204)
-- **CVE-2010-3904 | by Dan Rosenberg and Vasileios P. ...**:
+- **CVE-2010-3904 by Dan Rosenberg and Vasileios P**:
   - [https://gist.github.com/brant-ruan/2ca50705e194b99acd353c6a7afc4ae2](https://gist.github.com/brant-ruan/2ca50705e194b99acd353c6a7afc4ae2)
 - **Linux priv esc. Might be out-dated script versions**:
   - [https://gist.github.com/unfo/8bc4923240c2fc119967fd1a4ad29fb9](https://gist.github.com/unfo/8bc4923240c2fc119967fd1a4ad29fb9)
