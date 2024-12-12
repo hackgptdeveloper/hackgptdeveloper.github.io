@@ -1,0 +1,66 @@
+---
+title: "Assetnote.io Vulnerabilities Writeup"
+tags:
+  - Vulnerabilites
+---
+
+***Assetnote.io Vulnerabilities Writeup***
+
+- **Two Bytes is Plenty: FortiGate RCE with CVE-2024-21762**:
+  - [https://www.assetnote.io/resources/research/two-bytes-is-plenty-fortigate-rce-with-cve-2024-21762](https://www.assetnote.io/resources/research/two-bytes-is-plenty-fortigate-rce-with-cve-2024-21762)
+- **Citrix Bleed: Leaking Session Tokens with CVE-2023-4966**:
+  - [https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966](https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966)
+- **Chaining Three Bugs to Access All Your ServiceNow Data**:
+  - [https://www.assetnote.io/resources/research/chaining-three-bugs-to-access-all-your-servicenow-data](https://www.assetnote.io/resources/research/chaining-three-bugs-to-access-all-your-servicenow-data)
+- **Ivanti's Pulse Connect Secure Auth Bypass Round Two**:
+  - [https://www.assetnote.io/resources/research/ivantis-pulse-connect-secure-auth-bypass-round-two](https://www.assetnote.io/resources/research/ivantis-pulse-connect-secure-auth-bypass-round-two)
+- **Digging for SSRF in NextJS apps**:
+  - [https://www.assetnote.io/resources/research/digging-for-ssrf-in-nextjs-apps](https://www.assetnote.io/resources/research/digging-for-ssrf-in-nextjs-apps)
+- **Advisory: Next.js SSRF (CVE-2024-34351)**:
+  - [https://www.assetnote.io/resources/research/advisory-next-js-ssrf-cve-2024-34351](https://www.assetnote.io/resources/research/advisory-next-js-ssrf-cve-2024-34351)
+- **Finding XSS in a million websites (cPanel CVE-2023-29489)**:
+  - [https://www.assetnote.io/resources/research/finding-xss-in-a-million-websites-cpanel-cve-2023-29489](https://www.assetnote.io/resources/research/finding-xss-in-a-million-websites-cpanel-cve-2023-29489)
+- **Why nested deserialization is harmful: Magento XXE (CVE- ...**:
+  - [https://www.assetnote.io/resources/research/why-nested-deserialization-is-harmful-magento-xxe-cve-2024-34102](https://www.assetnote.io/resources/research/why-nested-deserialization-is-harmful-magento-xxe-cve-2024-34102)
+- **RCE in Avaya Aura Device Services**:
+  - [https://www.assetnote.io/resources/research/rce-in-avaya-aura-device-services](https://www.assetnote.io/resources/research/rce-in-avaya-aura-device-services)
+- **RCE in Progress WS_FTP Ad Hoc via IIS HTTP Modules ...**:
+  - [https://www.assetnote.io/resources/research/rce-in-progress-ws-ftp-ad-hoc-via-iis-http-modules-cve-2023-40044](https://www.assetnote.io/resources/research/rce-in-progress-ws-ftp-ad-hoc-via-iis-http-modules-cve-2023-40044)
+- **Pre-Auth RCE in Aspera Faspex: Case Guide for Auditing ...**:
+  - [https://www.assetnote.io/resources/research/pre-auth-rce-in-aspera-faspex-case-guide-for-auditing-ruby-on-rails](https://www.assetnote.io/resources/research/pre-auth-rce-in-aspera-faspex-case-guide-for-auditing-ruby-on-rails)
+- **Three RCEs and Two Auth Bypasses in Sitecore 9.3**:
+  - [https://www.assetnote.io/resources/research/bypass-iis-authorisation-with-this-one-weird-trick-three-rces-and-two-auth-bypasses-in-sitecore-9-3](https://www.assetnote.io/resources/research/bypass-iis-authorisation-with-this-one-weird-trick-three-rces-and-two-auth-bypasses-in-sitecore-9-3)
+- **Analysis of CVE-2023-3519 in Citrix ADC and NetScaler ...**:
+  - [https://www.assetnote.io/resources/research/analysis-of-cve-2023-3519-in-citrix-adc-and-netscaler-gateway](https://www.assetnote.io/resources/research/analysis-of-cve-2023-3519-in-citrix-adc-and-netscaler-gateway)
+- **Cloudflare Pages, part 1: The fellowship of the secret**:
+  - [https://www.assetnote.io/resources/research/cloudflare-pages-part-1-the-fellowship-of-the-secret](https://www.assetnote.io/resources/research/cloudflare-pages-part-1-the-fellowship-of-the-secret)
+- **Exploiting Static Site Generators: When Static Is Not ...**:
+  - [https://www.assetnote.io/resources/research/exploiting-static-site-generators-when-static-is-not-actually-static](https://www.assetnote.io/resources/research/exploiting-static-site-generators-when-static-is-not-actually-static)
+- **Advisory: DotCMS Remote Code Execution (CVE-2022- ...**:
+  - [https://www.assetnote.io/resources/research/advisory-dotcms-remote-code-execution-cve-2022-26352](https://www.assetnote.io/resources/research/advisory-dotcms-remote-code-execution-cve-2022-26352)
+- **Research Notes**:
+  - [https://www.assetnote.io/resources/research](https://www.assetnote.io/resources/research)
+- **Finding and Exploiting Citrix NetScaler Buffer Overflow ...**:
+  - [https://www.assetnote.io/resources/research/finding-and-exploiting-citrix-netscaler-buffer-overflow-cve-2023-3519-part-3](https://www.assetnote.io/resources/research/finding-and-exploiting-citrix-netscaler-buffer-overflow-cve-2023-3519-part-3)
+- **Understanding CVE-2022-22972 (VMWare Workspace ...**:
+  - [https://www.assetnote.io/resources/research/understanding-cve-2022-22972-vmware-workspace-one-access-auth-bypass](https://www.assetnote.io/resources/research/understanding-cve-2022-22972-vmware-workspace-one-access-auth-bypass)
+- **Stealing administrative JWT's through post auth SSRF ...**:
+  - [https://www.assetnote.io/resources/research/stealing-administrative-jwts-through-post-auth-ssrf-cve-2021-22056](https://www.assetnote.io/resources/research/stealing-administrative-jwts-through-post-auth-ssrf-cve-2021-22056)
+- **Hacking on Bug Bounties for Four Years**:
+  - [https://www.assetnote.io/resources/research/hacking-on-bug-bounties-for-four-years](https://www.assetnote.io/resources/research/hacking-on-bug-bounties-for-four-years)
+- **Encrypted Doesn't Mean Authenticated: ShareFile RCE ...**:
+  - [https://www.assetnote.io/resources/research/encrypted-doesnt-mean-authenticated-sharefile-rce-cve-2023-24489](https://www.assetnote.io/resources/research/encrypted-doesnt-mean-authenticated-sharefile-rce-cve-2023-24489)
+- **Cloudflare Pages, part 3: The return of the secrets**:
+  - [https://www.assetnote.io/resources/research/cloudflare-pages-part-3-the-return-of-the-secrets](https://www.assetnote.io/resources/research/cloudflare-pages-part-3-the-return-of-the-secrets)
+- **Turning bad SSRF to good SSRF: Websphere Portal (CVE- ...**:
+  - [https://www.assetnote.io/resources/research/turning-bad-ssrf-to-good-ssrf-websphere-portal-cve-2021-27748](https://www.assetnote.io/resources/research/turning-bad-ssrf-to-good-ssrf-websphere-portal-cve-2021-27748)
+- **A Glossary of Blind SSRF Chains**:
+  - [https://www.assetnote.io/resources/research/a-glossary-of-blind-ssrf-chains](https://www.assetnote.io/resources/research/a-glossary-of-blind-ssrf-chains)
+- **Diving Deeper into WatchGuard Pre-Auth RCE - CVE-2022 ...**:
+  - [https://www.assetnote.io/resources/research/diving-deeper-into-watchguard-pre-auth-rce-cve-2022-26318](https://www.assetnote.io/resources/research/diving-deeper-into-watchguard-pre-auth-rce-cve-2022-26318)
+- **Hacking a Bank by Finding a 0day in DotCMS**:
+  - [https://www.assetnote.io/resources/research/hacking-a-bank-by-finding-a-0day-in-dotcms](https://www.assetnote.io/resources/research/hacking-a-bank-by-finding-a-0day-in-dotcms)
+- **Advisory: Sitecore RCE via Insecure Deserialization**:
+  - [https://www.assetnote.io/resources/research/advisory-sitecore-rce-via-insecure-deserialization-cve-2021-42237](https://www.assetnote.io/resources/research/advisory-sitecore-rce-via-insecure-deserialization-cve-2021-42237)
+- **Sitecore Experience Platform Pre-Auth RCE - CVE-2021- ...**:
+  - [https://www.assetnote.io/resources/research/sitecore-experience-platform-pre-auth-rce-cve-2021-42237](https://www.assetnote.io/resources/research/sitecore-experience-platform-pre-auth-rce-cve-2021-42237)
