@@ -6,12 +6,11 @@ tags:
 
 ***Circle Rotating Around a Circle Contour with Trail***
 
-  <div id="container">
+<div id="container">
     <canvas id="canvas" width="500" height="500"></canvas>
     <canvas id="trailCanvas" width="500" height="500"></canvas>
-  </div>
-  
-  <div id="controls">
+</div>
+<div id="controls">
     <label>
       bigRadius: <input type="range" id="bigRadius1Slider" min="50" max="250" step="1" value="200">
     </label>
@@ -21,11 +20,7 @@ tags:
     <label>
       smallRadius: <input type="range" id="smallRadiusSlider" min="10" max="100" step="1" value="50">
     </label>
-  </div>
-    <div class="canvas-container">
-    	<div id="gitalk-container"></div>
-    </div>
-  
+</div>
 <script> 
   const canvas = document.getElementById('canvas');
   const trailCanvas = document.getElementById('trailCanvas');
