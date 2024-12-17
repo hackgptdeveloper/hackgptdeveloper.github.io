@@ -5,6 +5,15 @@ tags:
 ---
 
 ***Circle Rotating Around a Circle Contour with Trail***
+<style>
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 1px solid black;
+      display: block;
+    }
+</style>
 
 <div id="container">
     <canvas id="canvas" width="500" height="500"></canvas>
