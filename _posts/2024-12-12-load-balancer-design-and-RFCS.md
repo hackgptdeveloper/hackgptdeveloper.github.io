@@ -1,11 +1,8 @@
 ---
-title: ""
+title: "RFCs related to load balancers and their associated protocols"
 tags:
-  - Graphics
+  - LoadBalancer
 ---
-
-Title
-
 
 ***A list of the most important RFCs related to load balancers and their associated protocols.***
 
