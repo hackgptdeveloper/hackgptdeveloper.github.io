@@ -4,8 +4,6 @@ tags:
   - MachineLearning
 ---
 
-###Types of AI agent framework###
-
 AI agents can be classified based on their purpose, behavior, and the techniques used to implement them. Here’s an overview of the most popular types of AI agents:
 
 ---
@@ -144,6 +142,8 @@ AI agents can be classified based on their purpose, behavior, and the techniques
 ### Choosing the Right Type
 The choice of AI agent depends on the problem domain, the environment in which the agent operates, and the expected level of autonomy, intelligence, and interactivity.
 
+---
+
 ###Using Groq to build AI agents framework###
 
 **Groq** primarily provides high-performance hardware for AI workloads and does not come with a specific proprietary AI agent framework. However, Groq's ecosystem is designed to work seamlessly with widely-used AI frameworks, enabling the creation and deployment of AI agents by leveraging these existing tools. 
@@ -205,7 +205,9 @@ If you use Groq with a framework like LangChain, the workflow might look like th
 ### Summary
 While Groq does not have its own AI agent framework, it integrates into existing AI ecosystems by providing high-performance processing for AI models. Developers typically use frameworks like LangChain, Ray, or Hugging Face for the agent logic while leveraging Groq hardware for model inference acceleration.
 
-***Process of AI agent implementations using Groq***
+---
+
+###Process of AI agent implementations using Groq###
 
 Creating AI agents using **Groq** involves leveraging the Groq hardware and software ecosystem, primarily designed for high-performance machine learning workloads. Groq processors are optimized for matrix operations and neural network computations, making them well-suited for implementing AI agents that require real-time decision-making or computationally intensive tasks.
 
@@ -307,5 +309,3 @@ print(response)
 1. **High Throughput and Low Latency**: Ideal for real-time agents.
 2. **Scalability**: Use multiple Groq nodes for scaling workloads.
 3. **Flexibility**: Supports various model types and AI frameworks.
-
----

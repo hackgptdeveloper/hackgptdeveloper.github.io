@@ -314,7 +314,3 @@ print("Detected Vulnerabilities:", vulns)
 
 6. **Directory Traversal**:
    - Tests varying levels of directory traversal and access to critical system files.
-
----
-
-This version systematically covers a wide range of vulnerabilities while keeping the detection logic efficient. Would you like to extend this with dynamic payload generation or integrate AI for better payload customization?
