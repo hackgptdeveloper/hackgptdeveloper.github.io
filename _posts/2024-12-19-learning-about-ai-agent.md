@@ -4,7 +4,7 @@ tags:
   - MachineLearning
 ---
 
-##Types of AI agent framework##
+###Types of AI agent framework###
 
 AI agents can be classified based on their purpose, behavior, and the techniques used to implement them. Here’s an overview of the most popular types of AI agents:
 
