@@ -144,7 +144,7 @@ AI agents can be classified based on their purpose, behavior, and the techniques
 ### Choosing the Right Type
 The choice of AI agent depends on the problem domain, the environment in which the agent operates, and the expected level of autonomy, intelligence, and interactivity.
 
-***Using Groq to build AI agents framework***
+###Using Groq to build AI agents framework###
 
 **Groq** primarily provides high-performance hardware for AI workloads and does not come with a specific proprietary AI agent framework. However, Groq's ecosystem is designed to work seamlessly with widely-used AI frameworks, enabling the creation and deployment of AI agents by leveraging these existing tools. 
 
