@@ -36,9 +36,11 @@ The "continuity of thoughts" problem in large language models (LLMs) refers to t
 
 In summary, the continuity of thoughts problem in LLMs is a significant challenge due to their inherent design limitations. However, frameworks like CoT, ToT, and AoT offer promising approaches to enhance the coherence and context of LLM interactions, making them more effective for complex reasoning tasks.
 
-Citations:
-[1] https://news.ycombinator.com/item?id=38474696
-[2] https://towardsdatascience.com/something-of-thought-in-llm-prompting-an-overview-of-structured-llm-reasoning-70302752b390?gi=4d77ffbaf047
-[3] https://weeklyreport.ai/briefings/tree-of-thought-briefing/
-[4] https://www.reddit.com/r/singularity/comments/1cw9r7t/i_just_had_a_thought_about_llm_and_agi/
-[5] https://arxiv.org/html/2401.04925v3
+Citations
+---------
+
+[1]: https://news.ycombinator.com/item?id=38474696
+[2]: https://towardsdatascience.com/something-of-thought-in-llm-prompting-an-overview-of-structured-llm-reasoning-70302752b390?gi=4d77ffbaf047
+[3]: https://weeklyreport.ai/briefings/tree-of-thought-briefing/
+[4]: https://www.reddit.com/r/singularity/comments/1cw9r7t/i_just_had_a_thought_about_llm_and_agi/
+[5]: https://arxiv.org/html/2401.04925v3
