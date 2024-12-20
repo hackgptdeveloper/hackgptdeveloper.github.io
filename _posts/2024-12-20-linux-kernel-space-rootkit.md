@@ -4,7 +4,7 @@ tags:
   - Rootkits
 ---
 
-Here is a summary of the purpose of each URL in 2-3 lines:
+***Linux kernel rootkits***
 
 1. **[1337kit](https://github.com/lukasbalazik123/1337kit)**  
    A kernel rootkit for educational purposes that demonstrates various techniques to hide processes, files, and achieve privilege escalation.

@@ -1,10 +1,11 @@
 ---
-title: "Linux kernel space rootkits"
+title: "Opensource Security Operation Centers and Incident Response system"
 tags:
-  - Rootkits
+  - SOC
+  - IR
 ---
 
-Linux kernel space rootkits.
+Opensource Security Operation Centers and Incident Response system.
 
 1. **[HELK](https://github.com/Cyb3rWard0g/HELK)**  
    A hunting platform to detect and analyze threats using open-source tools like Elasticsearch, Kibana, and Apache Kafka, enabling real-time security event processing and analysis.
