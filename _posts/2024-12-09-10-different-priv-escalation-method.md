@@ -31,7 +31,6 @@ List of Linux privilege escalation vulnerabilities with available Proof-of-Conce
 ---
 
  - [Linux Privilege Escalation methods](https://github.com/topics/linux-privilege-escalation) 
-
  - [https://gist.github.com/win3zz/aa1ac16c4458aaaec6dd79343b8cd46f](https://gist.github.com/win3zz/aa1ac16c4458aaaec6dd79343b8cd46f)
  - [https://github.com/JlSakuya/Linux-Privilege-Escalation-Exploits](https://github.com/JlSakuya/Linux-Privilege-Escalation-Exploits)
  - [https://github.com/JlSakuya/Linux-Privilege-Escalation-Exploits/tree/main/2019/CVE-2019-15666](https://github.com/JlSakuya/Linux-Privilege-Escalation-Exploits/tree/main/2019/CVE-2019-15666)
