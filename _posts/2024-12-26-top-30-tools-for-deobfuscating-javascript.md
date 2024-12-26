@@ -1,5 +1,5 @@
 ---
-title: "Tools for **deobfuscating**, **decoding**, or **decrypting** JavaScript'
+title: "Tools for **deobfuscating**, **decoding**, or **decrypting** JavaScript"
 tags:
   - Javascript
 ---
