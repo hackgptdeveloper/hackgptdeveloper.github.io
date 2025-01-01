@@ -5,6 +5,7 @@ tags:
 ---
 
 ***Another list of Javascript deobfuscation tools***
+<script src="/assets/js/oneko.js"> </script>
 
 1. [jsnice.org](https://jsnice.org) - A JavaScript deobfuscator and beautifier that uses statistical renaming, type inference, and cross-project analysis
 
