@@ -1,5 +1,5 @@
 ---
-title: "common mistakes to avoid when using JSON Web Tokens (JWT) for authentication or authorization"
+title: "30 common mistakes in JSON Web Tokens (JWT) : authentication or authorization"
 
 tags:
   - JWT
