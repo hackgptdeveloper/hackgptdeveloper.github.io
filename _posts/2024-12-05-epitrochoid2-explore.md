@@ -1,10 +1,10 @@
 ---
-title: "Epitrochoid (v2) Curves with Scrollbars, Labels, and Color Picker"
+title: "Epitrochoid (v2) Curves"
 tags:
   - Graphics
 ---
 
-Epitrochoid (v2) Curves with Scrollbars, Labels, and Color Picker
+Epitrochoid (v2) Curves
 
 <style>
         canvas {

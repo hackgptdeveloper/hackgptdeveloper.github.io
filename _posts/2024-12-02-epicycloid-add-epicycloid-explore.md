@@ -1,10 +1,10 @@
 ---
-title: "Epicycloid Curves with Scrollbars, Labels, and Color Picker"
+title: "Epicycloid Curves"
 tags:
   - Graphics
 ---
 
-Epicycloid Curves with Scrollbars, Labels, and Color Picker
+Epicycloid Curves
 
 <style>
         canvas {
