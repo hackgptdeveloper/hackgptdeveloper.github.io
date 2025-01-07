@@ -13,7 +13,7 @@ A list of 60 **AngularJS** exercises, categorized into different topics to cover
 2. Use `ng-app` to initialize an AngularJS app in an HTML document.
 3. Bind a variable using `ng-bind` and display its value on the page.
 4. Create an input field with two-way binding using `ng-model`.
-5. Display a calculated result (e.g., `{{2 + 2}}`) using interpolation.
+5. Display a calculated result (e.g., `{ { 2 + 2 } }`) using interpolation.
 6. Create a button that changes a value in the controller using `ng-click`.
 7. Create a list and use `ng-repeat` to loop through and display items.
 8. Display a message only when a condition is true using `ng-if`.
