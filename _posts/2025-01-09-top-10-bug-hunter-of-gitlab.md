@@ -1,10 +1,9 @@
 ---
-title: ""
+title: "Top GitLab's bug bounty program hunters"
 tags:
-  - Graphics
+  - Gitlab
 ---
 
-Title
 Based on GitLab's bug bounty program reports from recent years, here are some of the most notable bug hunters who have made significant contributions:
 
 1. **mateuszek**: Recognized for submitting the most valid reports in 2023, with a total of 26. 
@@ -27,17 +26,17 @@ These researchers have played pivotal roles in enhancing GitLab's security throu
 
 For a deeper insight into the experiences of one of these top contributors, you might find the following discussion informative:
 
-https://x.com/joaxcar/status/1699863367706415188
-
-https://x.com/gregxsunday/status/1876999129978544375
-
-https://www.youtube.com/live/3LF8fpAX6Xk
-
-https://www.youtube.com/watch?v=Env8L2SlayM&ab_channel=CriticalThinking-BugBountyPodcast
-
-https://www.youtube.com/live/kw168DGAILk
-
-https://hackerone.com/gitlab/thanks?type=team
-
- 
-
+ - [https://x.com/joaxcar/status/1699863367706415188](https://x.com/joaxcar/status/1699863367706415188)
+ - []()
+ - [https://x.com/gregxsunday/status/1876999129978544375](https://x.com/gregxsunday/status/1876999129978544375)
+ - []()
+ - [https://www.youtube.com/live/3LF8fpAX6Xk](https://www.youtube.com/live/3LF8fpAX6Xk)
+ - []()
+ - [https://www.youtube.com/watch?v=Env8L2SlayM&ab_channel=CriticalThinking-BugBountyPodcast](https://www.youtube.com/watch?v=Env8L2SlayM&ab_channel=CriticalThinking-BugBountyPodcast)
+ - []()
+ - [https://www.youtube.com/live/kw168DGAILk](https://www.youtube.com/live/kw168DGAILk)
+ - []()
+ - [https://hackerone.com/gitlab/thanks?type=team](https://hackerone.com/gitlab/thanks?type=team)
+ - []()
+ - [ ]( )
+ - []()
