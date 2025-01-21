@@ -4,8 +4,6 @@ tags:
   - Game
 ---
 
-Double Ping Pong Game by ClaudeAI
-
 <style>
     body {
       margin: 0;
