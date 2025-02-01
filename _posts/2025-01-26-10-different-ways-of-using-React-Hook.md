@@ -72,7 +72,7 @@ const ThemeContext = createContext('light');
 
 function ThemeButton() {
   const theme = useContext(ThemeContext);
-  return <button style={{ background: theme === 'dark' ? '#333' : '#fff' }}>Theme: {theme}</button>;
+  return <button style= { { background: theme === 'dark' ? '#333' : '#fff' } } > Theme: {theme}</button>;
 }
 
 function App() {
