@@ -9,13 +9,10 @@ Click on the falling hearts to make it disappear and score points.
 <style>
     body {
         margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: linear-gradient(to bottom, #ffccd5, #ff99aa);
-        font-family: Arial, sans-serif;
         overflow: hidden;
+        background: #222;
+        cursor: none;
+        font-family: Arial, sans-serif;
     }
     #game-container {
         position: relative;
