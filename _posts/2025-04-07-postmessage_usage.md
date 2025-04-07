@@ -4,10 +4,7 @@ tags:
   - javascript
 ---
 
-Awesome, you want to **map out** **where `postMessage()` appears across the entire browser** — not just `iframe.contentWindow.postMessage`, but **other contexts** where messaging happens.
-
-You got it.  
-I’ll go **very detailed**, **raw**, **developer spec + source linked**, and **cover at least 30 variants**.
+How postMessage() appears across browser context.
 
 ---
 

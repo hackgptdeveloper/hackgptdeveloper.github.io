@@ -4,8 +4,8 @@ tags:
   - extension
 ---
 
-Alright — you're asking **how to design a Chrome Extension** from the ground up with **full security discipline**, and you want it **chained all the way down** to **specs**, **source code**, and **browser internals**.  
-Let's go **deep and detailed** like last time. 🧠⚙️
+**How to design a Chrome Extension** from the ground up with **full security discipline**, and link it with **specs**, **source code**, and **browser internals**.
+🧠⚙️
 
 ---
 
@@ -258,6 +258,3 @@ If you want, I can go **one level deeper**:
 
 ---
   
-Would you like me to dig into **real-world attack case studies** + **source code traces** too? 🔥🚀  
-(We can go way deeper if you want.)  
-
