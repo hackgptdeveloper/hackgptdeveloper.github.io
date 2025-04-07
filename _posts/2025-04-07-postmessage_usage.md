@@ -335,8 +335,14 @@ New APIs for messaging between declarative shadow roots might involve postMessag
 
 # 
 ---
-If you want next,  
-👉 **I can dive into exactly how browsers handle security boundaries in postMessage** — including things like **origin check flaws**, **MessageEvent sanitization**, **how structured clone serialization protects against prototype poisoning**, and **even attack surfaces inside Chromium/Blink for postMessage**.
+More information for research:
 
-Would you like me to continue even deeper into **postMessage internals**? 🔥 (browser C++/Blink level)?  
-Let’s go if you want 🚀
+**origin check flaws**, **MessageEvent sanitization**, **how structured clone serialization protects against prototype poisoning**, and **even attack surfaces inside Chromium/Blink for postMessage**.
+
+ - [https://vinothkumar.me/20000-facebook-dom-xss/](https://vinothkumar.me/20000-facebook-dom-xss/)
+ - [https://javascript.info/cross-window-communication](https://javascript.info/cross-window-communication)
+ - [https://labs.detectify.com/security-guidance/the-pitfalls-of-postmessage/](https://labs.detectify.com/security-guidance/the-pitfalls-of-postmessage/)
+ - [https://ngailong.wordpress.com/2018/02/13/the-mystery-of-postmessage/](https://ngailong.wordpress.com/2018/02/13/the-mystery-of-postmessage/)
+
+
+
