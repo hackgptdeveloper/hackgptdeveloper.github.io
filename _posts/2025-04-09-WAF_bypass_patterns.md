@@ -1,11 +1,7 @@
 ---
-title: "postMessage() usage"
+title: "100 patterns can Web Application Firewall (WAF) bypass"
 tags:
-  - javascript
----
-
-How postMessage() appears across browser context.
-
+  - waf
 ---
 
 Below is a list of 100 patterns that can be used at the Web Application Firewall (WAF) level to detect potential HTTP traffic attempting to bypass WAF protections. These patterns focus on common evasion techniques, unusual behaviors, and malicious payloads that attackers might use to circumvent standard WAF rules. Note that these patterns should be tailored to your specific WAF solution and environment, and some may require regex or custom logic for implementation.
