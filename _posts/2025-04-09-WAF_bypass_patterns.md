@@ -1,5 +1,5 @@
 ---
-title: "100 patterns can Web Application Firewall (WAF) bypass"
+title: "100 patterns for Web Application Firewall (WAF) bypass"
 tags:
   - waf
 ---
