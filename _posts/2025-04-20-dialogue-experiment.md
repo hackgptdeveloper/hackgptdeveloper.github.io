@@ -3,10 +3,9 @@ title: "Dialogue generation experiment"
 tags:
   - Psychology experiment
 ---
-
 First a problem is posed by the user:   here it is "game addiction" as an example.    Next AI is used to generate the full dialogue, attempting to uncover the origin of the problem, identifying other problems, and most important to suggest new solutions for the user.
 ---
-
+---
 Teenager (Boy, 14):
 Hey… I need some help, I guess. I’ve been gaming a lot. Like, too much.
 
