@@ -78,11 +78,19 @@ Description: The dialogue is an astronomy-themed adventure where each question i
 
 ## 17. Talent Tournament
 
-Description: The AI hosts a "tournament" where the teenager showcases talents (gaming skills, astronomy knowledge, drawing ideas). Each response is a "match" that earns "Talent Points" and feedback to improve.Learning: Builds confidence and encourages skill development.Engagement: Competitive format is exciting and rewarding.
+Description: The AI hosts a "tournament" where the teenager showcases talents (gaming skills, astronomy knowledge, drawing ideas). Each response is a "match" that earns "Talent Points" and feedback to improve.
+
+Learning: Builds confidence and encourages skill development.
+
+Engagement: Competitive format is exciting and rewarding.
 
 ## 18. Memory Vault
 
-Description: Each response adds a "memory" to a virtual vault (e.g., "Memory: First loved astronomy in 3rd grade"). Unlocking memories earns "Insight Gems" and reveals patterns about their interests and feelings.Learning: Promotes self-reflection and emotional awareness.Engagement: Collecting memories feels like uncovering treasures.
+Description: Each response adds a "memory" to a virtual vault (e.g., "Memory: First loved astronomy in 3rd grade"). Unlocking memories earns "Insight Gems" and reveals patterns about their interests and feelings.
+
+Learning: Promotes self-reflection and emotional awareness.
+
+Engagement: Collecting memories feels like uncovering treasures.
 
 ## 19. Hero’s Journey
 
