@@ -1,10 +1,11 @@
 ---
 title: "How to hide in memory without being detected by any scanner"
 tags:
-  - Education
+  - memory
+  - forensic
 ---
 
-Logic behind this:  In order for detection to be possible, the memory has to be scanned and identified by looking for certain byte sequence.   So how scanner look for content?   Most probably it will be by scanning from low to high logical address.   So if we can set memory read hardware breakpoint on the starting address of memory to be protected, move the content away upon memory read is detected, and after some timeout move back the memory again.  This approach provides a stealth mechanism to hide memory from read access temporarily, with automatic restoration after a timeout. For a production system, additional error handling, security checks, and integration with the OS memory manager are essential.
+Logic behind this:  In memory forensic at realtime, the memory has to be scanned and identified by looking for certain byte sequence.   The scanning is likely to start from low to high logical address.   To bypass this scanner, one way is to set memory read hardware breakpoint on the starting address of memory to be protected, move the content away upon memory read is detected, and after some timeout move back the memory again.  This approach provides a mechanism to hide memory content from being detected, with automatic restoration after a timeout. For a production system, additional error handling, security checks, and integration with the OS memory manager are essential.
 
 Implementing memory stealth using debug registers to detect memory reads, interrupt the process, relocate memory, and manage it outside the page table is a complex task that involves low-level system programming. Below, I outline how such a mechanism could be achieved with an assembly program, focusing on x86 architecture in a protected mode environment (e.g., a kernel module or privileged code). The program will use debug registers (DR0-DR7) to set hardware breakpoints, handle interrupts, relocate memory, and manage page table updates via the CR3 register. I'll also provide a high-level description of the approach followed by an assembly code example.
 
