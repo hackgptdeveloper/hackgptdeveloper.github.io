@@ -63,6 +63,8 @@ The widget is ready to use and will provide a professional chat experience simil
 
 ---
 
+Source code in full:
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
