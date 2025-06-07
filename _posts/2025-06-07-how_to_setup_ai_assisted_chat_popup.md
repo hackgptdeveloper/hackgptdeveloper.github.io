@@ -61,7 +61,9 @@ async function getBotResponse(userMessage) {
 
 The widget is ready to use and will provide a professional chat experience similar to popular services like tawk.to, Intercom, or Zendesk Chat.
 
-```
+---
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -489,3 +491,8 @@ The widget is ready to use and will provide a professional chat experience simil
 </body>
 </html>
 ```
+```html
+
+---
+
+
