@@ -225,11 +225,11 @@ GitHub Actions is a versatile platform, but its limitations in resource constrai
 
 ---
 
-[text](images/github_action/Screenshot_2025-06-08_09-52-15.png)
-[text](images/github_action/Screenshot_2025-06-08_09-54-46.png)
-[text](images/github_action/Screenshot_2025-06-08_09-55-16.png)
-[text](images/github_action/Screenshot_2025-06-08_09-55-51.png)
-[text](images/github_action/Screenshot_2025-06-08_09-56-28.png)
-[text](images/github_action/Screenshot_2025-06-08_09-56-56.png)
-[text](images/github_action/Screenshot_2025-06-08_09-57-15.png)
-[text](images/github_action/Screenshot_2025-06-08_09-57-39.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-52-15.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-54-46.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-55-16.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-55-51.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-56-28.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-56-56.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-57-15.png)
+[text](/images/github_action/Screenshot_2025-06-08_09-57-39.png)
