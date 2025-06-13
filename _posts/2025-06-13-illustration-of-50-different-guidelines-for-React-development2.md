@@ -1,10 +1,10 @@
 ---
-title: "50 React Development Rules with Examples"
+title: "50 React Development Rules with Examples (Part2)"
 tags:
   - React
 ---
 
-# 50 React Development Rules with Examples
+# 50 React Development Rules with Examples (Part2)
 
 ## Component Design & Architecture
 
