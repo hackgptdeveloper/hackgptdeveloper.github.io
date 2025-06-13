@@ -6,7 +6,247 @@ tags:
 
 # 50 React Development Rules with Examples (Part2)
 
-## Component Design & Architecture
+### 15. Consider using context for deeply nested props
+**Bad (Prop drilling):**
+```jsx
+function App() {
+  const [theme, setTheme] = useState('light');
+  return <Header theme={theme} setTheme={setTheme} />;
+}
+
+function Header({ theme, setTheme }) {
+  return <Navigation theme={theme} setTheme={setTheme} />;
+}
+
+function Navigation({ theme, setTheme }) {
+  return <ThemeToggle theme={theme} setTheme={setTheme} />;
+}
+
+function ThemeToggle({ theme, setTheme }) {
+  return <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+    {theme}
+  </button>;
+}
+```
+
+**Good (Context):**
+```jsx
+const ThemeContext = createContext();
+
+function App() {
+  const [theme, setTheme] = useState('light');
+  return (
+    <ThemeContext.Provider value=`{{ theme, setTheme }}`>
+      <Header />
+    </ThemeContext.Provider>
+  );
+}
+
+function Header() {
+  return <Navigation />;
+}
+
+function Navigation() {
+  return <ThemeToggle />;
+}
+
+function ThemeToggle() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  return <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+    {theme}
+  </button>;
+}
+```
+
+### 16. Use external state management for complex apps
+**Example with Zustand:**
+```jsx
+import { create } from 'zustand';
+
+// Global store
+const useStore = create((set) => ({
+  user: null,
+  posts: [],
+  loading: false,
+  setUser: (user) => set({ user }),
+  addPost: (post) => set((state) => ({ posts: [...state.posts, post] })),
+  setLoading: (loading) => set({ loading })
+}));
+
+// Components can access store directly
+function UserProfile() {
+  const { user, loading } = useStore();
+  
+  if (loading) return <div>Loading...</div>;
+  return <div>{user?.name}</div>;
+}
+
+function PostList() {
+  const posts = useStore(state => state.posts);
+  return posts.map(post => <div key={post.id}>{post.title}</div>);
+}
+```
+
+## Props & Data Flow
+
+### 17. Validate props with PropTypes or TypeScript
+**PropTypes:**
+```jsx
+import PropTypes from 'prop-types';
+
+function UserCard({ user, onEdit }) {
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <button onClick={onEdit}>Edit</button>
+    </div>
+  );
+}
+
+UserCard.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string
+  }).isRequired,
+  onEdit: PropTypes.func.isRequired
+};
+```
+
+**TypeScript:**
+```tsx
+interface User {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+interface UserCardProps {
+  user: User;
+  onEdit: () => void;
+}
+
+function UserCard({ user, onEdit }: UserCardProps) {
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <button onClick={onEdit}>Edit</button>
+    </div>
+  );
+}
+```
+
+### 18. Use destructuring for cleaner prop handling
+**Bad:**
+```jsx
+function UserCard(props) {
+  return (
+    <div>
+      <h2>{props.user.name}</h2>
+      <p>{props.user.email}</p>
+      <button onClick={props.onEdit}>Edit</button>
+      <button onClick={props.onDelete}>Delete</button>
+    </div>
+  );
+}
+```
+
+**Good:**
+```jsx
+function UserCard({ user, onEdit, onDelete }) {
+  const { name, email } = user;
+  
+  return (
+    <div>
+      <h2>{name}</h2>
+      <p>{email}</p>
+      <button onClick={onEdit}>Edit</button>
+      <button onClick={onDelete}>Delete</button>
+    </div>
+  );
+}
+```
+
+### 19. Provide default props when appropriate
+**Function default parameters:**
+```jsx
+function Button({ 
+  children, 
+  variant = 'primary', 
+  size = 'medium',
+  disabled = false,
+  onClick = () => {}
+}) {
+  return (
+    <button 
+      className={`btn btn-${variant} btn-${size}`}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+**DefaultProps (legacy):**
+```jsx
+function Button({ children, variant, size, disabled, onClick }) {
+  return (
+    <button 
+      className={`btn btn-${variant} btn-${size}`}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+}
+
+Button.defaultProps = {
+  variant: 'primary',
+  size: 'medium',
+  disabled: false,
+  onClick: () => {}
+};
+```
+
+### 20. Pass objects and arrays carefully
+**Bad:**
+```jsx
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+      {/* New object created on every render! */}
+      <ExpensiveComponent config=`{{ theme: 'dark', size: 'large' }}` />
+      {/* New array created on every render! */}
+      <ListComponent items={['a', 'b', 'c']} />
+    </div>
+  );
+}
+```
+
+**Good:**
+```jsx
+function App() {
+  const [count, setCount] = useState(0);
+  
+  // Stable references
+  const config = useMemo(() => ({ theme: 'dark', size: 'large' }), []);
+  const items = useMemo(() => ['a', 'b', 'c'], []);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+      <ExpensiveComponent config={config} />
+      <ListComponent items={items} />
+    </div>
+  );
+}
+```
 
 ### 21. Use proper key props in lists
 **Bad:**
@@ -309,7 +549,7 @@ function Tooltip({ children }) {
   });
 
   return (
-    <div ref={ref} style={{ left: position.x, top: position.y }}>
+    <div ref={ref} style=`{{ left: position.x, top: position.y }}`>
       {children}
     </div>
   );
@@ -329,7 +569,7 @@ function Tooltip({ children }) {
   });
 
   return (
-    <div ref={ref} style={{ left: position.x, top: position.y }}>
+    <div ref={ref} style=`{{ left: position.x, top: position.y }}`>
       {children}
     </div>
   );
@@ -496,7 +736,7 @@ function UserProfile({ user }) {
   return (
     <div>
       {/* New object created on every render */}
-      <UserCard user={user} style={{ margin: 10, padding: 5 }} />
+      <UserCard user={user} style=`{{ margin: 10, padding: 5 }}` />
       {/* New array created on every render */}
       <UserMenu items={['Profile', 'Settings', 'Logout']} />
     </div>
@@ -918,8 +1158,8 @@ function ProductCard({ product }) {
         e.target.style.boxShadow = product.featured ? '0 4px 8px rgba(0,0,0,0.1)' : 'none';
       }}
     >
-      <h3 style={{ color: '#333', marginBottom: '8px' }}>{product.name}</h3>
-      <p style={{ color: '#666', fontSize: '14px' }}>{product.description}</p>
+      <h3 style=`{{ color: '#333', marginBottom: '8px' }}`>{product.name}</h3>
+      <p style=`{{ color: '#666', fontSize: '14px' }}`>{product.description}</p>
     </div>
   );
 }
