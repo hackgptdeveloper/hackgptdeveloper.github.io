@@ -549,7 +549,7 @@ function Tooltip({ children }) {
   });
 
   return (
-    <div ref={ref} style=`{{ left: position.x, top: position.y }}`>
+    <div ref={ref} style={ { left: position.x, top: position.y } }>
       {children}
     </div>
   );
@@ -569,7 +569,7 @@ function Tooltip({ children }) {
   });
 
   return (
-    <div ref={ref} style=`{{ left: position.x, top: position.y }}`>
+    <div ref={ref} style={ { left: position.x, top: position.y } }>
       {children}
     </div>
   );
@@ -736,7 +736,7 @@ function UserProfile({ user }) {
   return (
     <div>
       {/* New object created on every render */}
-      <UserCard user={user} style=`{{ margin: 10, padding: 5 }}` />
+      <UserCard user={user} style={ { margin: 10, padding: 5 } } />
       {/* New array created on every render */}
       <UserMenu items={['Profile', 'Settings', 'Logout']} />
     </div>
@@ -1139,7 +1139,7 @@ const shouldShowModal = error !== null;
 function ProductCard({ product }) {
   return (
     <div 
-      style={{
+      style={ {
         border: '1px solid #ccc',
         borderRadius: '8px',
         padding: '16px',
@@ -1148,7 +1148,7 @@ function ProductCard({ product }) {
         boxShadow: product.featured ? '0 4px 8px rgba(0,0,0,0.1)' : 'none',
         transition: 'all 0.3s ease',
         cursor: 'pointer'
-      }}
+      } }
       onMouseEnter={(e) => {
         e.target.style.transform = 'translateY(-2px)';
         e.target.style.boxShadow = '0 6px 12px rgba(0,0,0,0.15)';
@@ -1158,8 +1158,8 @@ function ProductCard({ product }) {
         e.target.style.boxShadow = product.featured ? '0 4px 8px rgba(0,0,0,0.1)' : 'none';
       }}
     >
-      <h3 style=`{{ color: '#333', marginBottom: '8px' }}`>{product.name}</h3>
-      <p style=`{{ color: '#666', fontSize: '14px' }}`>{product.description}</p>
+      <h3 style={ { color: '#333', marginBottom: '8px' } }>{product.name}</h3>
+      <p style={ { color: '#666', fontSize: '14px' } }>{product.description}</p>
     </div>
   );
 }
@@ -1522,7 +1522,7 @@ function BlogPost({ post }) {
         <div>By {post.author} on {post.date}</div>
       </div>
       <div>
-        <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        <div dangerouslySetInnerHTML={ { __html: post.content } } />
       </div>
       <div>
         <div>Comments</div>
@@ -1554,7 +1554,7 @@ function BlogPost({ post }) {
       </header>
       
       <main>
-        <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        <div dangerouslySetInnerHTML={ { __html: post.content } } />
       </main>
       
       <section>
