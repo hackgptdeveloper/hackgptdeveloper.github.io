@@ -36,7 +36,7 @@ const ThemeContext = createContext();
 function App() {
   const [theme, setTheme] = useState('light');
   return (
-    `<ThemeContext.Provider value={{ theme, setTheme }}>`
+    <ThemeContext.Provider value={ { theme, setTheme } }>
       <Header />
     </ThemeContext.Provider>
   );
@@ -221,7 +221,7 @@ function App() {
     <div>
       <button onClick={() => setCount(count + 1)}>Count: {count}</button>
       {/* New object created on every render! */}
-      `<ExpensiveComponent config={{ theme: 'dark', size: 'large' }} />`
+      <ExpensiveComponent config={ { theme: 'dark', size: 'large' } } />
       {/* New array created on every render! */}
       <ListComponent items={['a', 'b', 'c']} />
     </div>
