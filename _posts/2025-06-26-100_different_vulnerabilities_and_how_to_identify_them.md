@@ -30,37 +30,37 @@ Role-Based Testing: Use an account with minimal permissions to access restricted
 
 Reflected XSS in Search Bar
 
-Basic Payload Injection: Enter a payload like <script>alert('XSS')</script> in the search bar (e.g., /search?q=alert('XSS')). If the payload is reflected in the response and executes, it’s vulnerable.
+Basic Payload Injection: Enter a payload like %3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E in the search bar (e.g., /search?q=alert('XSS')). If the payload is reflected in the response and executes, it’s vulnerable.
 Encoded Payload Testing: Try URL-encoded payloads (e.g., %3Cscript%3Ealert('XSS')%3C/script%3E) in the search query. Check if the browser executes the script after decoding.
 Event-Based Payload: Inject <img src=x onerror=alert('XSS')> in the search bar. If the script executes due to the onerror event, it confirms reflected XSS.
 
 Stored XSS in Comments
 
-Comment Payload Injection: Post a comment with <script>alert('XSS')</script> on a blog or forum. If the script executes when other users view the comment, it’s vulnerable.
+Comment Payload Injection: Post a comment with %3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E on a blog or forum. If the script executes when other users view the comment, it’s vulnerable.
 HTML Tag Abuse: Submit a comment with <img src=x onerror=alert('XSS')>. Check if the payload executes when the comment is rendered on the page.
 Markdown or BBCode Testing: If comments support markdown, try [img]x[/img] or <a href="javascript:alert('XSS')">Click</a>. Verify if the payload triggers on rendering.
 
 DOM-Based XSS in JS-Heavy Pages
 
 URL Parameter Injection: Access a JS-heavy page with a malicious parameter (e.g., /page#payload=alert('XSS')). If client-side JS processes the parameter unsafely (e.g., via document.write), it’s vulnerable.
-Location Hash Testing: Inject #<img src=x onerror=alert('XSS')> into the URL. If the page’s JavaScript parses the hash and renders it, it confirms DOM-based XSS.
-PostMessage Exploitation: If the page uses window.postMessage, send a message with a malicious payload (e.g., <script>alert('XSS')</script>) via a crafted page. Check if the receiving page processes it unsafely.
+Location Hash Testing: Inject #<img src=x onerror=alert('onerror XSS')> into the URL. If the page’s JavaScript parses the hash and renders it, it confirms DOM-based XSS.
+PostMessage Exploitation: If the page uses window.postMessage, send a message with a malicious payload (e.g., <script>alert('XSS1')</script>) via a crafted page. Check if the receiving page processes it unsafely.
 
 XSS via SVG Upload
 
-SVG with Script Tag: Upload an SVG file containing <svg><script>alert('XSS')</script></svg>. Access the uploaded file’s URL. If the script executes, it’s vulnerable.
-Event Handler in SVG: Upload an SVG with <svg onload=alert('XSS')>. If the event triggers when the file is viewed, it confirms XSS.
-Xlink Payload: Upload an SVG with <a xlink:href="javascript:alert('XSS')">. If clicking the link executes the script, it’s exploitable.
+SVG with Script Tag: Upload an SVG file containing <svg><script>alert('XSS2')</script></svg>. Access the uploaded file’s URL. If the script executes, it’s vulnerable.
+Event Handler in SVG: Upload an SVG with <svg onload=alert('XSS3')>. If the event triggers when the file is viewed, it confirms XSS.
+Xlink Payload: Upload an SVG with <a xlink:href="javascript:alert('XSS4')">. If clicking the link executes the script, it’s exploitable.
 
 XSS via Malformed JSON
 
-JSON Key Injection: Send a JSON payload with a malicious key (e.g., {"name":"<script>alert('XSS')</script>"}) to an endpoint. If the response renders the key unsanitized, it’s vulnerable.
-JSON Value Injection: Submit {"comment":"</script><script>alert('XSS')</script>"}. If the value is rendered in the DOM without escaping, it triggers XSS.
-Array-Based Payload: Send ["<img src=x onerror=alert('XSS')>"] to an API. If the frontend renders the array element unsafely, it confirms the vulnerability.
+JSON Key Injection: Send a JSON payload with a malicious key (e.g., {"name":"<script>alert('XSS5')</script>"}) to an endpoint. If the response renders the key unsanitized, it’s vulnerable.
+JSON Value Injection: Submit {"comment":"</script><script>alert('XSS6')</script>"}. If the value is rendered in the DOM without escaping, it triggers XSS.
+Array-Based Payload: Send ["<img src=x onerror=alert('XSS7')>"] to an API. If the frontend renders the array element unsafely, it confirms the vulnerability.
 
 HTML Injection in Emails
 
-HTML Tag Injection: In an email input field (e.g., contact form), submit <b>Test</b> or <img src=x onerror=alert('XSS')>. If the email renders the tags, it’s vulnerable.
+HTML Tag Injection: In an email input field (e.g., contact form), submit <b>Test</b> or <img src=x onerror=alert('XSS8')>. If the email renders the tags, it’s vulnerable.
 CSS Injection: Submit <style>body{background:red}</style> in an email template field. If the email applies the styles, it indicates HTML injection.
 Iframe Injection: Inject <iframe src="malicious.com"></iframe> into an email field. If the iframe loads in the email, it confirms the vulnerability.
 
@@ -288,7 +288,7 @@ Cookie Sniffing: Use an XSS payload to access document.cookie. If sensitive cook
 
 Content-Security-Policy Misconfigured
 
-Inline Script Testing: Inject <script>alert('XSS')</script> on a page with CSP. If it executes, the CSP is misconfigured (e.g., unsafe-inline).
+Inline Script Testing: Inject <script>alert('XSS9')</script> on a page with CSP. If it executes, the CSP is misconfigured (e.g., unsafe-inline).
 External Script Injection: Try <script src="http://malicious.com/evil.js">. If it loads, the CSP lacks proper source restrictions.
 Missing CSP Header: Check response headers for Content-Security-Policy. If absent or overly permissive (e.g., script-src *), it’s vulnerable.
 
@@ -312,7 +312,7 @@ Absolute Path Testing: Use /view?file=/etc/passwd. If the server returns the fil
 
 Uploading Polyglot Files
 
-JPEG-Script Polyglot: Create a file that’s a valid JPEG but contains <script>alert('XSS')</script>. Upload and access it. If the script executes, it’s vulnerable.
+JPEG-Script Polyglot: Create a file that’s a valid JPEG but contains <script>alert('XSS9')</script>. Upload and access it. If the script executes, it’s vulnerable.
 PDF-JavaScript Polyglot: Upload a PDF with embedded JavaScript. If the script runs when opened, it confirms the issue.
 GIF-Script Polyglot: Upload a GIF with embedded HTML/JS. If the server serves it as HTML, it’s exploitable.
 
