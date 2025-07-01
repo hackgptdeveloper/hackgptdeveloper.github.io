@@ -11,7 +11,7 @@ Server-Side Template Injection (SSTI) is a vulnerability where attackers inject 
 **Warning**: These payloads are for educational and ethical testing purposes only, in controlled environments with explicit permission. Unauthorized use is illegal and unethical. Always test responsibly in a legal, authorized environment.
 
 ### SSTI Payload Characteristics
-- Payloads target template engine syntax, which varies by framework (e.g., `{{ }}` for Jinja2, `{% %}` for Twig, `${}` for FreeMarker).
+- Payloads target template engine syntax, which varies by framework (e.g., {% raw %} `{{ }}` {% endraw %} for Jinja2, `{% %}` for Twig, `${}` for FreeMarker).
 - Common goals include executing code, accessing sensitive data (e.g., `request`, `config`), or testing for template rendering.
 - Payloads often exploit template engine features like variable access, loops, or function calls.
 
@@ -87,7 +87,7 @@ FreeMarker is used in Java applications, using `${}` for expressions.
 {% endraw %}
 
 #### Handlebars/Nunjucks (JavaScript) Payloads
-Used in Node.js applications, using `{{ }}` or `{{{ }}}`.
+Used in Node.js applications, using {% raw %} `{{ }}` {% endraw %} or {% raw %} `{{{ }}}`{% endraw %} .
 
 {% raw %}
 41. `{{ 7 * 7 }}` - Tests arithmetic evaluation.
