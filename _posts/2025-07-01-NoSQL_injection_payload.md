@@ -80,4 +80,3 @@ These target other NoSQL databases with different query structures.
 - **Ethical Use**: Only test systems you own or have explicit permission to test. Unauthorized testing is illegal.
 - **Mitigation**: Developers should sanitize inputs, use parameterized queries, and avoid exposing query operators to user input.
 
-If you need specific payloads for a particular NoSQL database or want guidance on testing safely, let me know!
