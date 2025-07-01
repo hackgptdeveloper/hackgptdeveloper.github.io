@@ -11,7 +11,7 @@ Server-Side Template Injection (SSTI) is a vulnerability where attackers inject 
 **Warning**: These payloads are for educational and ethical testing purposes only, in controlled environments with explicit permission. Unauthorized use is illegal and unethical. Always test responsibly in a legal, authorized environment.
 
 ### SSTI Payload Characteristics
-- Payloads target template engine syntax, which varies by framework (e.g., {% raw %} `{{ }}` {% endraw %} for Jinja2, `{% %}` for Twig, `${}` for FreeMarker).
+- Payloads target template engine syntax, which varies by framework (e.g., {% raw %} `{{ }}` for Jinja2, `{% %}` {% endraw %} for Twig, `${}` for FreeMarker).
 - Common goals include executing code, accessing sensitive data (e.g., `request`, `config`), or testing for template rendering.
 - Payloads often exploit template engine features like variable access, loops, or function calls.
 
@@ -55,7 +55,7 @@ System: .popen('whoami') }}` - Attempts to execute `whoami` command (Jinja2).
 {% endraw %}
 
 #### Twig (PHP) Payloads
-Twig is used in PHP frameworks like Symfony, using {% raw %} `{{ }}` {% endraw %} and {% raw %} `{% %}`禁止
+Twig is used in PHP frameworks like Symfony, using {% raw %} `{{ }}` {% endraw %} and {% raw %} `{% %}` {% endraw %} 禁止
 
 {% raw %}
 21. `{{ 1+1 }}` - Tests arithmetic evaluation.
