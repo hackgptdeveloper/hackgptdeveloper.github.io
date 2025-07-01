@@ -103,7 +103,7 @@ Used in Node.js applications, using {% raw %} `{{ }}` {% endraw %} or {% raw %} 
 {% endraw %}
 
 ### Notes
-- **Template Engine Detection**: Start with generic payloads (e.g., `{{7*7}}`) to identify the engine, then use engine-specific payloads.
+- **Template Engine Detection**: Start with generic payloads (e.g., {% raw %} `{{7*7}}`{% endraw %} ) to identify the engine, then use engine-specific payloads.
 - **Context-Specific**: Payloads must match the template engine’s syntax and available objects (e.g., `request` in Flask, `app` in Twig).
 - **Encoding**: For web inputs, payloads may need URL encoding (e.g., `{{` becomes `%7B%7B`).
 - **Ethical Use**: Only test systems you own or have explicit permission to test. Unauthorized testing is illegal.
