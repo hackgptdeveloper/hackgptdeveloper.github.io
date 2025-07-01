@@ -1,5 +1,5 @@
 ---
-title: "NoSQL injection payload"
+title: "LDAP injection payload"
 tags:
   - LDAP_injection
 ---
