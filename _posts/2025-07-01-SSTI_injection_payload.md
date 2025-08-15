@@ -99,7 +99,7 @@ Used in Node.js applications, using {% raw %} `{{ }}` {% endraw %} or {% raw %} 
 47. `{{{ this }}}` - Dumps current context.
 48. `{{ require('fs').readdirSync('.') }}` - Lists current directory files.
 49. `{{ global.process.argv }}` - Accesses command-line arguments.
-50. `{{ Object.keys(global) }}` - Lists global object keys.
+50. `{{ Object.keys(global) \}\}` - Lists global object keys.
 {% endraw %}
 
 ### Notes
