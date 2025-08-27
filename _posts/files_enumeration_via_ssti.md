@@ -1,0 +1,46 @@
+
+Yes, Server-Side Template Injection (SSTI) can potentially be exploited to list files in a server directory, but it depends on the template engine, the server's configuration, and the level of access the template context provides. Here's a concise explanation:
+
+SSTI occurs when user input is unsafely embedded into a server-side template, allowing an attacker to execute arbitrary code within the template engine's context. If the template engine has access to file system functions or objects, an attacker could craft a payload to list directory contents.
+
+### How It Could Work
+1. **Vulnerable Template Engine**: Common template engines like Jinja2 (Python), Freemarker (Java), or Twig (PHP) may expose objects or functions that allow file system access if not properly restricted.
+   - For example, in Jinja2, an attacker might exploit access to Python's built-in functions or objects like `os` or `subprocess` if they are available in the template context.
+   - Example payload in Jinja2: `{{ ''.__class__.__mro__[1].__subclasses__()[X]('/path/to/dir').read() }}` (where `X` is an index for a file-related class) could potentially read files or list directories.
+
+2. **Exploiting File System Access**: If the template engine allows execution of system commands or file operations, an attacker could craft a payload to list files. For instance:
+   - In a Node.js environment with a vulnerable template engine like Handlebars, access to `fs` (file system) module could allow directory listing.
+   - Example: `{{require('fs').readdirSync('/path/to/dir')}}`.
+
+3. **Conditions for Success**:
+   - The template engine must expose file system functions or allow command execution.
+   - The server process must have sufficient permissions to access the target directory.
+   - The application must not sanitize or restrict user input in templates.
+
+### Limitations and Mitigations
+- **Sandboxing**: Modern template engines often run in sandboxed environments, limiting access to file system operations. For example, Jinja2's sandbox mode restricts dangerous functions.
+- **File Permissions**: The server's user account may not have access to sensitive directories, limiting the attack's impact.
+- **Input Sanitization**: Properly sanitizing user input before passing it to the template engine prevents SSTI.
+- **Restricted Context**: Developers can configure templates to exclude dangerous objects or functions.
+
+### Practical Example
+If a web application uses a vulnerable Jinja2 template like:
+```html
+Hello, {{ user_input }}!
+```
+An attacker could inject a payload like:
+```
+{{ ''.__class__.__mro__[1].__subclasses__()[X]('/etc').listdir() }}
+```
+If the server doesn't restrict the template context, this could list files in the `/etc` directory.
+
+### Detection and Testing
+- Test for SSTI by injecting template-specific syntax (e.g., `{{7*7}}` to see if it evaluates to `49`).
+- If SSTI is confirmed, try payloads specific to the template engine to access file system functions.
+- Tools like `tplmap` can automate SSTI detection and exploitation.
+
+### Conclusion
+While SSTI can be used to list files in a server directory under specific conditions, it requires a vulnerable template engine, insufficient sandboxing, and proper permissions. Developers can prevent this by:
+- Using strict sandboxing.
+- Avoiding dynamic template rendering with user input.
+- Limiting server permissions.
