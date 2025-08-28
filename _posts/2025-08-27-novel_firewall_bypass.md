@@ -155,6 +155,7 @@ That sequence is the precise moment and mechanism where execution **switches fro
 
 * Ftrace implementation to identify all the kernel API executed when handling the ingress HTTP packet:
 
+<PRE>
   1 #!/bin/bash
   2 set -x
   3 echo 0 >/debug/tracing/tracing_enabled
@@ -164,6 +165,7 @@ That sequence is the precise moment and mechanism where execution **switches fro
   8 wget http://www.yahoo.com/
   9 echo 0 >/debug/tracing/tracing_enabled
  10 cat /debug/tracing/trace | head -5000 | tee ftrace/wget_ftrace.log
+</PRE>
 
 and assuming debugfs is mounted.   The result of above are:
 
