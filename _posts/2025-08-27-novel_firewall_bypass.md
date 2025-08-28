@@ -11,12 +11,6 @@ This handoff isn’t magic; it’s a precise choreography of waitqueues and sche
 
 Below, we’ll walk this pipeline end-to-end—anchored to concrete source lines—so you can trace each transition from the first interrupt to the exact place your userspace thread picks up the bytes.
 
-=======================
-
-Imagine sending a HTTP packets to a webserver.   The linux kernel on the webserver check network packet for specific patterns.   Once the pattern is detected, the network packet will be redirected to a different background process while still running inside the linux kernel.
-
-Here’s the exact “handoff” path in mainline Linux (v6.x) that takes you from **IRQ/softirq context** (NAPI + TCP receive) to the **woken userspace process’s syscall** (process context). I’ve chained it with the specific source locations so you can read it end-to-end.
-
 ---
 
 # 1) Softirq (NAPI) receives the packet → find the socket (assign the *process* by its FD/socket)
@@ -410,8 +404,90 @@ and assuming debugfs is mounted.   The result of above are:
             wget-12509 [000]   145.811194: ipv4_confirm <-nf_iterate
             wget-12509 [000]   145.811220: tcp_event_new_data_sent <-tcp_write_xmit
 
+On RX, the kernel demultiplexes a packet to a **socket** (a `struct sock`) using the L3/L4 4-tuple (src/dst IP, src/dst port, + proto). Any **process** that owns or is waiting on that socket will then be woken and can `recvmsg(2)`. The PID association is therefore indirect and happens via the process’s file-descriptor table pointing to that socket—*not* by tagging packets with a PID.
 
-If you want, I can produce a **minimal ftrace script** (`trace-cmd` / `perf probe`) that shows the above chain live on your kernel: `tcp_v4_rcv → __inet_lookup_established → tcp_data_queue → sock_def_readable → __wake_up → try_to_wake_up → tcp_recvmsg`.
+Below is the end-to-end path and the exact places where tuple→socket resolution and process wakeups happen.
+
+---
+
+# 1) From interrupt to IP (softirq/NAPI)
+
+1. **NIC interrupt → NAPI poll**
+   The driver schedules the `NET_RX` softirq; packets are pulled in NAPI poll and turned into `sk_buff` (SKB) objects.
+
+2. **Protocol dispatch**
+   `__netif_receive_skb_core()` walks `packet_type` handlers and calls IPv4’s `ip_rcv()` for `ETH_P_IP`. From there:
+
+   * `ip_rcv()` → routing / netfilter
+   * `ip_local_deliver()` → `ip_local_deliver_finish()`
+   * `ip_local_deliver_finish()` selects the L4 handler (TCP/UDP/ICMP) and calls it (e.g. `tcp_v4_rcv()` for TCP).
+     (Good overview slides that point to these symbols and files in current kernels. ([en.cs.uni-paderborn.de][1]))
+
+> Context note: all of this still runs in **softirq** context, not in any userspace PID.
+
+---
+
+# 2) The critical step: 4-tuple → `struct sock *` (socket lookup)
+
+When `ip_local_deliver_finish()` hands the SKB to the transport:
+
+### TCP
+
+* **Entry:** `net/ipv4/tcp_ipv4.c : tcp_v4_rcv()`
+* **Lookup:** `__inet_lookup_skb()` → `__inet_lookup_established()` (for established flows) or `__inet_lookup_listener()` (for LISTEN state).
+  These lookups consult the IPv4 inet hash tables (`struct inet_hashinfo`, ehash/bhash) keyed by **{src/dst IP, src/dst port, L4 proto}** to return a `struct sock *sk`. (See teaching materials directly pointing to the functions/files and flow. ([en.cs.uni-paderborn.de][1]))
+
+### UDP
+
+* **Entry:** `net/ipv4/udp.c : udp_rcv()` → `udp_queue_rcv_skb()`
+* **Lookup:** `udp4_lib_lookup_skb()` → `__udp4_lib_lookup()` (same idea: 4-tuple+proto → `sk`). (Referenced in the same Linux networking slides. ([en.cs.uni-paderborn.de][1]))
+
+> This is the precise place your “source/destination IP + port” decides which **socket** owns the packet. **No PID is involved.** The socket might be shared (fork), duplicated, or even chosen via `SO_REUSEPORT` load-balancing; any of these can fan packets to different *sockets* that multiple PIDs hold.
+
+---
+
+# 3) Queueing to the socket and waking waiters
+
+Once the `struct sock *sk` is found:
+
+* **UDP:** the SKB is enqueued to `sk->sk_receive_queue` in `udp_queue_rcv_skb()`.
+* **TCP:** `tcp_v4_do_rcv()` / `tcp_rcv_state_process()` eventually call into the TCP receive path (`tcp_data_queue()` etc.), placing data into the per-socket receive queue.
+
+After enqueuing, the stack signals that new data is available by invoking the socket’s “data ready” callback chain:
+
+```
+sk->sk_data_ready(sk);           // typically sock_def_readable()
+  → sock_def_readable()
+     → wake_up_interruptible_poll(…)
+     → ep_poll_callback(…)  // if the socket is in an epoll set
+```
+
+This is the point where **tasks blocked in `recvmsg()`/`poll()`/`epoll_wait()` are woken** and scheduled to run by the kernel. A well-known (mirrored) copy of this readiness/wakeup flow lives in `net/core/sock.c`. ([GitHub][2])
+
+> Only now does a **specific task (PID)** run in **process context** and copy data out of the socket receive queue. The kernel never had to “assign” a PID to the packet; the sleeping task already owns the file descriptor that references the socket.
+
+---
+
+# 4) “But how does the kernel decide *which CPU* processes the packet?”
+
+That’s a different mapping (flow→CPU), handled by **RPS/RFS**, not PID routing:
+
+* **RPS (Receive Packet Steering)**: software steers flows to CPUs to spread load.
+* **RFS (Receive Flow Steering)**: improves on RPS by steering packets to the CPU **where the consuming application last ran**, to boost cache locality. It uses a per-flow mapping keyed by the same 4/5-tuple, updated when apps call `recvmsg()`, and it influences *CPU selection*, not which PID owns the packet. ([Red Hat Docs][3], [Kernel Documentation][4], [LWN.net][5])
+
+---
+
+# 5) Where to read this in code (quick map)
+
+> Even though the PID never appears in the demux, these are the core files you’ll want to study; they’re stable across modern kernels:
+
+* **Device/softirq ingress:** `net/core/dev.c` → `__netif_receive_skb_core()` → `ip_rcv()`
+* **IPv4 local delivery:** `net/ipv4/ip_input.c` → `ip_local_deliver_finish()` (selects L4 handler). (Pointers & file paths from modern kernel lecture deck. ([en.cs.uni-paderborn.de][1]))
+* **TCP IPv4 entry & lookups:** `net/ipv4/tcp_ipv4.c` (`tcp_v4_rcv()`, `__inet_lookup_skb()`), `net/ipv4/inet_hashtables.c` (ehash/bhash lookups). (Pointers & file paths from the same deck. ([en.cs.uni-paderborn.de][1]))
+* **UDP IPv4 entry & lookup:** `net/ipv4/udp.c` (`udp_rcv()`, `udp4_lib_lookup_skb()` → `__udp4_lib_lookup()`). (Pointers & file paths from the same deck. ([en.cs.uni-paderborn.de][1]))
+* **Socket wakeups:** `net/core/sock.c` (`sock_def_readable()`, `sk_data_ready`, wakeup paths). (Mirror copy for quick reading. ([GitHub][2]))
+* **Scaling docs (RPS/RFS):** in-tree kernel docs explain the CPU-steering mechanisms and how they relate to application locality. ([Kernel Documentation][4])
+
 
 [1]: https://codebrowser.dev/linux/linux/net/ipv4/tcp_ipv4.c.html?utm_source=chatgpt.com "tcp_ipv4.c source code [linux/net/ipv4 ..."
 [2]: https://cocalc.com/github/torvalds/linux/blob/master/net/ipv4/inet_hashtables.c?utm_source=chatgpt.com "inet_hashtables.c"
@@ -423,4 +499,9 @@ If you want, I can produce a **minimal ftrace script** (`trace-cmd` / `perf prob
 [8]: https://wiki.linuxfoundation.org/networking/kernel_flow?utm_source=chatgpt.com "networking:kernel_flow [Wiki]"
 [9]: https://github.com/penberg/linux-networking?utm_source=chatgpt.com "penberg/linux-networking: Notes on Linux network internals"
 [10]: https://docs.kernel.org/networking/kapi.html?utm_source=chatgpt.com "Linux Networking and Network Devices APIs"
+[1]: https://en.cs.uni-paderborn.de/fileadmin-eim/informatik/fg/cn/Teaching/WS23-24/CN/Slides/CN_WS23-24_Lec12_LinuxNet.pdf?utm_source=chatgpt.com "Introduction to Linux Networking"
+[2]: https://github.com/y123456yz/Reading-and-comprehense-linux-Kernel-network-protocol-stack/blob/master/linux-net-kernel/net/core/sock.c "Reading-and-comprehense-linux-Kernel-network-protocol-stack/linux-net-kernel/net/core/sock.c at master · y123456yz/Reading-and-comprehense-linux-Kernel-network-protocol-stack · GitHub"
+[3]: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/performance_tuning_guide/network-rps?utm_source=chatgpt.com "8.7. Receive Packet Steering (RPS)"
+[4]: https://docs.kernel.org/networking/scaling.html?utm_source=chatgpt.com "Scaling in the Linux Networking Stack"
+[5]: https://lwn.net/Articles/382428/?utm_source=chatgpt.com "Receive flow steering"
 
