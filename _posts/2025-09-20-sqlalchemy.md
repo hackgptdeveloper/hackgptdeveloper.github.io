@@ -177,8 +177,6 @@ Every ORM-mapped object has an **InstanceState** attached:
 * SQLAlchemy is a **compiler pipeline for SQL** with an optional **object mapper** on top.
 * At the **lowest level**, it is a tree of `ClauseElement` objects compiled into SQL strings.
 * At the **highest level**, it’s an ORM with sessions, objects, and unit-of-work management.
+📖 Reference: [SQLAlchemy](https://aosabook.org/en/v2/sqlalchemy.html)
 
 ---
-
-Would you like me to **draw a full flow diagram** (Engine → MetaData → Expression AST → Compiler → DBAPI → Session/Mapper → Object) so you can see the entire SQLAlchemy pipeline visually?
-
