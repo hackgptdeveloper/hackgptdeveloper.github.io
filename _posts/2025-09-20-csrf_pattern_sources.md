@@ -1,4 +1,4 @@
---
+---
 title: "CSRF pattern in sources in PHP, Node.js, Java EE, Flask"
 tags:
   - csrf

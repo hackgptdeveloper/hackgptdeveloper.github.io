@@ -1,10 +1,10 @@
---
+---
 title: "Side-by-side vulnerable vs secure patterns for CSRF"
 tags:
   - csrf
 ---
 
-Perfect — let’s build **side-by-side vulnerable vs secure patterns** for each of the 40 cases (10 × PHP, Node.js, Java EE, Flask).
+Here are the **side-by-side vulnerable vs secure patterns** for each of the PHP, Node.js, Java EE, Flask technology.
 I’ll show you:
 
 * 🔴 **Vulnerable pattern** (source level)
