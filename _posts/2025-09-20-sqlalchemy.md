@@ -1,5 +1,5 @@
 ---
-title: "An **introduction** to technology of **SQLAlchemy**"
+title: "SQLAlchemy Internals"
 tags:
   - python
   - database
