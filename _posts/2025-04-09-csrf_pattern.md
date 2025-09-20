@@ -1,5 +1,5 @@
 ---
-title: "list of **50 different patterns** that could lead to a **CSRF vulnerability**"
+title: "list of 50 different patterns resulting in CSRF"
 tags:
   - csrf
 ---
