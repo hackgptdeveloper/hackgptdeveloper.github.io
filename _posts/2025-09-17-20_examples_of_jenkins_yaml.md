@@ -1,5 +1,5 @@
 ---
-title: "20 examples of commonly used Jenkins YAML pipeline"
+title: "Jenkins in Action: 20 Real-World YAML Pipeline Examples You Can Copy Today"
 tags:
   - jenkins
   - ci/cd

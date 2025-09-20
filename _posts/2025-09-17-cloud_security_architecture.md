@@ -1,5 +1,5 @@
 ---
-title: "Multiple dialogue on cloud security"
+title: "Cloud Security Unfiltered: Expert Dialogues on Threats, Hacks, and Defenses"
 tags:
   - cloud security
 ---

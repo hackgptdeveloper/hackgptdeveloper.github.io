@@ -1,5 +1,5 @@
 ---
-title: "**50 features why Groovy is better: Java, JavaScript, PHP, C, or Python**"
+title: "50 Reasons Groovy Beats Java, Python, JavaScript, PHP, and C for Modern Devs"
 tags:
   - Groovy
 ---

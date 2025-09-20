@@ -1,5 +1,5 @@
 ---
-title: "**10 tools** for cloud monitoring and vuln detection"
+title: "Top 10 Cloud Monitoring & Vulnerability Detection Tools (With Pros & Cons)"
 tags:
   - cloud performance monitoring
   - cloud security monitoring

@@ -1,5 +1,5 @@
 ---
-title: "20 important features of Spring Boot"
+title: "Spring Boot Essentials: 20 Must-Know Features Every Engineer Should Master"
 tags:
   - Java
   - SpringBoot
