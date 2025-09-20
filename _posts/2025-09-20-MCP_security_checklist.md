@@ -1,5 +1,5 @@
 ---
-title: "Security checklist for **MCP (Model Context Protocol)** deployments"
+title: "Ultimate MCP Security Checklist: Hardening Model Context Protocol Deployments"
 tags:
   - MCP
   - AI agent

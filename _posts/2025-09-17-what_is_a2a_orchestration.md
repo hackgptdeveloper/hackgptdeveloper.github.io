@@ -1,5 +1,5 @@
 ---
-title: "Agent-to-Agent (**A2A**) orchestration"
+title: "Agent-to-Agent (A2A) Orchestration: Next-Gen Automation for AI Workflows"
 tags:
   - AI agent
 ---

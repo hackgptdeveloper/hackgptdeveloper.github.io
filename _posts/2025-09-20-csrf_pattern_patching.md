@@ -1,5 +1,5 @@
 ---
-title: "Side-by-side vulnerable vs secure patterns for CSRF"
+title: "CSRF Security Explained: Vulnerable vs. Secure Code Patterns"
 tags:
   - csrf
 ---

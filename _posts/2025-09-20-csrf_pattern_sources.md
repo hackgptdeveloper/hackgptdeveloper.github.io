@@ -1,5 +1,5 @@
 ---
-title: "CSRF pattern in sources in PHP, Node.js, Java EE, Flask"
+title: "CSRF Vulnerabilities in Action: Real-World Patterns in PHP, Node.js, Java EE & Flask"
 tags:
   - csrf
 ---

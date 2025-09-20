@@ -1,5 +1,5 @@
 ---
-title: "Using LangGraph and LangChain to create an AI agent workflow orchestration"
+title: "LangGraph vs. LangChain: Building Viral AI Agent Orchestration Workflows Step-by-Step"
 tags:
   - AI agent
   - LangGraph

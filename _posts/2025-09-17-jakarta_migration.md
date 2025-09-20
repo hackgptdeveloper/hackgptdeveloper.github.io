@@ -1,5 +1,5 @@
 ---
-title: "Jakarta revolution:  Java source given to Eclipse Foundation"
+title: "Jakarta’s Big Move: Why Java’s Source Code Transfer to Eclipse Foundation Matters"
 tags:
   - Java
 ---

@@ -1,5 +1,5 @@
 ---
-title: "SQLAlchemy Internals"
+title: "Deep Dive into SQLAlchemy Internals: How Python’s ORM Really Works"
 tags:
   - python
   - database
