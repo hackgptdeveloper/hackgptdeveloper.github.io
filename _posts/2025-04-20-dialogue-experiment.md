@@ -216,5 +216,3 @@ Based on the full conversation, here are 10 actionable items the teenage boy can
 	•	Purpose: Restore a sense of agency and long-term motivation, which gaming falsely supplies.
 
 ⸻
-
-Let me know if you want a printable visual plan, an interactive app-like structure for him, or even a gamified reward system built around these goals (so he still gets “XP” but in real life).

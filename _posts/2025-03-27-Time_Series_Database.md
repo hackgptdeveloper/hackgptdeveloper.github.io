@@ -154,5 +154,3 @@ Choosing the right time-series database depends on your use case:
 - **For financial analytics:** kdb+, QuestDB  
 - **For real-time analytics:** Apache Druid, ClickHouse  
 - **For long-term storage & scalability:** OpenTSDB, TimescaleDB  
-
-Would you like a deeper technical comparison or benchmark results? 🚀

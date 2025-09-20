@@ -130,8 +130,6 @@ From Medium: **"Doing it the researcher's way…"** by JzeeRx details how SSTI e
 
 ---
 
-Would you like to deep-dive into any specific payload chains or see sample source-code equivalent in exploits? Or perhaps you'd like references to these HackerOne reports or CVEs for context?
-
 [1]: https://arxiv.org/html/2405.01118v1?utm_source=chatgpt.com "A Survey of the Overlooked Dangers of Template Engines"
 [2]: https://www.youtube.com/watch?v=u8BuuGEZcIg&utm_source=chatgpt.com "SSTI for Bug Bounty | Server-Side Template Injection"
 [3]: https://www.reddit.com/r/bugbounty/?utm_source=chatgpt.com "r/bugbounty"

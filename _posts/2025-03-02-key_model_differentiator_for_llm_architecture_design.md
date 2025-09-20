@@ -78,4 +78,4 @@ There are numerous factors that differentiate large language model (LLM) impleme
 
 ---
 
-Each of these factors plays a crucial role in determining an LLM’s final performance in terms of speed, memory usage, cost, accuracy, and robustness. Would you like to explore any of these topics in more detail?
+Each of these factors plays a crucial role in determining an LLM’s final performance in terms of speed, memory usage, cost, accuracy, and robustness. 

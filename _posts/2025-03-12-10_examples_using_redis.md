@@ -147,5 +147,3 @@ if __name__ == '__main__':
 ```
 
 ---
-
-Would you like more detailed explanations of any of these? 🚀

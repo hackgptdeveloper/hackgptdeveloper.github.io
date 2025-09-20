@@ -104,9 +104,3 @@ Let's chain into some frameworks:
 - [W3C CORS Spec](https://www.w3.org/TR/cors/)
 
 ---
-
-Would you also want me to generate:
-
-- **Payloads** to exploit each of these patterns?
-- **Framework-specific exploitation guides**? (Node.js, Flask, Java Spring)
-- **Real-world case studies** where each pattern caused a breach?

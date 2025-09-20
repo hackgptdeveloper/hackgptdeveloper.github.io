@@ -150,5 +150,3 @@ Once you have the `heapdump.hprof` file, you can analyze it using:
 - If you want a **dump on OOM**, use `-XX:+HeapDumpOnOutOfMemoryError`.
 - If you need to **programmatically generate a heap dump**, use the `HotSpotDiagnostic` API.
 - If `jmap` fails, try `jcmd`, which is more reliable on newer Java versions.
-
-Would you like help analyzing an HPROF file? 🚀

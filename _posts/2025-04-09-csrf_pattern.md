@@ -282,7 +282,3 @@ CSRF patterns and their explanation to fundamental web behaviors and, when appli
 - **Express.js (Node.js)** — default body parsers (`body-parser`) made certain attacks feasible if validation was missing.
 
 ---
-
-If you want next, I can also **map each pattern to an OWASP Testing Guide test**, or **expand** some into **source-level real vulnerable code snippets**.  
-🔎 Would you want that too?  
-(e.g., PHP, Node.js, Java EE, Python Flask examples showing the bad patterns!) 🚀
