@@ -1,5 +1,5 @@
 ---
-title: "Jakarta revolution:  Java source codes being passed to Eclipse Foundation"
+title: "Jakarta revolution:  Java source given to Eclipse Foundation"
 tags:
   - Java
 ---
