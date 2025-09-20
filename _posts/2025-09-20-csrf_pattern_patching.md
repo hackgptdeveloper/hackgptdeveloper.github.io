@@ -1,5 +1,5 @@
 --
-title: " **side-by-side vulnerable vs secure patterns** for CSRF vulnerabilities in PHP, Node.js, Java EE, Flask"
+title: "**side-by-side vulnerable vs secure patterns** for CSRF"
 tags:
   - csrf
 ---
