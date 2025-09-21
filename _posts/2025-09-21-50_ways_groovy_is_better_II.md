@@ -4,7 +4,7 @@ tags:
   - Groovy
 ---
 
-### 50 Reasons Why Groovy is Better Than Java, JavaScript, PHP, C, or Python
+### For each feature, here we explained why Groovy has the advantage.
 
 | #  | Feature | Why It's Better (Compared To...) |
 |----|---------|---------------------------------|
