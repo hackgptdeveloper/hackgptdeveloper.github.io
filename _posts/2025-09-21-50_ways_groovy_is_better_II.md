@@ -1,5 +1,5 @@
 ---
-title: "**50 features why Groovy is better II: Java, JavaScript, PHP, C, or Python**"
+title: "**50 features why Groovy is better (2)**"
 tags:
   - Groovy
 ---
