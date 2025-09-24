@@ -1,7 +1,8 @@
 ---
-title: "20 Gamification Ideas for Teenager-AI Dialogue"
+title: "How to create a viral game"
 tags:
   - Education
+  - Game Design
 ---
 
 Following up from previous article:

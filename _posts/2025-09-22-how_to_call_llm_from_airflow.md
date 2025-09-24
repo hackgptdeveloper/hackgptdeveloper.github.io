@@ -1,7 +1,8 @@
 ---
-title: "20 Gamification Ideas for Teenager-AI Dialogue"
+title: "How to call an LLM via API from Airflow"
 tags:
-  - Education
+  - LLM
+  - Airflow
 ---
 
 In **Apache Airflow**, you don’t “call” an LLM (Large Language Model) directly — instead, you integrate it inside a **task** (usually via a PythonOperator or custom operator). The DAG defines the workflow, and your task code makes the LLM API call.

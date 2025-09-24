@@ -1,7 +1,8 @@
 ---
-title: "20 Gamification Ideas for Teenager-AI Dialogue"
+title: "Creating music starting with an existing music as a template"
 tags:
   - Education
+  - Music
 ---
 
 Here’s a step-by-step guide to set up a **music generator with Hugging Face**, starting from a short audio clip as input. I’ll chain the explanation all the way down to models, code, and internals.
