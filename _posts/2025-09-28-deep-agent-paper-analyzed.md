@@ -1,5 +1,5 @@
 ---
-title: "Deep Research Agents 
+title: "Deep Research Agents Paper"
 tags:
   - Education
 ---
