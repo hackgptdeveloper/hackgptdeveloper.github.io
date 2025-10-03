@@ -1,5 +1,5 @@
 ---
-title: "Deep Research Agents Paper"
+title: "Deep Research Agents: A Systematic Examination And Roadmap"
 tags:
   - Education
 ---
@@ -41,4 +41,4 @@ Deep Research Agents (DR agents) leverage large language models to autonomously 
 
 This paper guides the design and deployment of future DR agents in academic and industrial settings, identifying both successes and gaps that must be addressed for next-generation intelligent research systems.[1]
 
-[1](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/13148127/f3aa09f6-2f68-4b73-8368-6553e190d773/deepagent.pdf)
+[https://arxiv.org/html/2506.18096v1](https://arxiv.org/html/2506.18096v1)
