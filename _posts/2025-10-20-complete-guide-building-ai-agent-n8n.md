@@ -25,7 +25,7 @@ Before you start building AI agents in n8n, ensure you have:
 
 **Triggers**: Events that start your workflow (webhooks, schedules, manual execution).
 
-**Expressions**: Dynamic data references using `{{ }}` syntax to pass data between nodes.
+**Expressions**: Dynamic data references using {% raw %} {{}} {% endraw %} syntax to pass data between nodes.
 
 ## Step-by-Step Guide
 
