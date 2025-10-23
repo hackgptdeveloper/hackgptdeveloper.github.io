@@ -1,7 +1,7 @@
 ---
 layout: home
-limit: 21
+limit: 50
 show_excerpts: true
-paginate: true
+paginate: false
 entries_layout: grid
 ---
