@@ -110,6 +110,3 @@ Here’s a structured list of AI agents in education, broken into categories for
 ---
 
 👉 These span from **low-level automation** (grading, transcription) to **high-level cognitive augmentation** (personalized tutoring, virtual labs, career guidance).
-
-Do you want me to also **map each of these 50 use-cases to the low-level technologies** (like NLP transformers, computer vision, reinforcement learning, etc.) and where in the source code stack (TensorFlow, PyTorch, HuggingFace, LangChain, etc.) they usually originate? That would chain the explanation down to the implementation layer as you usually prefer.
-

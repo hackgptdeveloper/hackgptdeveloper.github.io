@@ -3,6 +3,7 @@ layout: page
 ---
 
 {{ content }}
+<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
 
 <div class="entries-{{ page.entries_layout | default: 'list' }}">
   {%- if site.plugins contains 'jekyll-paginate' and page.paginate or site.gems contains 'jekyll-paginate' and page.paginate -%}

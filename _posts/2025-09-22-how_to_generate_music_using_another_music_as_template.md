@@ -121,5 +121,3 @@ If you want to try in the browser without coding, Hugging Face Spaces hosts read
 
 ---
 
-Do you want me to also show how to **train/fine-tune your own MusicGen model** on custom clips (so it mimics your dataset’s style), or do you want to stick with inference only?
-
