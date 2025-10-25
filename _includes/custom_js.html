@@ -1,0 +1,54 @@
+
+
+
+<!-- HTML Container for Hearts --> <div id="heart-container"></div> <script>
+// JavaScript for the periodic heart animation
+document.addEventListener('DOMContentLoaded', function() {
+    const heartContainer = document.getElementById('heart-container');
+
+    function createHeart() {
+        // 1. Create the heart element
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+
+        // 2. Random properties
+        const randomSize = Math.floor(Math.random() * 15) + 15; // Size between 15px and 30px
+        const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+
+        // Random starting point within the viewport
+        const randomLeft = Math.floor(Math.random() * window.innerWidth);
+        const randomTop = Math.floor(Math.random() * window.innerHeight);
+
+        // 3. Apply random properties
+        heart.style.width = `${randomSize}px`;
+        heart.style.height = `${randomSize}px`;
+        heart.style.background = randomColor;
+        heart.style.left = `${randomLeft}px`;
+        heart.style.top = `${randomTop}px`;
+
+        // 4. Random animation end properties (for the spewing effect)
+        // The heart will "spew" out from the starting point to a random end point.
+        const endX = (Math.random() * 400) - 200; // -200px to 200px relative to start
+        const endY = (Math.random() * 400) - 200; // -200px to 200px relative to start
+        const rotateDeg = Math.floor(Math.random() * 720) - 360; // -360deg to 360deg rotation
+
+        // Set CSS variables for the animation to be used in the @keyframes
+        heart.style.setProperty('--end-x', `${endX}px`);
+        heart.style.setProperty('--end-y', `${endY}px`);
+        heart.style.setProperty('--rotate-deg', `${rotateDeg}deg`);
+
+        // 5. Append and remove after animation
+        heartContainer.appendChild(heart);
+
+        // Remove the heart after the animation (5 seconds) to prevent DOM clutter
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }
+
+    // 6. Initial call and set interval to run every 5 seconds
+    // This will create a new heart every 5 seconds, as requested.
+    createHeart(); // Run immediately
+    setInterval(createHeart, 5000);
+});
+</script>
