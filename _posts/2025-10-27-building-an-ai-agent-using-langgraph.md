@@ -2,6 +2,7 @@
 title: "How To start to build an actual AI agent"
 tags:
   - AI agent
+  - LangGraph
 ---
 
 [https://www.youtube.com/shorts/qvpbO5Y9jN0](https://www.youtube.com/shorts/qvpbO5Y9jN0)

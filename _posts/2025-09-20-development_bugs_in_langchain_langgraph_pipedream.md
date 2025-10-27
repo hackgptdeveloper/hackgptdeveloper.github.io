@@ -1,8 +1,8 @@
 ---
 title: "**LangChain Development Problems**"
 tags:
-  - langchain
-  - langgraph
+  - LangGraph
+  - LangChain
   - AI agent
 ---
 
