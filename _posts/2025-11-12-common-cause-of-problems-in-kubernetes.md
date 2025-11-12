@@ -1,5 +1,5 @@
 ---
-title: "common root causes: Kubernetes LoadBalancer problems"
+title: "Common Kubernetes LoadBalancer problems and it causes"
 tags:
   - kubernetes
   - loadbalancer

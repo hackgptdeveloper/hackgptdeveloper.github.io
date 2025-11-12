@@ -1,5 +1,5 @@
 ---
-title: "*100 common problems in Kubernetes LoadBalancer implementations**"
+title: "100 common problems in Kubernetes LoadBalancer implementations"
 tags:
   - loadbalancer
   - kubernetes
