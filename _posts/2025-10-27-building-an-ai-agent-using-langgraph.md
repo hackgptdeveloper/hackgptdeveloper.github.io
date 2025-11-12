@@ -234,7 +234,7 @@ print(result_state["messages"][-1].content)
 
 ## 6. Extending / customizing (since you’ll likely want more control)
 
-Given your background, you may want to go beyond `create_react_agent` and build a custom graph or augment with memory, security controls, etc. Here’s how:
+If you want to go beyond `create_react_agent` and build a custom graph or augment with memory, security controls, etc. Here’s how:
 
 * Use `StateGraph` from `langgraph.graph` to define nodes manually (LLM node, Tool node, maybe memory node). ([LangChain][1])
 * Define custom `AgentState` TypedDict including fields like `messages`, `tools_called`, `tool_history`, `session_id`.
@@ -267,8 +267,6 @@ Since you’re in the security space, here are extra things to watch:
 * Always validate tools and user inputs, avoid injection risks, impose loop limits, monitor.
 
 ---
-
-If you like, I can **generate a full skeleton repository** (with Dockerfile, CI/CD GitHub Actions YAML, logging, callback hooks) for a LangGraph `create_react_agent`-based service ready for deployment — would that be useful to you?
 
 [1]: https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/?utm_source=chatgpt.com "How to create a ReAct agent from scratch - GitHub Pages"
 [2]: https://langchain-ai.github.io/langgraph/reference/agents/?utm_source=chatgpt.com "Agents - GitHub Pages"
