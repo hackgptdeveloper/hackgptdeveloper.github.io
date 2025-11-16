@@ -1,5 +1,5 @@
 ---
-title: "Using AI Models or Tools to Achieve Infiltration”
+title: "Using AI Models or Tools to Achieve Infiltration"
 tags:
   - reconnoissance
 ---
