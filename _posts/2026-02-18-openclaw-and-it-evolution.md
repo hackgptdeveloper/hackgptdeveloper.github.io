@@ -4,9 +4,7 @@ tags:
   - OpenClaw
 ---
 
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-The image describes a workflow where an AI coding agent (“Claude Code”) reads multiple AI-agent codebases (OpenClaw, ZeroClaw, IronClaw, NanoBot, PicoClaw, TinyClaw, Agent Zero) and then helps your team implement a “wishlist” of features (Telegram bot, encrypted secrets, Obsidian skills, memory system, soul.md identity, cron scheduling). Below is an explanation of each term with references.
+In a workflow where an AI coding agent (“Claude Code”) reads multiple AI-agent codebases (OpenClaw, ZeroClaw, IronClaw, NanoBot, PicoClaw, TinyClaw, Agent Zero) and then helps your team implement a “wishlist” of features (Telegram bot, encrypted secrets, Obsidian skills, memory system, soul.md identity, cron scheduling). Below is an explanation of each term with references.
 
 ***
 
@@ -111,8 +109,6 @@ Each bullet on the “YOUR WISHLIST” notepad is a feature that your team wants
 [^1_9]: https://www.agent-zero.ai
 
 [^1_10]: https://aiagentsdirectory.com/agent/agent-zero
-
-[^1_11]: image.jpg
 
 [^1_12]: https://claude.ai
 
