@@ -32,6 +32,8 @@ tags:
       touch-action: none;
       flex-shrink: 0;
       box-sizing: border-box;
+      background: #1a472a;
+      cursor: pointer;
     }
     
     #ball {
@@ -93,6 +95,71 @@ tags:
         margin: 2px 0;
       }
     }
+
+    /* Fullscreen play mode (double-tap) */
+    html.ping-pong-fullscreen,
+    html.ping-pong-fullscreen body {
+      overflow: hidden !important;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    html.ping-pong-fullscreen .masthead,
+    html.ping-pong-fullscreen .site-header,
+    html.ping-pong-fullscreen .page-header,
+    html.ping-pong-fullscreen .page-sidebar,
+    html.ping-pong-fullscreen .page-share,
+    html.ping-pong-fullscreen .page-pagination,
+    html.ping-pong-fullscreen .page-image,
+    html.ping-pong-fullscreen .disqus,
+    html.ping-pong-fullscreen footer,
+    html.ping-pong-fullscreen .ping-pong-ui {
+      display: none !important;
+    }
+
+    html.ping-pong-fullscreen .main-content,
+    html.ping-pong-fullscreen .page-wrapper,
+    html.ping-pong-fullscreen .page-content,
+    html.ping-pong-fullscreen .e-content,
+    html.ping-pong-fullscreen article,
+    html.ping-pong-fullscreen .h-entry {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: none !important;
+    }
+
+    html.ping-pong-fullscreen .ping-pong-game {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-width: none;
+      padding: 0;
+      margin: 0;
+      z-index: 99999;
+      background: #0d2818;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    html.ping-pong-fullscreen #gameContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+    }
 </style>
 <div class="ping-pong-game">
   <div class="ping-pong-ui">
@@ -103,7 +170,8 @@ tags:
         <span id="speedValue">3</span>
     </div>
     <div class="instructions">
-        Use R/F for left, U/J for right<br>or touch/drag paddles
+        Use R/F for left, U/J for right — touch/drag paddles<br>
+        Double-tap the table for fullscreen play (double-tap again to exit)
     </div>
   </div>
   <div id="gameContainer">
@@ -130,7 +198,10 @@ tags:
     const BASE_WIDTH = 300;
     const BASE_HEIGHT = 500;
     const ASPECT = BASE_WIDTH / BASE_HEIGHT;
+    const DOUBLE_TAP_MS = 400;
+    const DOUBLE_TAP_DISTANCE = 40;
 
+    let isPlayMode = false;
     let gameWidth = BASE_WIDTH;
     let gameHeight = BASE_HEIGHT;
     let ballSize = 10;
@@ -155,6 +226,16 @@ tags:
     let rightHits = 0;
     let activeTouches = new Map();
 
+    const lastTapByPointer = new Map();
+
+    function getViewportSize() {
+      const vv = window.visualViewport;
+      if (isPlayMode && vv) {
+        return { width: vv.width, height: vv.height, offsetTop: vv.offsetTop, offsetLeft: vv.offsetLeft };
+      }
+      return { width: window.innerWidth, height: window.innerHeight, offsetTop: 0, offsetLeft: 0 };
+    }
+
     function clampPaddleY(y) {
       return Math.max(0, Math.min(maxPaddleY, y));
     }
@@ -172,30 +253,7 @@ tags:
       rightPaddle.style.top = rightPaddleY + 'px';
     }
 
-    function resizeGame() {
-      const margin = 12;
-      const pageHeader = document.querySelector('.page-header');
-      const pageSidebar = document.querySelector('.page-sidebar');
-      const masthead = document.querySelector('.masthead, .site-header, header.masthead');
-      const pageHeaderHeight = pageHeader ? pageHeader.offsetHeight : 0;
-      const pageSidebarHeight = pageSidebar ? pageSidebar.offsetHeight : 0;
-      const mastheadHeight = masthead ? masthead.offsetHeight : 0;
-      const uiHeight = gameUi.offsetHeight;
-
-      const availableWidth = window.innerWidth - margin * 2;
-      const availableHeight = window.innerHeight - pageHeaderHeight - pageSidebarHeight - mastheadHeight - uiHeight - margin * 2;
-
-      let width = Math.min(availableWidth, 400);
-      let height = width / ASPECT;
-
-      if (height > availableHeight && availableHeight > 120) {
-        height = availableHeight;
-        width = height * ASPECT;
-      }
-
-      gameWidth = Math.max(160, Math.floor(width));
-      gameHeight = Math.max(200, Math.floor(height));
-
+    function applyGameDimensions() {
       const scale = gameWidth / BASE_WIDTH;
       ballSize = Math.max(6, Math.round(10 * scale));
       paddleWidth = Math.max(5, Math.round(8 * scale));
@@ -209,12 +267,87 @@ tags:
       container.style.width = gameWidth + 'px';
       container.style.height = gameHeight + 'px';
 
-      ballX = Math.min(ballX, gameWidth - ballSize);
-      ballY = Math.min(ballY, maxBallY);
+      ballX = Math.min(Math.max(0, ballX), gameWidth - ballSize);
+      ballY = Math.min(Math.max(0, ballY), maxBallY);
       leftPaddleY = clampPaddleY(leftPaddleY);
       rightPaddleY = clampPaddleY(rightPaddleY);
 
       syncElements();
+    }
+
+    function resizeGame() {
+      const vp = getViewportSize();
+
+      if (isPlayMode) {
+        container.style.width = '100vw';
+        container.style.height = '100dvh';
+        gameWidth = container.clientWidth || Math.floor(vp.width);
+        gameHeight = container.clientHeight || Math.floor(vp.height);
+        applyGameDimensions();
+        return;
+      }
+
+      container.style.width = '';
+      container.style.height = '';
+
+      const margin = 12;
+      const pageHeader = document.querySelector('.page-header');
+      const pageSidebar = document.querySelector('.page-sidebar');
+      const masthead = document.querySelector('.masthead, .site-header, header.masthead');
+      const pageHeaderHeight = pageHeader ? pageHeader.offsetHeight : 0;
+      const pageSidebarHeight = pageSidebar ? pageSidebar.offsetHeight : 0;
+      const mastheadHeight = masthead ? masthead.offsetHeight : 0;
+      const uiHeight = gameUi.offsetHeight;
+
+      const availableWidth = vp.width - margin * 2;
+      const availableHeight = vp.height - pageHeaderHeight - pageSidebarHeight - mastheadHeight - uiHeight - margin * 2;
+
+      let width = Math.min(availableWidth, 400);
+      let height = width / ASPECT;
+
+      if (height > availableHeight && availableHeight > 120) {
+        height = availableHeight;
+        width = height * ASPECT;
+      }
+
+      gameWidth = Math.max(160, Math.floor(width));
+      gameHeight = Math.max(200, Math.floor(height));
+      applyGameDimensions();
+    }
+
+    function setPlayMode(enabled) {
+      isPlayMode = enabled;
+      document.documentElement.classList.toggle('ping-pong-fullscreen', enabled);
+      if (enabled) {
+        window.scrollTo(0, 0);
+      }
+      resizeGame();
+      if (enabled) {
+        resetBall();
+      }
+    }
+
+    function togglePlayMode() {
+      setPlayMode(!isPlayMode);
+    }
+
+    function isDoubleTap(clientX, clientY, pointerId) {
+      const now = Date.now();
+      const prev = lastTapByPointer.get(pointerId);
+      lastTapByPointer.set(pointerId, { time: now, x: clientX, y: clientY });
+
+      if (!prev) return false;
+
+      const dt = now - prev.time;
+      const dx = clientX - prev.x;
+      const dy = clientY - prev.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dt < DOUBLE_TAP_MS && dist < DOUBLE_TAP_DISTANCE) {
+        lastTapByPointer.delete(pointerId);
+        return true;
+      }
+      return false;
     }
 
     function clientYToGameY(clientY) {
@@ -224,11 +357,24 @@ tags:
     }
 
     function handleTouchStart(e) {
+      const rect = container.getBoundingClientRect();
+
+      for (const touch of Array.from(e.changedTouches)) {
+        const inGame = touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                       touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+
+        if (inGame && isDoubleTap(touch.clientX, touch.clientY, touch.identifier)) {
+          e.preventDefault();
+          togglePlayMode();
+          return;
+        }
+      }
+
       e.preventDefault();
       Array.from(e.changedTouches).forEach(touch => {
-        const touchX = touch.clientX - container.getBoundingClientRect().left;
+        const touchX = touch.clientX - rect.left;
         const touchY = clientYToGameY(touch.clientY);
-        const halfWidth = container.getBoundingClientRect().width / 2;
+        const halfWidth = rect.width / 2;
 
         if (touchX < halfWidth) {
           activeTouches.set(touch.identifier, 'left');
@@ -273,6 +419,11 @@ tags:
     container.addEventListener('touchend', handleTouchEnd, { passive: false });
     container.addEventListener('touchcancel', handleTouchEnd, { passive: false });
 
+    container.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      togglePlayMode();
+    });
+
     speedControl.addEventListener('input', function() {
       baseSpeed = parseInt(this.value, 10);
       speedValue.textContent = baseSpeed;
@@ -281,6 +432,10 @@ tags:
     });
 
     document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isPlayMode) {
+        setPlayMode(false);
+        return;
+      }
       switch(e.key.toLowerCase()) {
         case 'r':
           leftPaddleY = clampPaddleY(leftPaddleY - paddleSpeed);
@@ -312,20 +467,20 @@ tags:
       if (ballX <= paddleWidth && ballY >= leftPaddleY && ballY <= leftPaddleY + paddleHeight) {
         ballSpeedX = baseSpeed;
         leftHits++;
-        leftHitsElement.textContent = leftHits;
+        if (leftHitsElement) leftHitsElement.textContent = leftHits;
       } else if (ballX >= rightPaddleHitX && ballY >= rightPaddleY && ballY <= rightPaddleY + paddleHeight) {
         ballSpeedX = -baseSpeed;
         rightHits++;
-        rightHitsElement.textContent = rightHits;
+        if (rightHitsElement) rightHitsElement.textContent = rightHits;
       }
 
       if (ballX <= 0) {
         rightScore++;
-        rightScoreElement.textContent = rightScore;
+        if (rightScoreElement) rightScoreElement.textContent = rightScore;
         resetBall();
       } else if (ballX >= scoreRightX) {
         leftScore++;
-        leftScoreElement.textContent = leftScore;
+        if (leftScoreElement) leftScoreElement.textContent = leftScore;
         resetBall();
       }
 
@@ -345,10 +500,15 @@ tags:
     resizeGame();
     resetBall();
     syncElements();
+
     window.addEventListener('resize', resizeGame);
     window.addEventListener('orientationchange', function() {
-      setTimeout(resizeGame, 100);
+      setTimeout(resizeGame, 150);
     });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', resizeGame);
+      window.visualViewport.addEventListener('scroll', resizeGame);
+    }
 
     update();
 </script>
