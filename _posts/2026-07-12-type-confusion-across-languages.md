@@ -511,6 +511,6 @@ The common thread isn't technical — it's cultural. Every language community be
 
 The complete exploit source code for all four languages — Node.js server, Java server, C++ server, Python server, exploit scripts, and Docker setup — is available at:
 
-**[https://github.com/tthtlc/autobug/tree/main/type_confusion](https://github.com/tthtlc/autobug/tree/main/type_confusion)**
+**[https://github.com/tthtlc/vuln_exploration_exercise/tree/main/multi_language_type_confusion](https://github.com/tthtlc/vuln_exploration_exercise/tree/main/multi_language_type_confusion)**
 
 Each service runs in its own Docker container, exposing the type confusion vulnerability on a different port: Node.js :3000, Java :8080, C++ :9000, Python :5000. Run `./run_exploits.sh` to execute all four demos.
