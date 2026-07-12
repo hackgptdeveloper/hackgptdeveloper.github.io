@@ -1,0 +1,121 @@
+bash reproduce.sh ---->>>>>
+[*] Building image cve-2026-4441:latest...
+[+] Building 0.1s (10/10) FINISHED                                                                                                                                                                                                                                                                     docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                                                                                                                                                             0.0s
+ => => transferring dockerfile: 1.07kB                                                                                                                                                                                                                                                                           0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:22.04                                                                                                                                                                                                                                                  0.0s
+ => [internal] load .dockerignore                                                                                                                                                                                                                                                                                0.0s
+ => => transferring context: 2B                                                                                                                                                                                                                                                                                  0.0s
+ => [1/5] FROM docker.io/library/ubuntu:22.04                                                                                                                                                                                                                                                                    0.0s
+ => [internal] load build context                                                                                                                                                                                                                                                                                0.0s
+ => => transferring context: 112B                                                                                                                                                                                                                                                                                0.0s
+ => CACHED [2/5] RUN apt-get update && apt-get install -y --no-install-recommends         clang-15         libc++-15-dev         libc++abi-15-dev         llvm-15         ca-certificates     && ln -sf /usr/bin/llvm-symbolizer-15 /usr/local/bin/llvm-symbolizer     && rm -rf /var/lib/apt/lists/*            0.0s
+ => CACHED [3/5] WORKDIR /work                                                                                                                                                                                                                                                                                   0.0s
+ => CACHED [4/5] COPY harness/ /work/harness/                                                                                                                                                                                                                                                                    0.0s
+ => CACHED [5/5] RUN clang++-15 -std=c++20 -g -O0 -fno-omit-frame-pointer         -fsanitize=address,undefined         -stdlib=libc++         -I/work/harness         /work/harness/poc.cpp         -o /work/poc_asan                                                                                            0.0s
+ => exporting to image                                                                                                                                                                                                                                                                                           0.0s
+ => => exporting layers                                                                                                                                                                                                                                                                                          0.0s
+ => => writing image sha256:2b03bb1c07d7f46730621ecb89e60c2f9e19451ac6036ce16fe651bbbf232dd2                                                                                                                                                                                                                     0.0s
+ => => naming to docker.io/library/cve-2026-4441:latest                                                                                                                                                                                                                                                          0.0s
+[*] Running PoC under AddressSanitizer...
+[main] calling outer Notify()...
+[cb_a] entering; re-entering Notify()...
+[cb_b] running (DoNothing equivalent)
+[cb_a] back from re-entrant Notify(); releasing sub_b
+[cb_a] returning
+=================================================================
+==1==ERROR: AddressSanitizer: heap-use-after-free on address 0x603000000080 at pc 0x598627db448a bp 0x7ffe32e0b130 sp 0x7ffe32e0b128
+READ of size 8 at 0x603000000080 thread T0
+    #0 0x598627db4489 in std::__1::unique_ptr<std::__1::function<void ()>, std::__1::default_delete<std::__1::function<void ()>>>::operator bool[abi:v15007]() const /usr/lib/llvm-15/bin/../include/c++/v1/__memory/unique_ptr.h:290:19
+    #1 0x598627db3de8 in mini::OnceClosure::is_null() const /work/harness/mini_callback_list.h:49:34
+    #2 0x598627db8b7e in auto auto mini::OnceClosureList::Notify()::'lambda'(auto)::operator()<std::__1::__list_iterator<mini::OnceClosure, void*>>(auto) const::'lambda'(auto const&)::operator()<mini::OnceClosure>(auto const&) const /work/harness/mini_callback_list.h:123:62
+    #3 0x598627db8a50 in auto std::__1::find_if_not[abi:v15007]<std::__1::__list_iterator<mini::OnceClosure, void*>, auto mini::OnceClosureList::Notify()::'lambda'(auto)::operator()<std::__1::__list_iterator<mini::OnceClosure, void*>>(auto) const::'lambda'(auto const&)>(auto, auto, auto mini::OnceClosureList::Notify()::'lambda'(auto)::operator()<std::__1::__list_iterator<mini::OnceClosure, void*>>(auto) const::'lambda'(auto const&)) /usr/lib/llvm-15/bin/../include/c++/v1/__algorithm/find_if_not.h:25:10
+    #4 0x598627db7005 in auto mini::OnceClosureList::Notify()::'lambda'(auto)::operator()<std::__1::__list_iterator<mini::OnceClosure, void*>>(auto) const /work/harness/mini_callback_list.h:122:16
+    #5 0x598627da944d in mini::OnceClosureList::Notify() /work/harness/mini_callback_list.h:126:17
+    #6 0x598627d9c958 in main /work/harness/poc.cpp:49:10
+    #7 0x7ce18f30bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 095c7ba148aeca81668091f718047078d57efddb)
+    #8 0x7ce18f30be3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29e3f) (BuildId: 095c7ba148aeca81668091f718047078d57efddb)
+    #9 0x598627cda344 in _start (/work/poc_asan+0x2f344) (BuildId: 405103d6273d86179b2d0e9b5a1d7574d03509b5)
+
+0x603000000080 is located 16 bytes inside of 24-byte region [0x603000000070,0x603000000088)
+freed by thread T0 here:
+    #0 0x598627d9a7ad in operator delete(void*) (/work/poc_asan+0xef7ad) (BuildId: 405103d6273d86179b2d0e9b5a1d7574d03509b5)
+    #1 0x598627dad6ac in void std::__1::__libcpp_operator_delete[abi:v15007]<void*>(void*) /usr/lib/llvm-15/bin/../include/c++/v1/new:256:3
+    #2 0x598627dad650 in void std::__1::__do_deallocate_handle_size[abi:v15007]<>(void*, unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/new:280:10
+    #3 0x598627dad5ec in std::__1::__libcpp_deallocate[abi:v15007](void*, unsigned long, unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/new:296:14
+    #4 0x598627dad56f in std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>::deallocate[abi:v15007](std::__1::__list_node<mini::OnceClosure, void*>*, unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/__memory/allocator.h:128:13
+    #5 0x598627dad50c in std::__1::allocator_traits<std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>>::deallocate[abi:v15007](std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>&, std::__1::__list_node<mini::OnceClosure, void*>*, unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/__memory/allocator_traits.h:282:13
+    #6 0x598627db41d3 in std::__1::list<mini::OnceClosure, std::__1::allocator<mini::OnceClosure>>::erase(std::__1::__list_const_iterator<mini::OnceClosure, void*>) /usr/lib/llvm-15/bin/../include/c++/v1/list:1730:5
+    #7 0x598627db3a05 in mini::OnceClosureList::CancelCallback(std::__1::__list_iterator<mini::OnceClosure, void*>) /work/harness/mini_callback_list.h:151:23
+    #8 0x598627db3736 in mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()::operator()() const /work/harness/mini_callback_list.h:104:62
+    #9 0x598627db35e0 in decltype(std::declval<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()&>()()) std::__1::__invoke[abi:v15007]<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()&>(mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()&) /usr/lib/llvm-15/bin/../include/c++/v1/__functional/invoke.h:394:23
+    #10 0x598627db34a0 in void std::__1::__invoke_void_return_wrapper<void, true>::__call<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()&>(mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()&) /usr/lib/llvm-15/bin/../include/c++/v1/__functional/invoke.h:479:9
+    #11 0x598627db3444 in std::__1::__function::__alloc_func<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'(), std::__1::allocator<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()>, void ()>::operator()[abi:v15007]() /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:185:16
+    #12 0x598627daf238 in std::__1::__function::__func<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'(), std::__1::allocator<mini::OnceClosureList::Add(mini::OnceClosure)::'lambda'()>, void ()>::operator()() /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:359:12
+    #13 0x598627db6551 in std::__1::__function::__value_func<void ()>::operator()[abi:v15007]() const /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:512:16
+    #14 0x598627db6028 in std::__1::function<void ()>::operator()() const /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:1197:12
+    #15 0x598627db5cf2 in mini::OnceClosure::Run() /work/harness/mini_callback_list.h:57:12
+    #16 0x598627db595b in mini::CallbackListSubscription::Run() /work/harness/mini_callback_list.h:91:7
+    #17 0x598627da8d6c in mini::CallbackListSubscription::operator=(mini::CallbackListSubscription&&) /work/harness/mini_callback_list.h:77:5
+    #18 0x598627da2de6 in main::$_0::operator()() const /work/harness/poc.cpp:40:11
+    #19 0x598627da2bf0 in decltype(std::declval<main::$_0&>()()) std::__1::__invoke[abi:v15007]<main::$_0&>(main::$_0&) /usr/lib/llvm-15/bin/../include/c++/v1/__functional/invoke.h:394:23
+    #20 0x598627da2ab0 in void std::__1::__invoke_void_return_wrapper<void, true>::__call<main::$_0&>(main::$_0&) /usr/lib/llvm-15/bin/../include/c++/v1/__functional/invoke.h:479:9
+    #21 0x598627da2a54 in std::__1::__function::__alloc_func<main::$_0, std::__1::allocator<main::$_0>, void ()>::operator()[abi:v15007]() /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:185:16
+    #22 0x598627d9e8e8 in std::__1::__function::__func<main::$_0, std::__1::allocator<main::$_0>, void ()>::operator()() /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:359:12
+    #23 0x598627db6551 in std::__1::__function::__value_func<void ()>::operator()[abi:v15007]() const /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:512:16
+    #24 0x598627db6028 in std::__1::function<void ()>::operator()() const /usr/lib/llvm-15/bin/../include/c++/v1/__functional/function.h:1197:12
+    #25 0x598627db5cf2 in mini::OnceClosure::Run() /work/harness/mini_callback_list.h:57:12
+    #26 0x598627db768f in mini::OnceClosureList::RunCallback(std::__1::__list_iterator<mini::OnceClosure, void*>) /work/harness/mini_callback_list.h:144:9
+    #27 0x598627da93e9 in mini::OnceClosureList::Notify() /work/harness/mini_callback_list.h:127:9
+    #28 0x598627d9c958 in main /work/harness/poc.cpp:49:10
+    #29 0x7ce18f30bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 095c7ba148aeca81668091f718047078d57efddb)
+
+previously allocated by thread T0 here:
+    #0 0x598627d99f4d in operator new(unsigned long) (/work/poc_asan+0xeef4d) (BuildId: 405103d6273d86179b2d0e9b5a1d7574d03509b5)
+    #1 0x598627dabf6c in void* std::__1::__libcpp_operator_new[abi:v15007]<unsigned long>(unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/new:246:10
+    #2 0x598627dabe64 in std::__1::__libcpp_allocate[abi:v15007](unsigned long, unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/new:272:10
+    #3 0x598627dabd2f in std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>::allocate[abi:v15007](unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/__memory/allocator.h:112:38
+    #4 0x598627dab9d4 in std::__1::allocator_traits<std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>>::allocate[abi:v15007](std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>&, unsigned long) /usr/lib/llvm-15/bin/../include/c++/v1/__memory/allocator_traits.h:262:20
+    #5 0x598627daae52 in std::__1::list<mini::OnceClosure, std::__1::allocator<mini::OnceClosure>>::__allocate_node[abi:v15007](std::__1::allocator<std::__1::__list_node<mini::OnceClosure, void*>>&) /usr/lib/llvm-15/bin/../include/c++/v1/list:1097:28
+    #6 0x598627daa3ea in std::__1::list<mini::OnceClosure, std::__1::allocator<mini::OnceClosure>>::insert(std::__1::__list_const_iterator<mini::OnceClosure, void*>, mini::OnceClosure&&) /usr/lib/llvm-15/bin/../include/c++/v1/list:1631:29
+    #7 0x598627da8a12 in mini::OnceClosureList::Add(mini::OnceClosure) /work/harness/mini_callback_list.h:103:26
+    #8 0x598627d9c903 in main /work/harness/poc.cpp:46:18
+    #9 0x7ce18f30bd8f  (/lib/x86_64-linux-gnu/libc.so.6+0x29d8f) (BuildId: 095c7ba148aeca81668091f718047078d57efddb)
+
+SUMMARY: AddressSanitizer: heap-use-after-free /usr/lib/llvm-15/bin/../include/c++/v1/__memory/unique_ptr.h:290:19 in std::__1::unique_ptr<std::__1::function<void ()>, std::__1::default_delete<std::__1::function<void ()>>>::operator bool[abi:v15007]() const
+Shadow bytes around the buggy address:
+  0x0c067fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c067fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c067fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c067fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c067fff8000: fa fa 00 00 00 fa fa fa 00 00 00 fa fa fa fd fd
+=>0x0c067fff8010:[fd]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c067fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==1==ABORTING
+AddressSanitizer:DEADLYSIGNAL
+AddressSanitizer: nested bug in the same thread, aborting.
+
+[+] Non-zero exit (1) — AddressSanitizer caught the UAF (expected on the vulnerable harness).
