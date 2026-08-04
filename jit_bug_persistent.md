@@ -1,3 +1,5 @@
+Given JIT optimization bugs in V8, SpiderMonkey, and JavaScriptCore emit native code with memory corruption; these remain the most exploited bug class since 2017.   elaborate this with an example of optimization bugs, that originate from buggy native codes generated and that lead to memory corruption.
+
 JIT optimization bugs cause memory corruption through a two-stage chain: a logic error in the compiler's optimization pipeline first emits **incorrect native code** (missing a safety check or mistyping a value), and that faulty code is then **triggered at runtime** by crafted JavaScript to corrupt heap memory. Below is a concrete, end-to-end walkthrough using a real-world bug.
 
 ## How JIT Compilation Works (Background)
