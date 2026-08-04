@@ -1,0 +1,81 @@
+
+By synthesizing the OWASP Top 10 2026, the OWASP API Security Top 10, the Fortinet 2026 Web Application Security Report, research on SSRF/cloud metadata exploitation, GraphQL security analysis, prototype pollution literature, and LLM/AI prompt injection research, the following 50 can be compiled. [cyber-sec-pro](https://cyber-sec-pro.com/en/blog/owasp-top-10-2026/)
+
+## Access Control & Authorization
+
+1. **Broken Object Level Authorization (BOLA/IDOR)** — APIs expose object identifiers directly in URLs; 3.73% of tested applications contain at least one BOLA vulnerability, making it the #1 web app risk for 2026. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+2. **Broken Function Level Authorization (BFLA)** — Administrative or privileged API endpoints lack proper function-level access control checks; attackers enumerate hidden endpoints via parameter fuzzing. [blog.axway](https://blog.axway.com/learning-center/digital-security/risk-management/owasps-api-security/amp)
+3. **Vertical privilege escalation via parameter manipulation** — Role parameters, cookies, or JWT claims are client-controllable; server-side revalidation is inconsistent across multi-step workflows. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+4. **Multi-tenant data isolation enforcement** — Shared-database multi-tenant applications leak data across tenants when authorization checks are applied at the query level rather than at the data-access layer. [appsecmaster](https://www.appsecmaster.net/blog/owasp-api-security-top-10-every-risk-explained/)
+5. **OAuth 2.0 scope confusion and token replay** — Insufficient scope validation allows access tokens issued for one resource to be replayed against another; dynamic client registration broadens the attack surface. [blog.axway](https://blog.axway.com/learning-center/digital-security/risk-management/owasps-api-security/amp)
+6. **JWT algorithm confusion attacks** — Tokens signed with HS256 can be forged by switching the algorithm header to "none" or abusing RS256/HS256 confusion; library-level mitigations are inconsistently applied. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+
+## Injection & Code Execution
+
+7. **SQL injection in ORM-generated queries** — ORMs (Prisma, Sequelize, Entity Framework) are not immune; raw query escapes, dynamic `ORDER BY` clauses, and `LIKE` patterns remain injection points. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+8. **NoSQL injection in document databases** — MongoDB, CouchDB, and Elasticsearch accept operator injection (`$gt`, `$ne`, `$where`); JavaScript-based query languages enable full RCE via `eval`. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+9. **Server-Side Template Injection (SSTI)** — Jinja2, Twig, Freemarker, and Velocity render user-controlled templates; sandbox escapes in Twig and Freemarker demonstrate complete server compromise. [linkedin](https://www.linkedin.com/posts/marcelvelica_50-web-application-vulnerabilities-you-should-activity-7457762104096477185-1yVv)
+10. **OS command injection via chained parameters** — Input sanitization on individual parameters is bypassed through argument injection, whitespace manipulation, and IFS character abuse. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+11. **XXE (XML External Entity) in legacy integrations** — SAML, SOAP, and SVG parsers process XML with external entity resolution enabled; disabling DTD processing is inconsistent across XML libraries. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+12. **Expression Language (EL) injection** — Spring SpEL, OGNL (Struts), and JBoss EL evaluate user input as expressions; OGNL injection led to the Equifax breach and remains exploitable in legacy Java stacks. [linkedin](https://www.linkedin.com/posts/marcelvelica_50-web-application-vulnerabilities-you-should-activity-7457762104096477185-1yVv)
+13. **LDAP injection in authentication flows** — Directory search filters constructed from user input allow authentication bypass and directory enumeration; wildcards and Boolean logic injection persist. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+
+## Server-Side Request Forgery (SSRF)
+
+14. **SSRF to cloud metadata services (IMDS)** — SSRF vulnerabilities allow attackers to query `169.254.169.254` to steal IAM credentials; IMDSv2 mitigates but 24% of web apps remain vulnerable and many instances still run IMDSv1. [rootshell.yanivhaliwa](https://rootshell.yanivhaliwa.com/study/exploiting-cloud-metadata-via-ssrf)
+15. **Blind SSRF via out-of-band channels** — SSRF that returns no response body is exploitable via DNS rebinding, where a hostname initially resolves to a public IP then re-resolves to `127.0.0.1` after the SSRF check. [tigerstrike](https://www.tigerstrike.io/resources/blog/ssrf-cloud-exploitation/)
+16. **SSRF filter bypass via protocol smuggling** — Attackers use `gopher://`, `dict://`, `file://`, and `ftp://` schemes to reach internal services; URL parsers handle scheme normalization inconsistently across libraries. [payloadplayground](https://payloadplayground.com/blog/ssrf-exploitation-cloud-metadata)
+17. **SSRF in serverless and edge functions** — Ephemeral compute environments make SSRF exploitation harder to detect and trace; egress filtering is not applicable to serverless functions. [appsecbrief](https://appsecbrief.com/articles/ssrf-prevention-guide-2026/)
+18. **SSRF chaining to internal pivot** — SSRF is used to enumerate internal services, then pivot through Redis, Memcached, or internal APIs; cloud SSRF attacks surged 452% between 2023 and 2024. [appsecbrief](https://appsecbrief.com/articles/ssrf-prevention-guide-2026/)
+
+## API Security
+
+19. **API shadow endpoints and version sprawl** — Undocumented, deprecated, or beta API versions remain accessible; organizations cannot inventory all API endpoints, creating persistent attack surface. [appsecmaster](https://www.appsecmaster.net/blog/owasp-api-security-top-10-every-risk-explained/)
+20. **Excessive data exposure in API responses** — APIs return full object serialization including sensitive fields that the frontend doesn't display; clients receive more data than intended. [blog.axway](https://blog.axway.com/learning-center/digital-security/risk-management/owasps-api-security/amp)
+21. **Unrestricted resource consumption (API DoS)** — APIs without rate limiting, pagination, or query cost limits are vulnerable to resource exhaustion; GraphQL amplifies this via batch queries. [aquilax](https://aquilax.ai/blog/graphql-security-vulnerabilities)
+22. **Unsafe consumption of third-party APIs** — Applications trust and consume data from external APIs without validation; compromised third-party APIs inject malicious payloads into downstream consumers. [blog.axway](https://blog.axway.com/learning-center/digital-security/risk-management/owasps-api-security/amp)
+23. **REST API parameter pollution** — Multiple parameters with the same name or HPP (HTTP Parameter Pollution) bypass input validation; server-side frameworks handle duplicate parameters inconsistently. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+24. **WebSocket authentication and authorization** — WebSocket connections bypass HTTP middleware; authentication is established at handshake but authorization is not enforced per-message. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+
+## GraphQL-Specific Challenges
+
+25. **Introspection-based schema disclosure** — GraphQL introspection reveals the complete data model, field names, and relationships to any client; disabling introspection in production is inconsistently practiced. [invicti](https://www.invicti.com/web-application-vulnerabilities/graphql-circular-query-via-introspection-allowed-potential-dos-vulnerability)
+26. **Query depth and circular reference DoS** — Arbitrarily nested queries across recursive relationships consume exponential CPU and memory; `graphql-depth-limit` mitigates but custom resolvers bypass cost analysis. [invicti](https://www.invicti.com/web-application-vulnerabilities/graphql-circular-query-via-introspection-allowed-potential-dos-vulnerability)
+27. **Batch query abuse for rate-limit bypass** — GraphQL batching bundles thousands of operations in one HTTP request; per-request rate limiters see one request, not thousands of operations. [systemshardening](https://www.systemshardening.com/articles/network/graphql-attack-surface/)
+28. **Resolver-level authorization gaps** — Authorization enforced at the query root but not in nested resolvers; querying `post(id:1){ author { email } }` leaks data when the `author` resolver lacks permission checks. [aquilax](https://aquilax.ai/blog/graphql-security-vulnerabilities)
+29. **Aliased query obfuscation** — GraphQL aliases allow multiple field selections under different names; WAFs and DAST tools cannot distinguish aliased attack patterns from legitimate queries. [systemshardening](https://www.systemshardening.com/articles/network/graphql-attack-surface/)
+30. **GraphQL injection via resolver arguments** — Resolver code that constructs raw database queries from GraphQL arguments is vulnerable to SQL/NoSQL injection; GraphQL provides no inherent injection protection. [aquilax](https://aquilax.ai/blog/graphql-security-vulnerabilities)
+
+## Client-Side & DOM Security
+
+31. **DOM-based XSS in modern frameworks** — React, Vue, and Angular sanitize by default but `dangerouslySetInnerHTML`, `v-html`, and template interpolation bypass DOMPurify; framework-specific escape vectors persist. [linkedin](https://www.linkedin.com/posts/marcelvelica_50-web-application-vulnerabilities-you-should-activity-7457762104096477185-1yVv)
+32. **Prototype pollution via recursive merge** — JavaScript libraries using unsafe `Object.assign` or deep merge functions allow injection of `__proto__` or `constructor.prototype` properties, enabling logic bypass, XSS, or RCE. [developer.mozilla](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/Prototype_pollution)
+33. **Cross-origin communication abuse (`postMessage`)** — `window.postMessage` without origin validation allows cross-origin data theft; wildcard target origins (`*`) are common in production. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+34. **CORS misconfiguration enabling credential theft** — `Access-Control-Allow-Origin: *` combined with `Allow-Credentials: true` or reflected origin headers allows any site to read authenticated responses. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+35. **Service Worker persistence attacks** — Malicious service workers intercept all network requests from the origin; once installed, they persist across browser sessions and survive cache clearing. [linkedin](https://www.linkedin.com/posts/marcelvelica_50-web-application-vulnerabilities-you-should-activity-7457762104096477185-1yVv)
+36. **Web Storage (localStorage/sessionStorage) token exposure** — Storing JWTs or session tokens in browser-accessible storage enables XSS-driven token theft; HttpOnly cookies prevent this but conflict with SPAs. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+37. **Content Security Policy (CSP) bypass** — CSP with `unsafe-inline`, `unsafe-eval`, or wildcard source lists provides no protection; nonce and hash-based CSPs are bypassed via script gadgets and JSONP endpoints. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+
+## Session & Authentication
+
+38. **Session fixation in SSO flows** — SAML and OIDC flows that don't rotate session IDs after authentication allow session fixation; the relay state parameter is attacker-controllable. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+39. **Credential stuffing at API scale** — Automated credential stuffing attacks against login APIs bypass rate limits via IP rotation, CAPTCHA solving services, and distributed botnets; AI-assisted attacks increase speed by orders of magnitude. [blog.axway](https://blog.axway.com/learning-center/digital-security/risk-management/owasps-api-security/amp)
+40. **Multi-factor authentication bypass** — Push fatigue, SIM swap, and OAuth consent phishing bypass MFA; NIST has deprecated SMS-based MFA but adoption of stronger factors lags. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+41. **Password reset token predictability** — Time-based or sequential reset tokens are predictable; modern implementations use cryptographic random tokens but legacy systems still leak via timing attacks. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+
+## Supply Chain & Dependency Security
+
+42. **NPM/PyPI dependency confusion attacks** — Attackers publish higher-version packages with the same name as internal packages; build systems fetch the public (malicious) version instead of the internal one. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+43. **Malicious package injection via typosquatting** — Packages with names similar to popular libraries (e.g., `reqeusts` vs `requests`) deliver malware; npm and PyPI lack mandatory signing. [cyber-sec-pro](https://cyber-sec-pro.com/en/blog/owasp-top-10-2026/)
+44. **Compromised CI/CD pipeline code injection** — CI/CD pipelines with overly permissive secrets access allow a single compromised dependency to exfiltrate all build-time secrets; 87% of AI-generated pull requests introduce security issues. [cyber-sec-pro](https://cyber-sec-pro.com/en/blog/owasp-top-10-2026/)
+45. **Subresource Integrity (SRI) gaps** — Third-party scripts loaded without `integrity` attributes can be modified by the CDN or a MITM to inject malicious code; SRI adoption is below 15% of sites. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+46. **AI-generated code introducing vulnerabilities** — AI coding assistants produce code with hardcoded secrets, insecure patterns, and outdated crypto; GitGuardian tracked 28.65 million hardcoded secrets in public repos tied to AI assistant adoption. [cyber-sec-pro](https://cyber-sec-pro.com/en/blog/owasp-top-10-2026/)
+
+## Business Logic & Exception Handling
+
+47. **Business logic abuse (race conditions)** — Concurrent requests to limited-quantity endpoints (coupon redemption, ticket purchase) create TOCTOU race conditions; database-level locking is inconsistently applied. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+48. **Price manipulation and parameter tampering** — Client-side price, quantity, or discount parameters sent to the server are not revalidated; negative quantities, integer overflows, and currency manipulation persist. [linkedin](https://www.linkedin.com/posts/marcelvelica_50-web-application-vulnerabilities-you-should-activity-7457762104096477185-1yVv)
+49. **Mishandling of exceptional conditions (failing open)** — When security checks encounter unexpected errors, applications default to allowing access ("fail open") instead of denying; this is a new OWASP Top 10 2026 category. [cyberpress](https://cyberpress.org/owasp-releases-2026-top-10-list/)
+50. **LLM prompt injection via web inputs** — Web applications integrating LLMs accept user input that contains prompt injection payloads; these hijack model behavior to exfiltrate data, bypass safety controls, or execute unauthorized actions; "prompt-in-content" attacks exploit uploaded files to inject instructions. [arxiv](https://arxiv.org/html/2506.23260v1)
+
+Several structural themes recur across these 50: the **authorization-everywhere problem** (access control must be enforced at every object, function, and resolver level), the **input-trust boundary erosion** (user input flows through increasingly complex parsing and evaluation pipelines), the **API-as-primary-attack-surface shift** (APIs account for over 80% of web traffic, yet traditional WAFs and DAST tools are designed for server-rendered HTML), and the **AI-accelerated threat landscape** (AI-assisted vulnerability discovery, credential stuffing, and code generation are compressing the time from weakness to weaponization). [fortinet](https://www.fortinet.com/resources/reports/application-security-report)

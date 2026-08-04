@@ -1,0 +1,38 @@
+
+
+  1. Type Confusion Across Languages
+
+  - URL: https://hackgptdeveloper.github.io/2026/07/12/type-confusion-across-languages.html
+  - Focus: Comparative analysis — how type confusion manifests in Node.js (XSS), Java (erasure/heap pollution), C++ (union/reinterpret_cast/vptr), and Python
+  (__class__/pickle/JSON)
+  - Source: type_confusion_exploitation.md
+
+  CSP Trilogy (3 interconnected posts)
+
+  ┌─────┬──────────────────────────────────┬────────────────────────────────────────────────────┬────────────────────────────────────────────┐
+  │  #  │               Post               │                        URL                         │                   Focus                    │
+  ├─────┼──────────────────────────────────┼────────────────────────────────────────────────────┼────────────────────────────────────────────┤
+  │ 2   │ 10 Browser Features CSP Disables │ /2026/07/12/ten-browser-features-csp-disables.html │ Defense: how CSP blocks each XSS vector    │
+  ├─────┼──────────────────────────────────┼────────────────────────────────────────────────────┼────────────────────────────────────────────┤
+  │ 3   │ CSP Bypass Attacker Playbook     │ /2026/07/12/csp-bypass-attacker-playbook.html      │ Offense: 10 bypasses with attack chains    │
+  ├─────┼──────────────────────────────────┼────────────────────────────────────────────────────┼────────────────────────────────────────────┤
+  │ 4   │ CSP Lockdown Mitigation Guide    │ /2026/07/12/csp-lockdown-mitigation-guide.html     │ Practical: audit → harden → deploy → CI/CD │
+  └─────┴──────────────────────────────────┴────────────────────────────────────────────────────┴────────────────────────────────────────────┘
+
+  Key decisions
+
+  - csp_bypass.md and csp_bypass_and_how_to_mitigate.md were identical — I differentiated them by transforming the duplicate into a brand-new practical
+  mitigation guide with deployment strategy, code examples (Express, Django, Nginx), CI/CD integration, and a canary rollout pipeline. The attacker playbook
+  post covers the bypass catalog.
+  - All three cross-reference each other — defense post links to attacker playbook and mitigation guide, attacker playbook links to both, mitigation guide links
+  to both.
+  - No duplication with existing CSP posts — the four existing CSP posts (top-30, top-100, client-side, 100-csp-bypass) are enumerated reference lists. The new
+  posts are deep-dive conceptual pieces with different angles: defense mechanism, attack chains, and practical hardening.
+  - All verification checks pass (no math, so checks 2+3 only — all clean).
+  - All four posts confirmed HTTP 200 and appearing on homepage.
+
+✻ Cogitated for 10m 24s
+
+※ recap: All four blog posts are live and verified on the homepage. The CSP trilogy has distinct focuses with cross-references, and the duplicate file was 
+  transformed into a unique mitigation guide. Nothing pending. (disable recaps in /config)
+                                                                                                  
