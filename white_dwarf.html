@@ -1,0 +1,397 @@
+
+White dwarfs are the hot, compact stellar remnants left after low- and intermediate-mass stars shed their outer layers. They are supported against further gravitational collapse mainly by **electron degeneracy pressure**—a quantum-mechanical pressure arising from the Pauli exclusion principle, not from ordinary thermal gas pressure.  [astronomy.ohio-state](https://www.astronomy.ohio-state.edu/thompson.1847/1144/Lecture18.html)
+
+## Main characteristics
+
+| Property | Typical behavior and origin |
+|---|---|
+| Origin | The exposed core remaining after a Sun-like star evolves through the red-giant phase and ejects its envelope |
+| Composition | Usually carbon and oxygen, with a thin hydrogen or helium atmosphere; some are helium-core or oxygen–neon-core remnants |
+| Mass | Commonly around \(0.6\,M_\odot\); stable electron-degenerate white dwarfs must stay below roughly \(1.4\,M_\odot\), the Chandrasekhar limit.  [people.ast.cam.ac](https://people.ast.cam.ac.uk/~cdm/teaching/Mod4-wdwarfs-neutron%20stars-pulsars.pdf) |
+| Radius | Comparable to Earth’s radius, despite containing a substantial fraction of the Sun’s mass. A typical radius is of order \(10^4\) km.  [people.ast.cam.ac](https://people.ast.cam.ac.uk/~cdm/teaching/Mod4-wdwarfs-neutron%20stars-pulsars.pdf) |
+| Density | Enormous: roughly \(10^6\) g cm\(^{-3}\) in the interior is a useful scale—matter is compressed far beyond ordinary atomic densities.  [ruf.rice](http://www.ruf.rice.edu/~baring/astr350/astr350_2025_lec_1118.pdf) |
+| Pressure support | Electron degeneracy pressure, enforced by the Pauli exclusion principle: identical electrons cannot all occupy the same quantum state |
+| Mass–radius relation | Counterintuitively, more massive white dwarfs are smaller: in the nonrelativistic regime, \(R\propto M^{-1/3}\).  [arxiv](https://arxiv.org/html/2409.03941v1) |
+| Energy source | No sustained hydrogen fusion. They shine from stored thermal energy and gradually cool, eventually becoming extremely faint |
+| Surface gravity | Extremely high; this produces gravitational redshift in spectral lines and stratifies elements rapidly by weight |
+| End state | Above the Chandrasekhar limit, electron degeneracy pressure cannot support the core; the outcome may be collapse to a neutron star or a thermonuclear Type Ia supernova, depending on the physical situation.  [phys.uconn](https://www.phys.uconn.edu/~rozman/Courses/P2200_23F/downloads/whitedwarf-intro-short.pdf) |
+
+A white dwarf is therefore closer to a quantum-supported “planet-sized stellar core” than to a small ordinary star. Its atoms are effectively ionized in the interior: nuclei provide most of the mass, while the degenerate electrons provide most of the pressure.
+
+## Quantum origin of degeneracy pressure
+
+At sufficiently low temperature and high density, electrons form an almost completely degenerate Fermi gas. The key fact is that each quantum state occupies a finite phase-space volume, and two electrons cannot occupy the same state once spin is accounted for.
+
+For electron number density \(n_e\), filling all momentum states up to the Fermi momentum \(p_F\) gives
+
+\[
+n_e
+=
+2\int_{|\mathbf p|\le p_F}\frac{d^3p}{(2\pi\hbar)^3}
+=
+\frac{p_F^3}{3\pi^2\hbar^3}.
+\]
+
+Hence,
+
+\[
+p_F=\hbar(3\pi^2 n_e)^{1/3}.
+\]
+
+The factor of 2 comes from the two allowed electron spin states. As gravity compresses the star, \(n_e\) rises; Pauli exclusion forces electrons into increasingly high-momentum states. Their momentum flux against the confining material is the degeneracy pressure.
+
+Relate electron density to mass density with
+
+\[
+n_e=\frac{\rho}{\mu_e m_u},
+\]
+
+where:
+
+- \(\rho\) is mass density,
+- \(m_u\) is the atomic mass unit,
+- \(\mu_e\) is the mean molecular weight per electron.
+
+For fully ionized carbon or oxygen, \(\mu_e\simeq 2\), because each nucleus contributes roughly one electron per two nucleons.
+
+## Deriving the equations of state
+
+### Nonrelativistic electrons
+
+When \(p_F\ll m_ec\), electron kinetic energy is
+
+\[
+E(p)=\frac{p^2}{2m_e}.
+\]
+
+At zero temperature, the energy density is
+
+\[
+u
+=
+2\int_{|\mathbf p|\le p_F}
+\frac{p^2}{2m_e}
+\frac{d^3p}{(2\pi\hbar)^3}.
+\]
+
+Using \(d^3p=4\pi p^2dp\),
+
+\[
+u
+=
+\frac{1}{\pi^2\hbar^3}
+\int_0^{p_F}\frac{p^4}{2m_e}\,dp
+=
+\frac{p_F^5}{10\pi^2m_e\hbar^3}.
+\]
+
+For a nonrelativistic ideal gas, including a degenerate one,
+
+\[
+P=\frac{2}{3}u.
+\]
+
+Thus,
+
+\[
+P
+=
+\frac{p_F^5}{15\pi^2m_e\hbar^3}.
+\]
+
+Substitute \(p_F=\hbar(3\pi^2n_e)^{1/3}\):
+
+\[
+P_{\rm NR}
+=
+\frac{\hbar^2}{5m_e}(3\pi^2)^{2/3}n_e^{5/3}.
+\]
+
+Finally, using \(n_e=\rho/(\mu_em_u)\),
+
+\[
+\boxed{
+P_{\rm NR}=K_{\rm NR}\rho^{5/3}
+}
+\]
+
+with
+
+\[
+K_{\rm NR}
+=
+\frac{\hbar^2}{5m_e}(3\pi^2)^{2/3}
+\left(\frac{1}{\mu_e m_u}\right)^{5/3}.
+\]
+
+This is a **polytropic equation of state** with
+
+\[
+P=K\rho^\gamma,
+\qquad
+\gamma=\frac{5}{3},
+\qquad
+n_{\rm poly}=\frac{1}{\gamma-1}=\frac{3}{2}.
+\]
+
+The \(P\propto\rho^{5/3}\) result is the standard nonrelativistic degeneracy-pressure law.  [arxiv](https://arxiv.org/html/2409.03941v1)
+
+### Ultrarelativistic electrons
+
+At sufficiently high density, \(p_F\gtrsim m_ec\), so electrons become relativistic and
+
+\[
+E\simeq pc.
+\]
+
+The pressure can be computed from the momentum flux:
+
+\[
+P
+=
+\frac{1}{3}
+2\int_{|\mathbf p|\le p_F}
+p v
+\frac{d^3p}{(2\pi\hbar)^3}.
+\]
+
+For ultrarelativistic particles, \(v\simeq c\), so
+
+\[
+P_{\rm UR}
+=
+\frac{c}{3\pi^2\hbar^3}
+\int_0^{p_F}p^3\,dp
+=
+\frac{cp_F^4}{12\pi^2\hbar^3}.
+\]
+
+Substituting for \(p_F\),
+
+\[
+P_{\rm UR}
+=
+\frac{\hbar c}{4}(3\pi^2)^{1/3}n_e^{4/3}.
+\]
+
+Equivalently,
+
+\[
+\boxed{
+P_{\rm UR}=K_{\rm UR}\rho^{4/3}
+}
+\]
+
+where
+
+\[
+K_{\rm UR}
+=
+\frac{\hbar c}{4}(3\pi^2)^{1/3}
+\left(\frac{1}{\mu_e m_u}\right)^{4/3}.
+\]
+
+This is now a polytrope with
+
+\[
+\gamma=\frac{4}{3},
+\qquad
+n_{\rm poly}=3.
+\]
+
+The weakening from \(\rho^{5/3}\) to \(\rho^{4/3}\) is central: as density rises, degeneracy pressure no longer stiffens quickly enough relative to gravity.  [ruf.rice](http://www.ruf.rice.edu/~baring/astr350/astr350_2025_lec_1118.pdf)
+
+## Hydrostatic structure
+
+A spherical star in static balance obeys two stellar-structure equations:
+
+\[
+\frac{dP}{dr}
+=
+-\frac{Gm(r)\rho(r)}{r^2},
+\]
+
+\[
+\frac{dm}{dr}
+=
+4\pi r^2\rho(r).
+\]
+
+The first is hydrostatic equilibrium: the outward pressure gradient balances inward gravity. The second says that \(m(r)\) is the mass enclosed within radius \(r\).
+
+Combining them eliminates \(m(r)\):
+
+\[
+\boxed{
+\frac{1}{r^2}\frac{d}{dr}
+\left(
+\frac{r^2}{\rho}\frac{dP}{dr}
+\right)
+=
+-4\pi G\rho
+}
+\]
+
+This is the basic differential equation for a Newtonian white-dwarf model.  [en.wikipedia](https://en.wikipedia.org/wiki/Chandrasekhar's_white_dwarf_equation)
+
+Now insert a polytropic equation of state,
+
+\[
+P=K\rho^{1+1/n}.
+\]
+
+Define
+
+\[
+\rho(r)=\rho_c\theta(\xi)^n,
+\qquad
+r=a\xi,
+\]
+
+where
+
+\[
+a^2
+=
+\frac{(n+1)K}{4\pi G}
+\rho_c^{(1-n)/n}.
+\]
+
+The hydrostatic equation becomes the dimensionless **Lane–Emden equation**:
+
+\[
+\boxed{
+\frac{1}{\xi^2}
+\frac{d}{d\xi}
+\left(
+\xi^2\frac{d\theta}{d\xi}
+\right)
+=
+-\theta^n
+}
+\]
+
+with central boundary conditions
+
+\[
+\theta(0)=1,
+\qquad
+\theta'(0)=0.
+\]
+
+The star’s surface is at the first zero, \(\xi_1\), of \(\theta(\xi)\). The physical radius and mass are then
+
+\[
+R=a\xi_1,
+\]
+
+\[
+M
+=
+4\pi a^3\rho_c
+\left[
+-\xi^2\frac{d\theta}{d\xi}
+\right]_{\xi=\xi_1}.
+\]
+
+So the derivation has a clean logical chain:
+
+\[
+\text{Pauli exclusion}
+\longrightarrow
+\text{Fermi momentum}
+\longrightarrow
+P(\rho)
+\longrightarrow
+\text{hydrostatic equilibrium}
+\longrightarrow
+\text{mass--radius relation}.
+\]
+
+## Mass–radius relation
+
+A scaling derivation shows the central physics without solving Lane–Emden numerically.
+
+Take characteristic density
+
+\[
+\rho\sim\frac{M}{R^3}.
+\]
+
+The pressure needed to support a self-gravitating object scales as
+
+\[
+P_{\rm grav}\sim\frac{GM^2}{R^4}.
+\]
+
+For nonrelativistic degeneracy,
+
+\[
+P_{\rm deg}
+\sim
+K_{\rm NR}
+\left(\frac{M}{R^3}\right)^{5/3}.
+\]
+
+Set \(P_{\rm deg}\sim P_{\rm grav}\):
+
+\[
+K_{\rm NR}\frac{M^{5/3}}{R^5}
+\sim
+\frac{GM^2}{R^4}.
+\]
+
+Solving for \(R\),
+
+\[
+\boxed{
+R\propto M^{-1/3}
+}
+\]
+
+so adding mass makes the white dwarf shrink.  [roe.ac](https://www.roe.ac.uk/~nr/publications/degenerate_electron_gas.pdf)
+
+For relativistic degeneracy,
+
+\[
+P_{\rm deg}
+\sim
+K_{\rm UR}
+\left(\frac{M}{R^3}\right)^{4/3}
+=
+K_{\rm UR}\frac{M^{4/3}}{R^4}.
+\]
+
+Balancing this with gravity gives
+
+\[
+K_{\rm UR}\frac{M^{4/3}}{R^4}
+\sim
+\frac{GM^2}{R^4}.
+\]
+
+The radius cancels:
+
+\[
+M\sim\left(\frac{K_{\rm UR}}{G}\right)^{3/2}.
+\]
+
+That is why a maximum mass appears. The more rigorous \(n=3\) polytropic calculation yields approximately
+
+\[
+\boxed{
+M_{\rm Ch}
+\simeq
+\frac{5.83}{\mu_e^2}M_\odot
+}
+\]
+
+and, for a carbon–oxygen white dwarf with \(\mu_e\simeq2\),
+
+\[
+\boxed{
+M_{\rm Ch}\simeq1.44M_\odot.
+}
+\]
+
+Near this limit, the simple Newtonian, zero-temperature model becomes inadequate: one must include the full relativistic Fermi-gas equation of state, Coulomb corrections, thermal structure, composition, rotation, magnetic fields, and—in the most extreme regime—general relativity. The key result remains robust: relativistic electron degeneracy creates an upper mass scale near \(1.4\,M_\odot\).  [ftp.astro.wisc](http://ftp.astro.wisc.edu/~townsend/resource/teaching/astro-310-F08/38-white-dwarfs.pdf)

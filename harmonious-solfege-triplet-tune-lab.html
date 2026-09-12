@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Harmonious Solfège Triplet Lab</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #09101e;
+      --panel: rgba(18, 29, 53, .84);
+      --line: rgba(202, 215, 255, .16);
+      --text: #f0f4ff;
+      --muted: #aab7d4;
+      --mint: #81e3c9;
+      --violet: #b9a7ff;
+      --gold: #ffd98b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 16% 2%, rgba(117, 92, 198, .32), transparent 34rem), radial-gradient(circle at 95% 22%, rgba(50, 153, 142, .18), transparent 30rem), linear-gradient(145deg, #070b16, #101a32 55%, #070b16);
+    }
+    main { width: min(1140px, calc(100% - 34px)); margin: auto; padding: 48px 0 70px; }
+    .eyebrow { margin: 0 0 10px; color: var(--mint); font-size: .74rem; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 4.35rem); letter-spacing: -.05em; line-height: 1; }
+    h1 span { color: var(--violet); }
+    .lead { max-width: 810px; margin: 18px 0 0; color: var(--muted); font-size: 1.03rem; line-height: 1.65; }
+    .theory { margin: 21px 0 24px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 14px; background: rgba(4, 8, 18, .42); color: #cdd6ef; line-height: 1.55; }
+    code { padding: 2px 6px; border-radius: 5px; color: #e3ddff; background: rgba(185,167,255,.12); }
+    .status { display: flex; align-items: center; gap: 11px; margin: 0 0 17px; padding: 13px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(4,8,18,.52); color: var(--muted); }
+    .dot { width: 10px; height: 10px; flex: none; border-radius: 50%; background: #66708f; box-shadow: 0 0 0 5px rgba(102,112,143,.14); }
+    .dot.active { background: var(--mint); box-shadow: 0 0 0 5px rgba(129,227,201,.13), 0 0 20px var(--mint); animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 50% { transform: scale(1.23); } }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+    .card { position: relative; display: flex; min-height: 245px; flex-direction: column; padding: 21px; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(145deg, rgba(29,42,75,.92), rgba(10,17,34,.9)); transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+    .card:hover, .card.playing { transform: translateY(-2px); border-color: rgba(185,167,255,.55); background: linear-gradient(145deg, rgba(44,58,99,.95), rgba(13,21,41,.93)); }
+    .card::after { position: absolute; content: ""; width: 210px; height: 210px; right: -68px; bottom: -95px; border-radius: 50%; background: radial-gradient(circle, rgba(185,167,255,.19), transparent 67%); pointer-events: none; }
+    .index { margin: 0 0 11px; color: var(--mint); font-size: .72rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { margin: 0; font-size: 1.36rem; letter-spacing: -.025em; }
+    .notes { margin: 8px 0 10px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1.08rem; font-weight: 800; letter-spacing: .06em; }
+    .notes .arrow { color: var(--muted); font-family: inherit; }
+    .info { margin: 0; color: var(--muted); font-size: .89rem; line-height: 1.5; }
+    .why { margin-top: 9px; color: #ced7f2; font-size: .86rem; line-height: 1.45; }
+    .buttons { display: flex; gap: 9px; margin-top: auto; padding-top: 16px; }
+    button { border: 0; border-radius: 10px; cursor: pointer; font: inherit; font-size: .9rem; font-weight: 850; transition: transform .14s ease, filter .14s ease; }
+    button:hover { transform: translateY(-1px); filter: brightness(1.08); } button:active { transform: translateY(1px); } button:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+    .play { min-width: 135px; padding: 11px 14px; color: #101426; background: linear-gradient(135deg, #c9bdff, #89e7d4); }
+    .stop { padding: 11px 14px; color: #e4eaff; background: rgba(195,208,255,.11); border: 1px solid rgba(195,208,255,.16); }
+    .controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-top: 17px; padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+    label { display: grid; gap: 8px; color: var(--muted); font-size: .88rem; } output { color: var(--text); font-weight: 800; } input { width: 100%; accent-color: var(--violet); }
+    .footnote { margin: 19px 2px 0; color: #8997b7; font-size: .84rem; line-height: 1.55; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .controls { grid-template-columns: 1fr; } .card { min-height: 224px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Solfège melody generator</p>
+    <h1>Harmonious <span>Triplet</span> Tune Lab</h1>
+    <p class="lead">These are melodic three-note cells—not mood labels. Each button plays a looping tune built around one solfège triplet in C major: <strong>Do = C</strong>, <strong>Re = D</strong>, <strong>Mi = E</strong>, <strong>Fa = F</strong>, <strong>So = G</strong>, <strong>La = A</strong>, and <strong>Ti = B</strong>.</p>
+    <p class="theory">Every triplet has been selected for a clear melodic relationship: stepwise motion, outlines of a familiar triad, or a consonant skip followed by a smooth return. A gentle <code>I–vi–IV–V</code> accompaniment changes around the melody, so the notes join harmoniously rather than sounding like isolated beeps.</p>
+
+    <div class="status" aria-live="polite"><span class="dot" id="dot"></span><span id="status">Press Play on a melodic triplet. Each example loops with piano-like melody and soft chord accompaniment.</span></div>
+    <section id="grid" class="grid" aria-label="Ten harmonious solfege triplets"></section>
+
+    <section class="controls" aria-label="Audio controls">
+      <label>Master volume: <output id="volumeValue">62%</output><input id="volume" type="range" min="0" max="100" value="62"></label>
+      <label>Tempo: <output id="tempoValue">92 BPM</output><input id="tempo" type="range" min="60" max="140" value="92"></label>
+      <label>Reverb / room: <output id="roomValue">36%</output><input id="room" type="range" min="0" max="100" value="36"></label>
+    </section>
+    <p class="footnote">All examples use the major scale, though individual notes may appear in neighboring octaves for singable contour. Choose one triplet, listen to the melody, then use it as a motif in a larger composition.</p>
+  </main>
+
+  <script>
+    const TRIPLETS = [
+      { id:'do-re-mi', name:'Ascending step', solfege:['Do','Re','Mi'], notes:[60,62,64], kind:'Stepwise rise', why:'Two whole-step moves create the most direct, natural upward melodic motion.' },
+      { id:'mi-re-do', name:'Descending answer', solfege:['Mi','Re','Do'], notes:[64,62,60], kind:'Stepwise resolution', why:'It falls smoothly toward Do, making it a satisfying answer or ending gesture.' },
+      { id:'do-mi-so', name:'Major triad', solfege:['Do','Mi','So'], notes:[60,64,67], kind:'Chord outline', why:'It outlines the C-major triad, so it is stable, bright, and strongly consonant.' },
+      { id:'so-mi-do', name:'Triad return', solfege:['So','Mi','Do'], notes:[67,64,60], kind:'Chord outline', why:'The C-major triad in descent gives a grounded, cadential return to Do.' },
+      { id:'do-re-so', name:'Open fifth arrival', solfege:['Do','Re','So'], notes:[60,62,67], kind:'Step then leap', why:'A small step leads naturally into the open, resonant fifth above Do.' },
+      { id:'mi-so-la', name:'Gentle lift', solfege:['Mi','So','La'], notes:[64,67,69], kind:'Consonant skips', why:'A third followed by a step gives a warm upward contour with little tension.' },
+      { id:'so-la-so', name:'Neighbor turn', solfege:['So','La','So'], notes:[67,69,67], kind:'Neighbor note', why:'La decorates So before returning, a compact phrase that feels complete but mobile.' },
+      { id:'do-fa-mi', name:'Question and release', solfege:['Do','Fa','Mi'], notes:[60,65,64], kind:'Leap then step', why:'The fourth creates a gentle question; the step back to Mi softens it immediately.' },
+      { id:'la-so-mi', name:'Minor-colored descent', solfege:['La','So','Mi'], notes:[69,67,64], kind:'Descending consonance', why:'It descends through consonant scale tones and suggests the relative A-minor color.' },
+      { id:'re-fa-so', name:'Forward motion', solfege:['Re','Fa','So'], notes:[62,65,67], kind:'Third then step', why:'The third is singable and the final step points naturally onward to La or back to Do.' }
+    ];
+
+    const grid = document.getElementById('grid');
+    grid.innerHTML = TRIPLETS.map((x,i) => `
+      <article class="card" data-id="${x.id}">
+        <p class="index">Triplet ${String(i+1).padStart(2,'0')} · ${x.kind}</p>
+        <h2>${x.name}</h2>
+        <p class="notes">${x.solfege.join(' <span class="arrow">→</span> ')}</p>
+        <p class="info">C major pitches: ${x.notes.map(n=>({60:'C',62:'D',64:'E',65:'F',67:'G',69:'A'})[n]).join(' – ')}</p>
+        <p class="why">${x.why}</p>
+        <div class="buttons"><button class="play" data-id="${x.id}">▶ Play tune</button><button class="stop" type="button">■ Stop</button></div>
+      </article>`).join('');
+
+    let ctx, master, dry, wet, convolver, activeNodes=[], timers=[], current=null;
+    const dot=document.getElementById('dot'), status=document.getElementById('status');
+    const volume=document.getElementById('volume'), tempo=document.getElementById('tempo'), room=document.getElementById('room');
+    const midi=n=>440*Math.pow(2,(n-69)/12);
+    const time=()=>ctx.currentTime;
+
+    function initAudio(){
+      if(ctx) return;
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain(); dry=ctx.createGain(); wet=ctx.createGain(); convolver=ctx.createConvolver();
+      const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-20; comp.knee.value=16; comp.ratio.value=3; comp.attack.value=.02; comp.release.value=.35;
+      const len=Math.floor(ctx.sampleRate*2.8), buffer=ctx.createBuffer(2,len,ctx.sampleRate);
+      for(let ch=0;ch<2;ch++){const d=buffer.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.5);}
+      convolver.buffer=buffer; dry.connect(master); wet.connect(convolver); convolver.connect(master); master.connect(comp); comp.connect(ctx.destination); mix();
+    }
+    function mix(){ if(!ctx)return; const v=+volume.value/100, r=+room.value/100; master.gain.setTargetAtTime(v*.55,time(),.03); dry.gain.setTargetAtTime(.96-r*.48,time(),.03); wet.gain.setTargetAtTime(r*.72,time(),.03); }
+    volume.oninput=()=>{document.getElementById('volumeValue').value=volume.value+'%';mix();};
+    room.oninput=()=>{document.getElementById('roomValue').value=room.value+'%';mix();};
+    tempo.oninput=()=>{document.getElementById('tempoValue').value=tempo.value+' BPM';};
+
+    function connect(node){node.connect(dry);node.connect(wet);}
+    function synth(note,start,duration,{type='triangle',peak=.04,attack=.01,release=.5,cutoff=1800,detune=0}={}){
+      const osc=ctx.createOscillator(), gain=ctx.createGain(), filter=ctx.createBiquadFilter();
+      osc.type=type; osc.frequency.setValueAtTime(midi(note),start); osc.detune.value=detune; filter.type='lowpass';filter.frequency.value=cutoff;filter.Q.value=.45;
+      gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(peak,start+attack);gain.gain.setValueAtTime(peak,Math.max(start+attack+.01,start+duration-release));gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+      osc.connect(filter);filter.connect(gain);connect(gain);osc.start(start);osc.stop(start+duration+.04);activeNodes.push(osc,filter,gain);
+    }
+    function piano(note,start,duration,gain=.05){
+      synth(note,start,duration,{type:'triangle',peak:gain,attack:.006,release:Math.min(.85,duration*.68),cutoff:1650});
+      synth(note+12,start+.004,duration*.55,{type:'sine',peak:gain*.16,attack:.01,release:.32,cutoff:3000});
+    }
+    function accompaniment(notes,start,duration){
+      notes.forEach((n,i)=>synth(n,start+i*.018,duration,{type:'sine',peak:.018,attack:.25,release:Math.min(1.4,duration*.52),cutoff:1250,detune:i%2?3:-3}));
+    }
+    function after(ms,fn){timers.push(setTimeout(fn,ms));}
+
+    function renderTriplet(item,start){
+      const beat=60/(+tempo.value), melody=item.notes;
+      const chords=[[48,52,55,60],[45,48,52,57],[41,45,48,53],[43,47,50,55]]; // C, Am, F, G
+      const phraseBeats=4;
+      for(let bar=0;bar<4;bar++){
+        const s=start+bar*phraseBeats*beat;
+        accompaniment(chords[bar],s,phraseBeats*beat*.96);
+        piano(chords[bar][0]-12,s,beat*2.7,.035);
+        melody.forEach((note,i)=>{
+          const shaped=note+(bar===1&&i===0?12:0)+(bar===3&&i===2&&item.id==='mi-re-do'?0:0);
+          piano(shaped,s+beat*(.35+i*.86),beat*.66,i===0?.061:.048);
+        });
+        // Gentle answer: final note becomes the start of a tiny echo.
+        piano(melody[2]+(bar%2?0:12),s+beat*3.2,beat*.48,.021);
+      }
+      // Cadential final statement, with Do supported by C harmony for a clear loop point.
+      const end=start+16*beat;
+      accompaniment([48,52,55,60],end,4*beat*.95);
+      melody.forEach((note,i)=>piano(note,end+beat*(.35+i*.9),beat*.72,.052));
+      piano(60,end+beat*3.35,beat*.9,.03);
+      return 20*beat;
+    }
+
+    function playLoop(item){
+      const start=time()+.08; const duration=renderTriplet(item,start);
+      after(duration*1000,()=>{if(current===item.id)playLoop(item);});
+    }
+
+    function stopAll(){
+      timers.forEach(clearTimeout);timers=[];
+      if(ctx){const stopAt=time()+.08;activeNodes.forEach(n=>{try{if(n.gain)n.gain.setTargetAtTime(.0001,time(),.025);if(n.stop)n.stop(stopAt);n.disconnect?.();}catch(e){}});}
+      activeNodes=[];current=null;dot.classList.remove('active');status.textContent='Playback stopped. Press Play on a melodic triplet to hear it again.';
+      document.querySelectorAll('.card').forEach(x=>x.classList.remove('playing'));document.querySelectorAll('.play').forEach(x=>x.textContent='▶ Play tune');
+    }
+
+    document.querySelectorAll('.play').forEach(button=>button.addEventListener('click',async()=>{
+      initAudio();await ctx.resume();stopAll();
+      const item=TRIPLETS.find(x=>x.id===button.dataset.id);current=item.id;button.textContent='❚❚ Playing';button.closest('.card').classList.add('playing');dot.classList.add('active');
+      status.textContent=`Playing ${item.solfege.join(' → ')} (${item.name}) in C major with a supportive chord loop.`;playLoop(item);
+    }));
+    document.querySelectorAll('.stop').forEach(button=>button.addEventListener('click',stopAll));
+    window.addEventListener('pagehide',stopAll);
+  </script>
+</body>
+</html>

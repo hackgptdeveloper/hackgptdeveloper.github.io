@@ -1,0 +1,494 @@
+
+Here's a complete, self-contained HTML page that plays the 8-bar melody using the Web Audio API. No external libraries needed — just save as `.html` and open in a browser.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>8-Bar Melody in C Major — Do–Mi–So Motive</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --panel: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #eaeaea;
+    --muted: #8892b0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 50% 0%, #1f2a4a 0%, var(--bg) 70%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .container {
+    width: 100%;
+    max-width: 900px;
+    background: var(--panel);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  h1 {
+    margin: 0 0 4px;
+    font-size: 1.6rem;
+    letter-spacing: .5px;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-bottom: 24px;
+  }
+  .sub b { color: var(--accent); }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .1s, background .2s, opacity .2s;
+  }
+  button:hover:not(:disabled) { background: #ff5c78; }
+  button:active:not(:disabled) { transform: scale(.97); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  button.secondary {
+    background: transparent;
+    border: 1px solid var(--muted);
+    color: var(--muted);
+  }
+  button.secondary:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: .9rem;
+  }
+  input[type="range"] { accent-color: var(--accent); width: 120px; }
+
+  .staff {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .bar {
+    display: grid;
+    grid-template-columns: 40px repeat(4, 1fr);
+    gap: 6px;
+    align-items: center;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background .15s;
+  }
+  .bar.active { background: rgba(233, 69, 96, .15); }
+  .bar-label {
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .note {
+    background: var(--accent2);
+    border-radius: 6px;
+    padding: 10px 4px;
+    text-align: center;
+    font-weight: 600;
+    font-size: .85rem;
+    transition: all .12s;
+    position: relative;
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .note .solfege {
+    font-size: .65rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .note.playing {
+    background: var(--accent);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(233,69,96,.5);
+  }
+  .note.rest {
+    background: transparent;
+    border: 1px dashed #33405e;
+    color: var(--muted);
+  }
+  .note.motive { border-left: 3px solid var(--accent); }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: .8rem;
+    color: var(--muted);
+    border-top: 1px solid #2a3a5c;
+    padding-top: 16px;
+  }
+  .legend span::before {
+    content: '';
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .legend .m::before { background: var(--accent); }
+  .legend .n::before { background: var(--accent2); }
+
+  .status {
+    margin-top: 16px;
+    font-size: .85rem;
+    color: var(--muted);
+    min-height: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Do–Mi–So Motive</h1>
+  <div class="sub">8-bar melody in <b>C Major</b> · 4/4 · ♩= 88 BPM · recurring <b>1–3–5</b> arpeggiation</div>
+
+  <div class="controls">
+    <button id="playBtn">▶ Play</button>
+    <button id="stopBtn" class="secondary" disabled>■ Stop</button>
+    <label>Tempo
+      <input type="range" id="tempo" min="40" max="160" value="88">
+      <span id="tempoVal">88</span> BPM
+    </label>
+    <label>
+      <input type="checkbox" id="loop"> Loop
+    </label>
+  </div>
+
+  <div class="staff" id="staff"></div>
+
+  <div class="legend">
+    <span class="m">Motive statement (1–3–5 shape)</span>
+    <span class="n">Stepwise continuation</span>
+  </div>
+
+  <div class="status" id="status">Ready.</div>
+</div>
+
+<script>
+// ---------- Melody data ----------
+// Each bar: array of {note, solfege, motive?, rest?}
+// note = scientific pitch name; null = rest
+const MELODY = [
+  // Bar 1: Do–Mi–So–La  (M + step)
+  [
+    { note: 'C4', solfege: 'Do', motive: true },
+    { note: 'E4', solfege: 'Mi', motive: true },
+    { note: 'G4', solfege: 'So', motive: true },
+    { note: 'A4', solfege: 'La' },
+  ],
+  // Bar 2: So–Fa–Mi–Re
+  [
+    { note: 'G4', solfege: 'So' },
+    { note: 'F4', solfege: 'Fa' },
+    { note: 'E4', solfege: 'Mi' },
+    { note: 'D4', solfege: 'Re' },
+  ],
+  // Bar 3: Mi–So–Do–Ti  (M transposed)
+  [
+    { note: 'E4', solfege: 'Mi', motive: true },
+    { note: 'G4', solfege: 'So', motive: true },
+    { note: 'C5', solfege: 'Do', motive: true },
+    { note: 'B4', solfege: 'Ti' },
+  ],
+  // Bar 4: La–So–Fa–Mi
+  [
+    { note: 'A4', solfege: 'La' },
+    { note: 'G4', solfege: 'So' },
+    { note: 'F4', solfege: 'Fa' },
+    { note: 'E4', solfege: 'Mi' },
+  ],
+  // Bar 5: Do–Mi–So–Mi  (M + return)
+  [
+    { note: 'C4', solfege: 'Do', motive: true },
+    { note: 'E4', solfege: 'Mi', motive: true },
+    { note: 'G4', solfege: 'So', motive: true },
+    { note: 'E4', solfege: 'Mi' },
+  ],
+  // Bar 6: Fa–So–La–Ti
+  [
+    { note: 'F4', solfege: 'Fa' },
+    { note: 'G4', solfege: 'So' },
+    { note: 'A4', solfege: 'La' },
+    { note: 'B4', solfege: 'Ti' },
+  ],
+  // Bar 7: So–Ti–Re–Do  (M on V)
+  [
+    { note: 'G4', solfege: 'So', motive: true },
+    { note: 'B4', solfege: 'Ti', motive: true },
+    { note: 'D5', solfege: 'Re', motive: true },
+    { note: 'C5', solfege: 'Do' },
+  ],
+  // Bar 8: So–Mi–Do–(rest)  — cadence, last note half
+  [
+    { note: 'G4', solfege: 'So' },
+    { note: 'E4', solfege: 'Mi' },
+    { note: 'C4', solfege: 'Do' },
+    { note: null, solfege: '–', rest: true },
+  ],
+];
+
+// ---------- Pitch → frequency ----------
+const A4 = 440;
+const NOTE_INDEX = { C:0, 'C#':1, D:2, 'D#':3, E:4, F:5, 'F#':6, G:7, 'G#':8, A:9, 'A#':10, B:11 };
+function freq(name) {
+  if (!name) return null;
+  const m = name.match(/^([A-G]#?)(\d)$/);
+  if (!m) return null;
+  const semi = NOTE_INDEX[m[1]] + (parseInt(m[2]) - 4) * 12 - 9; // semitones from A4
+  return A4 * Math.pow(2, semi / 12);
+}
+
+// ---------- Render staff ----------
+const staff = document.getElementById('staff');
+const noteEls = []; // noteEls[bar][beat]
+MELODY.forEach((bar, b) => {
+  const barDiv = document.createElement('div');
+  barDiv.className = 'bar';
+  barDiv.dataset.bar = b;
+
+  const label = document.createElement('div');
+  label.className = 'bar-label';
+  label.textContent = b + 1;
+  barDiv.appendChild(label);
+
+  const row = [];
+  bar.forEach((n) => {
+    const el = document.createElement('div');
+    el.className = 'note' + (n.rest ? ' rest' : '') + (n.motive ? ' motive' : '');
+    el.innerHTML = n.rest
+      ? '–<span class="solfege">rest</span>'
+      : `<div>${n.note}</div><div class="solfege">${n.solfege}</div>`;
+    barDiv.appendChild(el);
+    row.push(el);
+  });
+  noteEls.push(row);
+  staff.appendChild(barDiv);
+});
+
+// ---------- Audio engine ----------
+let audioCtx = null;
+let masterGain = null;
+let isPlaying = false;
+let stopRequested = false;
+let currentTimeouts = [];
+let currentBarEl = null;
+
+function ensureAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.28;
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+// Soft piano-ish tone: two detuned oscillators + ADSR
+function playNote(frequency, startTime, durationSec, velocity = 1) {
+  const t = startTime;
+  const osc1 = audioCtx.createOscillator();
+  const osc2 = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc1.type = 'triangle';
+  osc2.type = 'sine';
+  osc1.frequency.value = frequency;
+  osc2.frequency.value = frequency * 2.001; // slight shimmer
+  osc2.detune.value = 4;
+
+  const g2 = audioCtx.createGain();
+  g2.gain.value = 0.25;
+
+  const attack = 0.012;
+  const release = Math.min(0.35, durationSec * 0.6);
+  const peak = 0.9 * velocity;
+
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(peak, t + attack);
+  gain.gain.setTargetAtTime(0.55 * peak, t + attack, 0.25);
+  gain.gain.setTargetAtTime(0, t + durationSec - release, release / 3);
+
+  osc1.connect(gain);
+  osc2.connect(g2).connect(gain);
+  gain.connect(masterGain);
+
+  osc1.start(t);
+  osc2.start(t);
+  const stopAt = t + durationSec + 0.05;
+  osc1.stop(stopAt);
+  osc2.stop(stopAt);
+}
+
+function clearTimeouts() {
+  currentTimeouts.forEach(clearTimeout);
+  currentTimeouts = [];
+  if (currentBarEl) { currentBarEl.classList.remove('active'); currentBarEl = null; }
+  noteEls.flat().forEach(el => el.classList.remove('playing'));
+}
+
+function highlight(barIdx, beatIdx, durMs) {
+  const el = noteEls[barIdx]?.[beatIdx];
+  if (!el) return;
+  el.classList.add('playing');
+  const t = setTimeout(() => el.classList.remove('playing'), Math.max(80, durMs * 0.85));
+  currentTimeouts.push(t);
+}
+
+async function play() {
+  if (isPlaying) return;
+  ensureAudio();
+  isPlaying = true;
+  stopRequested = false;
+  setUIState(true);
+
+  const bpm = parseInt(document.getElementById('tempo').value, 10);
+  const beatSec = 60 / bpm;
+  const loop = document.getElementById('loop').checked;
+
+  do {
+    // schedule the whole 8 bars
+    const startAt = audioCtx.currentTime + 0.08;
+    const totalBeats = 8 * 4;
+
+    for (let b = 0; b < 8; b++) {
+      // bar highlight
+      const barT = setTimeout(() => {
+        if (currentBarEl) currentBarEl.classList.remove('active');
+        const barEl = staff.children[b];
+        barEl.classList.add('active');
+        currentBarEl = barEl;
+      }, (startAt - audioCtx.currentTime + b * 4 * beatSec) * 1000);
+      currentTimeouts.push(barT);
+
+      for (let beat = 0; beat < 4; beat++) {
+        const n = MELODY[b][beat];
+        const beatStart = startAt + (b * 4 + beat) * beatSec;
+
+        // Last note of last bar = half note (2 beats)
+        let dur = beatSec * 0.95;
+        if (b === 7 && beat === 2) dur = beatSec * 1.9;
+        if (b === 7 && beat === 3) continue; // rest
+
+        if (n.note) {
+          const f = freq(n.note);
+          playNote(f, beatStart, dur, beat === 0 ? 1 : 0.9);
+        }
+
+        const delayMs = (beatStart - audioCtx.currentTime) * 1000;
+        const ht = setTimeout(() => highlight(b, beat, dur * 1000), Math.max(0, delayMs));
+        currentTimeouts.push(ht);
+      }
+    }
+
+    const songMs = totalBeats * beatSec * 1000;
+    document.getElementById('status').textContent = `Playing… (${bpm} BPM)`;
+
+    await new Promise(res => {
+      const t = setTimeout(res, songMs + 200);
+      currentTimeouts.push(t);
+    });
+
+    if (loop && !stopRequested) {
+      clearTimeouts();
+      // small gap before repeat
+      await new Promise(res => {
+        const t = setTimeout(res, 300);
+        currentTimeouts.push(t);
+      });
+    }
+  } while (loop && !stopRequested);
+
+  if (!stopRequested) {
+    document.getElementById('status').textContent = 'Done.';
+  }
+  isPlaying = false;
+  clearTimeouts();
+  setUIState(false);
+}
+
+function stop() {
+  stopRequested = true;
+  // kill audio
+  if (masterGain) {
+    try { masterGain.gain.cancelScheduledValues(audioCtx.currentTime); } catch(e){}
+  }
+  if (audioCtx) {
+    // disconnect & rebuild gain to silence immediately
+    try {
+      masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      setTimeout(() => { if (masterGain) masterGain.gain.value = 0.28; }, 60);
+    } catch(e){}
+  }
+  clearTimeouts();
+  isPlaying = false;
+  setUIState(false);
+  document.getElementById('status').textContent = 'Stopped.';
+}
+
+function setUIState(playing) {
+  document.getElementById('playBtn').disabled = playing;
+  document.getElementById('stopBtn').disabled = !playing;
+  document.getElementById('playBtn').textContent = playing ? '▶ Playing…' : '▶ Play';
+}
+
+// ---------- Wire up ----------
+document.getElementById('playBtn').addEventListener('click', play);
+document.getElementById('stopBtn').addEventListener('click', stop);
+
+const tempoSlider = document.getElementById('tempo');
+const tempoVal = document.getElementById('tempoVal');
+tempoSlider.addEventListener('input', () => {
+  tempoVal.textContent = tempoSlider.value;
+});
+</script>
+</body>
+</html>
+```
+
+## What it does
+
+- **Visual staff:** 8 bars × 4 beats, with the recurring **1–3–5 motive** marked by a red left border.
+- **Playback:** Web Audio API synthesizes a soft piano-like tone (triangle + sine + ADSR envelope).
+- **Live highlighting:** each note lights up as it sounds; the active bar is subtly highlighted.
+- **Controls:** Play / Stop, tempo slider (40–160 BPM, default 88), and a Loop toggle.
+- **Timing detail:** the final note in bar 8 is a **half note** (2 beats) to make the cadence ring out.
+- **No dependencies** — pure HTML/CSS/JS.
+
+## Quick tweaks you can make
+
+- **Different instrument:** change `osc1.type` to `'sawtooth'` or `'square'` in `playNote()`.
+- **Add reverb:** insert a `ConvolverNode` between `masterGain` and `audioCtx.destination`.
+- **Change the melody:** edit the `MELODY` array — each entry is `{ note, solfege, motive?, rest? }`.
+- **Bass line / chords:** add a second `playNote()` call per bar using chord roots (C, G, C, F, C, F, G, C).
+
+Want me to extend it with a **bass line, chord accompaniment, or MIDI export**?

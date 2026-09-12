@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090b17" />
+  <title>Triplet Tune Lab — 10 Generative Mood Sketches</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080a15;
+      --panel: rgba(18, 22, 43, 0.78);
+      --panel-hover: rgba(32, 38, 70, 0.92);
+      --line: rgba(202, 210, 255, 0.15);
+      --text: #f0f2ff;
+      --muted: #aeb5d5;
+      --mint: #83e3d3;
+      --violet: #b7a8ff;
+      --pink: #ff9ccf;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 12% 0%, rgba(107, 85, 192, 0.30), transparent 35rem),
+        radial-gradient(ellipse at 95% 20%, rgba(38, 143, 145, 0.17), transparent 33rem),
+        linear-gradient(140deg, #070812 0%, #10142a 50%, #080a15 100%);
+    }
+
+    .wrap { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: 52px 0 72px; }
+    header { max-width: 820px; }
+    .eyebrow { margin: 0 0 12px; color: var(--mint); font-size: .74rem; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2.1rem, 5.5vw, 4.6rem); letter-spacing: -.052em; line-height: .98; }
+    h1 em { color: var(--violet); font-style: normal; }
+    .lead { max-width: 750px; margin: 20px 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.65; }
+
+    .now-playing {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin: 30px 0 18px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(7, 9, 20, .54);
+      color: var(--muted);
+    }
+    .indicator { width: 10px; height: 10px; flex: none; border-radius: 50%; background: #68708f; box-shadow: 0 0 0 5px rgba(104,112,143,.15); }
+    .indicator.active { background: var(--mint); box-shadow: 0 0 0 5px rgba(131,227,211,.13), 0 0 19px rgba(131,227,211,.9); animation: breathe 1.5s ease-in-out infinite; }
+    @keyframes breathe { 50% { transform: scale(1.25); } }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+    .card {
+      position: relative;
+      display: flex;
+      min-height: 243px;
+      flex-direction: column;
+      padding: 21px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(150deg, rgba(29,35,66,.90), rgba(11,14,30,.90));
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+    .card:hover, .card.is-playing { transform: translateY(-2px); background: var(--panel-hover); border-color: rgba(183,168,255,.44); }
+    .card::after {
+      position: absolute;
+      right: -64px;
+      bottom: -90px;
+      width: 225px;
+      height: 225px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow, rgba(183,168,255,.18)), transparent 67%);
+      content: "";
+      pointer-events: none;
+    }
+    .number { margin: 0 0 13px; color: var(--mint); font-size: .72rem; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
+    h2 { margin: 0; font-size: 1.27rem; letter-spacing: -.025em; }
+    .triplet { margin: 8px 0 12px; color: #d8d5fb; font-size: .93rem; font-weight: 700; }
+    .triplet span { color: var(--pink); padding: 0 3px; }
+    .details { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.52; }
+    .buttons { display: flex; align-items: center; gap: 9px; margin-top: auto; padding-top: 17px; }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .9rem;
+      font-weight: 820;
+      transition: transform 150ms ease, filter 150ms ease;
+    }
+    button:hover { filter: brightness(1.09); transform: translateY(-1px); }
+    button:active { transform: translateY(1px); }
+    button:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+    .play { min-width: 128px; padding: 11px 14px; color: #101124; background: linear-gradient(135deg, #c7bfff, #8ce9db); }
+    .stop { padding: 11px 14px; color: #e6e8fc; background: rgba(185,196,244,.12); border: 1px solid rgba(185,196,244,.16); }
+
+    .mixer { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 16px; padding: 19px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+    label { display: grid; gap: 8px; color: var(--muted); font-size: .87rem; }
+    output { color: var(--text); font-weight: 800; }
+    input[type="range"] { width: 100%; accent-color: var(--violet); }
+    .hint { margin: 20px 2px 0; color: #8992b5; font-size: .85rem; line-height: 1.55; }
+
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .mixer { grid-template-columns: 1fr; } .card { min-height: 225px; } }
+    @media (max-width: 420px) { .wrap { width: min(100% - 28px, 1180px); padding-top: 35px; } .buttons { flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <p class="eyebrow">Generative Web Audio playground</p>
+      <h1>Triplet <em>Tune</em> Lab</h1>
+      <p class="lead">Ten one-button composition studies. Each triplet controls a distinct sound palette, harmonic direction, pacing, and melodic behavior. Press Play to generate a looping sketch in your browser—no recordings are required.</p>
+    </header>
+
+    <div class="now-playing" aria-live="polite">
+      <span class="indicator" id="indicator"></span>
+      <span id="status">Choose one of the ten mood triplets. Playback begins only after your button press.</span>
+    </div>
+
+    <section class="grid" id="cards" aria-label="Ten triplet tune sketches"></section>
+
+    <section class="mixer" aria-label="Global playback controls">
+      <label>Master volume: <output id="volumeOut">58%</output><input id="volume" type="range" min="0" max="100" value="58"></label>
+      <label>Atmosphere / reverb: <output id="reverbOut">45%</output><input id="reverb" type="range" min="0" max="100" value="45"></label>
+      <label>Playback brightness: <output id="brightOut">62%</output><input id="brightness" type="range" min="0" max="100" value="62"></label>
+    </section>
+
+    <p class="hint">Tip: headphones reveal the low drones, stereo-like delayed reflections, and small pitch variations best. Playing a new card stops the current composition. Each sketch repeats with slightly different timing and articulation.</p>
+  </main>
+
+  <script>
+    const SKETCHES = [
+      { id:'night', title:'Window at 2:14 AM', words:['Nocturnal','Intimate','Unresolved'], meta:'58 BPM · D minor-adjacent · felt piano', desc:'Close piano notes, a quiet D-based ground, and an A-sus ending that never lets the room settle.', style:'night', glow:'rgba(183,168,255,.22)' },
+      { id:'vast', title:'Starlight Archive', words:['Vast','Ancient','Luminous'], meta:'54 BPM · D Dorian · choir-like pads', desc:'Open fifths bloom over a very low drone; distant high tones trace a slow, bright constellation.', style:'vast', glow:'rgba(120,183,255,.22)' },
+      { id:'tender', title:'Letters in a Drawer', words:['Tender','Nostalgic','Hopeful'], meta:'72 BPM · G major / E minor · soft keys', desc:'Warm major-seventh colors and a modest rising melody suggest a memory that still has somewhere to go.', style:'tender', glow:'rgba(255,182,206,.22)' },
+      { id:'neon', title:'Afterimage', words:['Neon','Kinetic','Hypnotic'], meta:'122 BPM · A minor · pulsing synth', desc:'A bright sequencer circles a minor center while filtered tones shift around it in the dark.', style:'neon', glow:'rgba(81,239,210,.20)' },
+      { id:'fragile', title:'Breath on Glass', words:['Fragile','Suspended','Celestial'], meta:'50 BPM · C Lydian · glass harmonics', desc:'Soft upper-register tones hover above nearly absent bass, leaving every phrase suspended in air.', style:'fragile', glow:'rgba(208,223,255,.24)' },
+      { id:'rustic', title:'Road After Rain', words:['Rustic','Gentle','Sun-warmed'], meta:'82 BPM · D major · fingerpicked guitar color', desc:'A simple, woody broken-chord pattern with gentle pentatonic answers and a slow forward motion.', style:'rustic', glow:'rgba(255,198,119,.22)' },
+      { id:'menace', title:'The Unlit Stairwell', words:['Menacing','Sparse','Patient'], meta:'48 BPM · C pedal · shadowy clusters', desc:'Long silences, a low repeating pulse, and restrained dissonances make the tension feel coiled.', style:'menace', glow:'rgba(255,98,137,.20)' },
+      { id:'euphoria', title:'First Light Over Water', words:['Euphoric','Open-hearted','Soaring'], meta:'104 BPM · E major · wide synth piano', desc:'A rising harmonic loop opens gradually into luminous upper notes without becoming aggressive.', style:'euphoria', glow:'rgba(255,235,127,.20)' },
+      { id:'glitch', title:'Soft Error', words:['Glitchy','Playful','Angular'], meta:'112 BPM · F# minor · broken plucks', desc:'Short, displaced notes and gentle detuned clicks form an alert but friendly digital conversation.', style:'glitch', glow:'rgba(136,255,204,.20)' },
+      { id:'haunted', title:'Rooms Remember', words:['Haunted','Reverberant','Timeless'], meta:'46 BPM · E minor · distant bells', desc:'Slow bell-like notes and an ancient drone drift through a long, dark reverberant space.', style:'haunted', glow:'rgba(171,139,255,.23)' }
+    ];
+
+    const cards = document.getElementById('cards');
+    cards.innerHTML = SKETCHES.map((s, i) => `
+      <article class="card" data-id="${s.id}" style="--glow:${s.glow}">
+        <p class="number">Sketch ${String(i + 1).padStart(2,'0')}</p>
+        <h2>${s.title}</h2>
+        <p class="triplet">${s.words[0]} <span>·</span> ${s.words[1]} <span>·</span> ${s.words[2]}</p>
+        <p class="details"><strong>${s.meta}</strong><br>${s.desc}</p>
+        <div class="buttons">
+          <button class="play" data-id="${s.id}" aria-label="Play ${s.title}">▶ Play tune</button>
+          <button class="stop" type="button" aria-label="Stop ${s.title}">■ Stop</button>
+        </div>
+      </article>`).join('');
+
+    let ctx, master, dry, wet, convolver, toneFilter;
+    let nodes = [], timers = [], current = null;
+    const indicator = document.getElementById('indicator');
+    const status = document.getElementById('status');
+    const volume = document.getElementById('volume');
+    const reverb = document.getElementById('reverb');
+    const brightness = document.getElementById('brightness');
+
+    const midi = n => 440 * Math.pow(2, (n - 69) / 12);
+    const tnow = () => ctx.currentTime;
+    const choose = a => a[Math.floor(Math.random() * a.length)];
+
+    function init() {
+      if (ctx) return;
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain(); dry = ctx.createGain(); wet = ctx.createGain();
+      toneFilter = ctx.createBiquadFilter(); toneFilter.type = 'lowpass';
+      const comp = ctx.createDynamicsCompressor();
+      comp.threshold.value = -21; comp.knee.value = 17; comp.ratio.value = 3; comp.attack.value = .02; comp.release.value = .45;
+      convolver = ctx.createConvolver();
+      const length = Math.floor(ctx.sampleRate * 4.2);
+      const buffer = ctx.createBuffer(2, length, ctx.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const d = buffer.getChannelData(c);
+        for (let i = 0; i < length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3.1);
+      }
+      convolver.buffer = buffer;
+      dry.connect(toneFilter); wet.connect(convolver); convolver.connect(toneFilter); toneFilter.connect(master); master.connect(comp); comp.connect(ctx.destination);
+      mix();
+    }
+
+    function mix() {
+      if (!ctx) return;
+      const v = +volume.value / 100, r = +reverb.value / 100, b = +brightness.value / 100;
+      master.gain.setTargetAtTime(v * .52, tnow(), .03);
+      dry.gain.setTargetAtTime(.96 - r * .55, tnow(), .03);
+      wet.gain.setTargetAtTime(r * .92, tnow(), .03);
+      toneFilter.frequency.setTargetAtTime(650 + b * 7000, tnow(), .05);
+    }
+
+    [['volume','volumeOut'],['reverb','reverbOut'],['brightness','brightOut']].forEach(([id,out]) => {
+      document.getElementById(id).addEventListener('input', e => { document.getElementById(out).value = e.target.value + '%'; mix(); });
+    });
+
+    function connect(output) { output.connect(dry); output.connect(wet); }
+
+    function voice(note, start, duration, options = {}) {
+      const osc = ctx.createOscillator(), gain = ctx.createGain(), filter = ctx.createBiquadFilter();
+      osc.type = options.type || 'sine';
+      osc.frequency.setValueAtTime(midi(note), start);
+      osc.detune.value = options.detune || 0;
+      filter.type = options.filterType || 'lowpass'; filter.frequency.value = options.cutoff || 2200; filter.Q.value = options.q || .45;
+      const peak = options.peak ?? .04, attack = options.attack ?? .025, release = options.release ?? Math.min(1.4, duration * .55);
+      gain.gain.setValueAtTime(.0001, start);
+      gain.gain.exponentialRampToValueAtTime(peak, start + attack);
+      gain.gain.setValueAtTime(peak, Math.max(start + attack + .01, start + duration - release));
+      gain.gain.exponentialRampToValueAtTime(.0001, start + duration);
+      osc.connect(filter); filter.connect(gain); connect(gain);
+      osc.start(start); osc.stop(start + duration + .04);
+      nodes.push(osc, filter, gain);
+    }
+
+    function key(note, start, duration, gain = .05, color = 'triangle') {
+      voice(note, start, duration, { type: color, peak: gain, attack: .008, release: Math.min(1.5, duration * .7), cutoff: 1750 });
+      voice(note + 12, start + .006, duration * .62, { type:'sine', peak:gain * .18, attack:.012, release:.7, cutoff:2900 });
+    }
+
+    function chord(notes, start, duration, gain = .025, type = 'sine') {
+      notes.forEach((n, i) => voice(n, start + i * .018, duration, { type, peak:gain, attack:.48, release:Math.min(2, duration * .5), cutoff:1500, detune:i % 2 ? -4 : 3 }));
+    }
+
+    function low(note, start, duration, gain = .035) {
+      voice(note, start, duration, { type:'sine', peak:gain, attack:.6, release:Math.min(2.4, duration * .55), cutoff:700, detune:-3 });
+      voice(note, start + .025, duration, { type:'sine', peak:gain * .32, attack:.8, release:Math.min(2.6, duration * .55), cutoff:850, detune:5 });
+    }
+
+    function click(note, start, gain = .025) {
+      voice(note, start, .18, { type:'square', peak:gain, attack:.002, release:.14, cutoff:1200 });
+    }
+
+    function after(ms, fn) { timers.push(setTimeout(fn, ms)); }
+    function loop(fn, seconds) { const start = tnow() + .09; fn(start); after(seconds * 1000, () => { if (current) loop(fn, seconds); }); }
+
+    const generators = {
+      night(t) {
+        const b = 60 / 58, cs = [[38,45,50,53,57],[38,45,46,53,57],[43,50,53,57,58],[45,50,52,59]];
+        cs.forEach((c,i) => { const s=t+i*b*4; key(c[0],s,b*3.4,.052); c.slice(1).forEach((n,j)=>key(n+(j>2?12:0),s+j*.05,b*2.7,.028)); if(i===1||i===3) chord(c.slice(1).map(n=>n+12),s+b*1.2,b*2.5,.011); });
+        [69,72,76,77,76].forEach((n,i)=>key(n,t+b*(1.2+i*.72),b*1.3,.032));
+      },
+      vast(t) {
+        low(26,t,18,.055); [[50,57,62,66],[50,57,64,69],[50,57,62,67],[50,57,64,71]].forEach((c,i)=>chord(c,t+i*4.5,5.5,.024));
+        [74,78,81,86,83].forEach((n,i)=>voice(n,t+1+i*2.9,3.7,{type:'sine',peak:.023,attack:.55,release:1.8,cutoff:2800}));
+      },
+      tender(t) {
+        const b=60/72, cs=[[43,50,54,57,62],[40,47,52,55,59],[45,52,57,59,64],[47,54,59,62,66]];
+        cs.forEach((c,i)=>{const s=t+i*b*4; key(c[0],s,b*3.5,.046); c.slice(1).forEach((n,j)=>key(n,s+b*(.38+j*.56),b*1.7,.027));});
+        [71,74,76,78,79,83].forEach((n,i)=>key(n,t+b*(2+i*1.23),b*1.5,.026));
+      },
+      neon(t) {
+        const step=60/122/2, pattern=[45,52,57,60,64,60,57,52,43,50,55,59,62,59,55,50];
+        low(33,t,step*16,.033); low(28,t+step*8,step*8,.026);
+        pattern.forEach((n,i)=>{voice(n,t+i*step,step*.76,{type:i%4===0?'sawtooth':'triangle',peak:i%4===0?.038:.022,attack:.01,release:.13,cutoff:1800,detune:i%3===0?4:-2}); if(i%4===2) click(n+12,t+i*step+.035,.013);});
+      },
+      fragile(t) {
+        chord([48,55,62,66],t,7,.017); chord([48,55,64,67],t+6.2,7,.016); chord([48,55,62,69],t+12.4,7,.015);
+        [76,79,83,86,84].forEach((n,i)=>voice(n,t+1.1+i*2.65,3.3,{type:'sine',peak:.018,attack:.6,release:1.7,cutoff:3800,detune:i%2?6:-4}));
+      },
+      rustic(t) {
+        const b=60/82, arp=[50,57,62,66,57,62,45,52,57,61,52,57,47,54,59,62,54,59,45,52,57,61,52,57];
+        arp.forEach((n,i)=>key(n,t+i*b*.5,b*.75,.029,'triangle'));
+        [66,69,71,74,71,69].forEach((n,i)=>key(n,t+b*(2.1+i*1.25),b*1.5,.023));
+      },
+      menace(t) {
+        const b=60/48; low(24,t,b*12,.06); [24,24,25,24].forEach((n,i)=>{key(n,t+i*b*3,b*1.2,.04,'sine'); chord(i===2?[51,57,61]:[55,60,63],t+i*b*3+b*.8,b*1.8,.014,'triangle');});
+        voice(68,t+b*7.1,2.6,{type:'triangle',peak:.017,attack:.4,release:1.5,cutoff:900});
+      },
+      euphoria(t) {
+        const b=60/104, cs=[[40,47,52,56,59],[45,52,57,61,64],[49,56,61,64,68],[47,54,59,63,66]];
+        cs.forEach((c,i)=>{const s=t+i*b*4; chord(c,s,b*4.5,.024,'triangle'); key(c[0],s,b*3.4,.036); [c[2],c[3],c[4]+12].forEach((n,j)=>key(n,s+b*(.5+j*.95),b*1.4,.024));});
+        [71,73,76,80,83,85].forEach((n,i)=>voice(n,t+b*(1.4+i*1.65),b*2.1,{type:'sine',peak:.023,attack:.18,release:.9,cutoff:3100}));
+      },
+      glitch(t) {
+        const step=60/112/2, ns=[54,61,57,64,56,63,59,66,54,62,57,65,53,61,59,68];
+        low(30,t,step*16,.03);
+        ns.forEach((n,i)=>{const offset=(i%5===0?.045:i%7===0?-.03:0); voice(n,t+i*step+offset,step*choose([.3,.45,.65]),{type:i%3===0?'square':'triangle',peak:.018+(i%4===0?.012:0),attack:.003,release:.09,cutoff:1500,detune:choose([-11,-4,3,9])}); if(i%4===1) click(n+12,t+i*step+.06,.01);});
+      },
+      haunted(t) {
+        low(28,t,20,.042); chord([40,47,52],t,7,.014); chord([40,47,53],t+6.4,7,.014); chord([40,46,52],t+12.8,7,.013);
+        [76,71,74,69,75].forEach((n,i)=>{voice(n,t+1.3+i*3.35,3.9,{type:'sine',peak:.025,attack:.08,release:2.6,cutoff:1750}); voice(n+12,t+1.36+i*3.35,2.9,{type:'triangle',peak:.007,attack:.06,release:2,cutoff:2100});});
+      }
+    };
+
+    function stopAll() {
+      timers.forEach(clearTimeout); timers=[];
+      if (ctx) {
+        const end=tnow()+.08;
+        nodes.forEach(n=>{try { if(n.gain) n.gain.setTargetAtTime(.0001,tnow(),.025); if(n.stop) n.stop(end); n.disconnect?.(); } catch(e) {}});
+      }
+      nodes=[]; current=null;
+      indicator.classList.remove('active');
+      status.textContent='Playback stopped. Choose a mood triplet to start another sketch.';
+      document.querySelectorAll('.card').forEach(c=>c.classList.remove('is-playing'));
+      document.querySelectorAll('.play').forEach(b=>b.textContent='▶ Play tune');
+    }
+
+    document.querySelectorAll('.play').forEach(button => button.addEventListener('click', async () => {
+      init(); await ctx.resume(); stopAll();
+      const sketch=SKETCHES.find(s=>s.id===button.dataset.id);
+      current=sketch.id;
+      const lengths={night:17,vast:18,tender:14,neon:4,fragile:18,rustic:9,menace:15,euphoria:10,glitch:4,haunted:19};
+      button.textContent='❚❚ Playing';
+      button.closest('.card').classList.add('is-playing');
+      indicator.classList.add('active');
+      status.textContent=`Playing “${sketch.title}” — ${sketch.words.join(' · ')}. It will loop until stopped or replaced.`;
+      loop(generators[sketch.id], lengths[sketch.id]);
+    }));
+    document.querySelectorAll('.stop').forEach(b=>b.addEventListener('click',stopAll));
+    window.addEventListener('pagehide',stopAll);
+  </script>
+</body>
+</html>
