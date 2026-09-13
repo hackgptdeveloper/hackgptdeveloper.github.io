@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Markdown & Math Previewer</title>
+  
+  <!-- Marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- MathJax v3 Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f4f4f9;
+    }
+    header {
+      background-color: #24292e;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .container { display: flex; flex: 1; overflow: hidden; }
+    .pane { flex: 1; display: flex; flex-direction: column; padding: 15px; overflow: hidden; }
+    .pane-title { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #555; text-transform: uppercase; }
+    textarea {
+      flex: 1; width: 100%; padding: 12px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 14px; border: 1px solid #ccc; border-radius: 4px; resize: none; outline: none;
+    }
+    #preview {
+      flex: 1; padding: 15px; background: white; border: 1px solid #ccc;
+      border-radius: 4px; overflow-y: auto; line-height: 1.6;
+    }
+    #preview table { border-collapse: collapse; width: 100%; margin-bottom: 15px; }
+    #preview th, #preview td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+    #preview th { background-color: #f6f8fa; font-weight: bold; }
+    #preview td:nth-child(2) { text-align: right; } /* Preserve right alignment for 'Order' column */
+  </style>
+</head>
+<body>
+
+  <header>
+    <h3>Markdown + Math Live Editor</h3>
+    <div>
+      <label for="fileInput">Load .md file: </label>
+      <input type="file" id="fileInput" accept=".md,.txt">
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="pane">
+      <div class="pane-title">Input Markdown</div>
+      <textarea id="editor" placeholder="Type or paste Markdown here..."></textarea>
+    </div>
+    <div class="pane">
+      <div class="pane-title">Live Preview</div>
+      <div id="preview"></div>
+    </div>
+  </div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+    const fileInput = document.getElementById('fileInput');
+
+    // Protect math tokens before Markdown parsing to prevent backslash escaping issues
+    function prepareMath(text) {
+      const mathBlocks = [];
+      // Protect both $$...$$, $...$, \[...\], and \(...\)
+      const protectedText = text.replace(/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\(.*?\\\)|(?<!\\)\$.*?\$)/g, (match) => {
+        mathBlocks.push(match);
+        return `___MATH_BLOCK_${mathBlocks.length - 1}___`;
+      });
+      return { protectedText, mathBlocks };
+    }
+
+    function restoreMath(html, mathBlocks) {
+      return html.replace(/___MATH_BLOCK_(\d+)___/g, (_, index) => {
+        return mathBlocks[index];
+      });
+    }
+
+    function renderContent() {
+      const rawText = editor.value;
+      
+      // 1. Isolate LaTeX math expressions
+      const { protectedText, mathBlocks } = prepareMath(rawText);
+      
+      // 2. Parse Markdown safely
+      let parsedHTML = marked.parse(protectedText);
+      
+      // 3. Restore LaTeX math expressions back into the rendered HTML
+      preview.innerHTML = restoreMath(parsedHTML, mathBlocks);
+      
+      // 4. Trigger MathJax re-render
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([preview]).catch((err) => console.error(err));
+      }
+    }
+
+    // Debounce to prevent lag during fast typing
+    let timeout = null;
+    editor.addEventListener('input', () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(renderContent, 100);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        editor.value = event.target.result;
+        renderContent();
+      };
+      reader.readAsText(file);
+    });
+
+    // Initial render
+    renderContent();
+  </script>
+</body>
+</html>

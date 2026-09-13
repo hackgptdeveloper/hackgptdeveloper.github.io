@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Markdown & Math Previewer</title>
+  
+  <!-- KaTeX Styling -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  
+  <!-- Marked.js & KaTeX Extension -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked-katex-extension/lib/index.umd.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f4f4f9;
+    }
+    header {
+      background-color: #24292e;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .file-input-wrapper {
+      font-size: 14px;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      overflow: hidden;
+    }
+    .pane-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #555;
+      text-transform: uppercase;
+    }
+    textarea {
+      flex: 1;
+      width: 100%;
+      padding: 12px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      outline: none;
+    }
+    #preview {
+      flex: 1;
+      padding: 15px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    /* Standard Markdown & Table Styles */
+    #preview h1, #preview h2, #preview h3 { margin-bottom: 10px; margin-top: 15px; }
+    #preview p { margin-bottom: 10px; }
+    #preview table { 
+      border-collapse: collapse; 
+      width: 100%; 
+      margin-bottom: 15px; 
+    }
+    #preview th, #preview td { 
+      border: 1px solid #ddd; 
+      padding: 8px 12px; 
+      text-align: left; 
+    }
+    #preview th {
+      background-color: #f6f8fa;
+      font-weight: bold;
+    }
+    #preview td:nth-child(2) {
+      text-align: right; /* Keeps 'Order' column right-aligned per your markdown spec */
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h3>Markdown + Math Live Editor</h3>
+    <div class="file-input-wrapper">
+      <label for="fileInput">Load file: </label>
+      <input type="file" id="fileInput" accept=".md,.txt">
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="pane">
+      <div class="pane-title">Input Markdown</div>
+      <textarea id="editor" placeholder="Type or paste Markdown here..."></textarea>
+    </div>
+    <div class="pane">
+      <div class="pane-title">Live Preview</div>
+      <div id="preview"></div>
+    </div>
+  </div>
+
+  <script>
+    // Register KaTeX extension into Marked to handle inline \(...\) and $...$ syntax
+    marked.use(markedKatex({ 
+      throwOnError: false,
+      nonStandard: true 
+    }));
+
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+    const fileInput = document.getElementById('fileInput');
+
+    const sampleMarkdown = `| Problem | Order | Main structural idea | Primary method | Independent second method? | Solution form |
+|---|---:|---|---|---|---|
+| 1 | 1 | Rotation-masked differential form; solutions are logarithmic spirals | Non-obvious integrating factor \\(\\mu = 1/(x^2+y^2)\\) | Yes — polar-coordinate reduction \\(2\\,dr + r\\,d\\theta = 0\\) | Implicit; polar-explicit spiral |
+| 2 | 1 | Coupled \\(xy\\)-structure with a singular envelope | Substitution \\(u = xy\\) (product substitution) | Yes — Taylor/series derivation | Implicit algebraic \\(xy = x^2(2-xy)^3\\) |
+| 3 | 1 | Autonomous with one unstable equilibrium; arctan-integral | Direct separation + partial fractions + phase line | Yes — independent phase-line (first-integral-free) analysis | Explicit \\(x(y)\\); implicit in \\(y\\) |
+| 4 | 1 | Invariant under scaling \\((x,y)\\mapsto(\\lambda x,\\lambda^2 y)\\) | Similarity reduction \\(u = y/x^2\\) | Yes — hidden integrating factor \\(\\mu = x^3 y^{-3}\\) | Explicit elementary |
+| 5 | 2 | Nonlinear second-order linearized by \\(\\tan y\\) | Reduction of order \\(p(y) = y'\\) (missing \\(x\\)) | Yes — change of dependent variable \\(z = \\tan y\\) gives \\(z''=0\\) | Explicit elementary |`;
+
+    editor.value = sampleMarkdown;
+
+    function renderContent() {
+      preview.innerHTML = marked.parse(editor.value);
+    }
+
+    editor.addEventListener('input', renderContent);
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        editor.value = event.target.result;
+        renderContent();
+      };
+      reader.readAsText(file);
+    });
+
+    // Initial render
+    renderContent();
+  </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Markdown + Math + Mermaid Preview</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/marked@15.0.7/lib/marked.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --toolbar: #21262d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .app {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 650;
+    }
+
+    .actions { display: flex; gap: 0.5rem; align-items: center; }
+
+    button {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--toolbar);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      padding: 0.4rem 0.7rem;
+    }
+
+    button:hover { border-color: var(--accent); color: white; }
+
+    .status { color: var(--muted); font-size: 0.8rem; }
+
+    .panes {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .pane {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .pane + .pane { border-left: 1px solid var(--border); }
+
+    .pane-title {
+      padding: 0.5rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--panel);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      border: 0;
+      outline: 0;
+      padding: 1rem;
+      background: #0d1117;
+      color: #e6edf3;
+      font: 14px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      tab-size: 2;
+    }
+
+    #preview-wrap {
+      overflow: auto;
+      background: white;
+      padding: 2rem clamp(1rem, 4vw, 4rem);
+    }
+
+    #preview {
+      max-width: 980px;
+      margin: 0 auto;
+      color: #1f2328;
+    }
+
+    #preview.markdown-body {
+      background: white;
+      font-size: 16px;
+    }
+
+    #preview .mermaid {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    #preview pre.mermaid {
+      white-space: pre;
+      background: transparent;
+      border: 0;
+      padding: 0;
+    }
+
+    #preview .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }
+
+    .error {
+      margin: 1rem 0;
+      padding: 0.75rem;
+      border-left: 4px solid #cf222e;
+      background: #ffebe9;
+      color: #82071e;
+      white-space: pre-wrap;
+      font-family: ui-monospace, monospace;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 760px) {
+      body { overflow: auto; }
+      .app { height: auto; min-height: 100vh; }
+      .panes { grid-template-columns: 1fr; grid-template-rows: minmax(360px, 50vh) minmax(360px, 50vh); }
+      .pane + .pane { border-left: 0; border-top: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Markdown Renderer</h1>
+      <div class="actions">
+        <span id="status" class="status" aria-live="polite">Ready</span>
+        <button id="sample" type="button">Load example</button>
+        <button id="clear" type="button">Clear</button>
+      </div>
+    </header>
+
+    <section class="panes" aria-label="Markdown editor and rendered preview">
+      <div class="pane">
+        <div class="pane-title">Markdown input</div>
+        <textarea id="source" aria-label="Markdown input" spellcheck="false" placeholder="Paste Markdown here..."></textarea>
+      </div>
+      <div class="pane">
+        <div class="pane-title">Preview</div>
+        <div id="preview-wrap">
+          <article id="preview" class="markdown-body"></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const example = String.raw`# Markdown, mathematics, and Mermaid
+
+Paste or write Markdown in the editor. The preview updates automatically.
+
+## Mathematics (KaTeX)
+
+Inline mathematics: \( e^{i\pi} + 1 = 0 \).
+
+A display equation:
+
+\[
+\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}, \qquad
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+\]
+
+## Mermaid flowchart
+
+\`\`\`mermaid
+flowchart LR
+  A[Paste Markdown] --> B[Parse with Marked]
+  B --> C[Sanitize HTML]
+  C --> D[Render KaTeX]
+  D --> E[Render Mermaid]
+  E --> F[Live preview]
+\`\`\`
+
+## Table
+
+| Syntax | Rendered by |
+| --- | --- |
+| Markdown | Marked |
+| \(a^2+b^2=c^2\) | KaTeX |
+| Flowcharts | Mermaid |
+`;
+
+    const source = document.getElementById('source');
+    const preview = document.getElementById('preview');
+    const status = document.getElementById('status');
+    const debounceDelay = 180;
+    let renderTimer;
+    let renderSequence = 0;
+
+    marked.use({
+      breaks: true,
+      gfm: true,
+      renderer: {
+        code({ text, lang, escaped }) {
+          if ((lang || '').trim().toLowerCase() === 'mermaid') {
+            return `<pre class="mermaid">${escaped ? text : escapeHtml(text)}</pre>`;
+          }
+          const safeLanguage = escapeHtml(lang || '');
+          const safeText = escaped ? text : escapeHtml(text);
+          return `<pre><code class="language-${safeLanguage}">${safeText}</code></pre>`;
+        }
+      }
+    });
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function protectMath(markdown) {
+      const math = [];
+      const placeholder = (value) => `@@MATH_${math.push(value) - 1}@@`;
+      let text = markdown;
+      text = text.replace(/```[\s\S]*?```/g, (block) => placeholder(block));
+      text = text.replace(/(^|\n)(\$\$[\s\S]*?\$\$)(?=\n|$)/g, (_, prefix, expr) => prefix + placeholder(expr));
+      text = text.replace(/(^|\n)(\\\[[\s\S]*?\\\])(?=\n|$)/g, (_, prefix, expr) => prefix + placeholder(expr));
+      text = text.replace(/\\\([\s\S]*?\\\)/g, (expr) => placeholder(expr));
+      text = text.replace(/(?<!\\)\$([^$\n]+?)(?<!\\)\$/g, (expr) => placeholder(expr));
+      return { text, math };
+    }
+
+    function restoreMath(html, math) {
+      return html.replace(/<p>@@MATH_(\d+)@@<\/p>|@@MATH_(\d+)@@/g, (_, blockIndex, inlineIndex) => {
+        const token = math[Number(blockIndex ?? inlineIndex)];
+        if (token.startsWith('```')) return marked.parse(token);
+        if (token.startsWith('$$')) return `<div class="math-display">${escapeHtml(token.slice(2, -2).trim())}</div>`;
+        if (token.startsWith('\\[')) return `<div class="math-display">${escapeHtml(token.slice(2, -2).trim())}</div>`;
+        if (token.startsWith('\\(')) return `<span class="math-inline">${escapeHtml(token.slice(2, -2).trim())}</span>`;
+        return `<span class="math-inline">${escapeHtml(token.slice(1, -1).trim())}</span>`;
+      });
+    }
+
+    async function render() {
+      const sequence = ++renderSequence;
+      try {
+        status.textContent = 'Rendering…';
+        const protectedContent = protectMath(source.value);
+        const rawHtml = restoreMath(marked.parse(protectedContent.text), protectedContent.math);
+        preview.innerHTML = DOMPurify.sanitize(rawHtml, {
+          ADD_TAGS: ['svg', 'path', 'g', 'marker', 'polygon', 'foreignObject'],
+          ADD_ATTR: ['target', 'class', 'style', 'viewBox', 'd', 'fill', 'stroke', 'transform', 'marker-end']
+        });
+
+        preview.querySelectorAll('.math-inline').forEach((node) => {
+          katex.render(node.textContent, node, { throwOnError: false, displayMode: false });
+        });
+        preview.querySelectorAll('.math-display').forEach((node) => {
+          katex.render(node.textContent, node, { throwOnError: false, displayMode: true });
+        });
+
+        const mermaidBlocks = preview.querySelectorAll('.mermaid');
+        if (mermaidBlocks.length) {
+          await mermaid.run({ nodes: mermaidBlocks });
+        }
+        if (sequence === renderSequence) status.textContent = 'Rendered';
+      } catch (error) {
+        if (sequence !== renderSequence) return;
+        const message = error instanceof Error ? error.message : String(error);
+        preview.insertAdjacentHTML('beforeend', `<div class="error">Render error:\n${escapeHtml(message)}</div>`);
+        status.textContent = 'Rendered with errors';
+      }
+    }
+
+    function scheduleRender() {
+      clearTimeout(renderTimer);
+      renderTimer = setTimeout(render, debounceDelay);
+      localStorage.setItem('markdown-math-mermaid-source', source.value);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'strict',
+        flowchart: { htmlLabels: true, useMaxWidth: true }
+      });
+
+      source.value = localStorage.getItem('markdown-math-mermaid-source') || example;
+      source.addEventListener('input', scheduleRender);
+      source.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') {
+          event.preventDefault();
+          const start = source.selectionStart;
+          const end = source.selectionEnd;
+          source.setRangeText('  ', start, end, 'end');
+          scheduleRender();
+        }
+      });
+      document.getElementById('sample').addEventListener('click', () => {
+        source.value = example;
+        scheduleRender();
+      });
+      document.getElementById('clear').addEventListener('click', () => {
+        source.value = '';
+        scheduleRender();
+        source.focus();
+      });
+      render();
+    });
+  </script>
+</body>
+</html>
