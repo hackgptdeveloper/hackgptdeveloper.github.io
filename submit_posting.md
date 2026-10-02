@@ -78,6 +78,26 @@ Scatter 2-3 additional challenges at midpoints and one final challenge at the en
 
 **⚠️ Conditional: skip this entire section if the post contains no LaTeX math.** For non-math posts (security exploits, AI/LLM, web tech), none of these rules apply.
 
+### 5a. Site-level prerequisite (checked once, not per post)
+
+Math rendering depends on the MathJax configuration in **`_includes/scripts.html`**. It must declare the `$`/`$$` delimiters in the `MathJax.tex` config:
+
+```js
+MathJax = {
+  tex: {
+    tags: "ams",
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+}
+```
+
+Why this is required — GitHub Pages builds with **kramdown 2.5.x**, which:
+- Converts `$$...$$` display blocks into `\[...\]` blocks in the HTML (this is normal — MathJax renders them via the `displayMath` config above)
+- Leaves `$...$` inline math as **literal text** in the HTML (rendered only because `inlineMath` declares `$`)
+
+**Never** add an `options.renderActions.find` override to this config. Overriding `find` **replaces MathJax's default finder** and disables ALL math rendering site-wide (inline `$...$` *and* `\[...\]` blocks). This was the bug that broke the hexagon-spiral posts.
+
 Applied to every math-containing post:
 
 | Rule | Do | Don't |
@@ -196,10 +216,18 @@ After pushing, wait ~2 minutes for GitHub Pages to rebuild, then:
 5. Verify the site index at `https://hackgptdeveloper.github.io/` lists the new post
 6. **Verify updated content** — if you edited the post after pushing, curl the page and grep for key strings to confirm the latest commit rendered (e.g. `curl -s <url> | grep -c "expected-string"`)
 
-If math blocks show raw LaTeX:
-- The most common cause is a stray `\\[` or `\\(` delimiter
-- Re-run the grep check from section 8
-- Fix and push again
+If math shows as raw LaTeX on the live page, diagnose in this order:
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Inline `$...$` shows as raw text on EVERY math post | `_includes/scripts.html` is missing the `inlineMath`/`displayMath` delimiter config (see section 5a) | Restore the `MathJax.tex` config shown in 5a |
+| NO math renders anywhere (inline or display) | An `options.renderActions.find` override was added to `_includes/scripts.html` — it replaces MathJax's default finder | Remove the `renderActions` block entirely |
+| Only display `$$...$$` blocks show raw | Check the source for markdown inside the block, or a `---`/table row interfering with the `$$` block | Re-run the grep checks from section 8 |
+| Single math span broken, others fine | kramdown escape pitfalls inside `$...$` — `\#`/`\{`/`\}` stripped, `\\` collapsed, or `|` shattering a table | Fix per section 12 |
+
+Notes:
+- Seeing `\[...\]` in the **rendered HTML source** is EXPECTED (kramdown converts `$$...$$` to it) and is not a problem — MathJax renders it client-side
+- Raw `$...$` visible **on the page** is the failure signal, not raw `\[`
 
 ---
 
@@ -291,6 +319,7 @@ The 3-column grid is configured in `_includes/head-custom.html`. If the grid bre
 □ Viral-style title (curiosity + promise)
 □ Reader challenge at top (bold, concrete)
 □ [MATH ONLY] All math uses $$ / $ delimiters
+□ [MATH ONLY] Site config intact: _includes/scripts.html declares $/$$ delimiters and has NO renderActions.find override (section 5a)
 □ [MATH ONLY] No markdown inside $$ blocks
 □ [MATH ONLY] No raw < > in math mode
 □ [MATH ONLY] No \#, \{, \} in inline $...$ math (use \lbrace, \rbrace, \lvert, \rvert)
