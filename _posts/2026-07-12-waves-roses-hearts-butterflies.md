@@ -384,7 +384,7 @@ function draw() {
   }
 
   paramVal.textContent = k.toFixed(2);
-  time++;
+  time += 0.1; // 0.1x animation speed
   animId = requestAnimationFrame(draw);
 }
 
