@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardioid Tracing - Rolling Circle Animation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        canvas {
+            touch-action: none;
+        }
+        /* Custom scrollbar for control panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden bg-slate-900 text-slate-100">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 font-bold">
+                    ♥
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-100 leading-tight">Cardioid Epicycloid Simulation</h1>
+                    <p class="text-xs text-slate-400">Circle A rolling without slipping around congruent Circle B</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> 60 FPS Engine
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full p-4 lg:p-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Canvas Container -->
+        <div class="lg:col-span-8 flex flex-col gap-4">
+            <div class="relative w-full aspect-square md:aspect-[4/3] bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden flex items-center justify-center">
+                <canvas id="simCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+                
+                <!-- On-Canvas Telemetry Overlay -->
+                <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-3 text-xs space-y-1 font-mono pointer-events-none text-slate-300 shadow-lg">
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Angle (θ):</span> <span id="telemetryTheta" class="text-rose-400 font-bold">0.0°</span></div>
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Point P(x, y):</span> <span id="telemetryPos" class="text-cyan-400 font-bold">(0, 0)</span></div>
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Revolutions:</span> <span id="telemetryRev" class="text-amber-400 font-bold">0.00</span></div>
+                </div>
+
+                <!-- Canvas Visual Quick Overlay -->
+                <div class="absolute bottom-4 left-4 flex gap-3 text-xs font-medium">
+                    <span class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-300">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Circle B (Fixed)
+                    </span>
+                    <span class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-300">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Circle A (Rolling)
+                    </span>
+                    <span class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-300">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Cardioid Path
+                    </span>
+                </div>
+            </div>
+
+            <!-- Controls Toolbar -->
+            <div class="bg-slate-800/50 backdrop-blur-md border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <button id="btnPlay" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-medium text-sm rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-rose-600/20 active:scale-95">
+                        <svg id="playIcon" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <span id="playBtnText">Play</span>
+                    </button>
+                    <button id="btnStep" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium rounded-lg transition-all active:scale-95" title="Step forward">
+                        Step ➔
+                    </button>
+                    <button id="btnReset" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium rounded-lg transition-all active:scale-95">
+                        Reset
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-4 flex-1 min-w-[200px] justify-end">
+                    <div class="flex items-center gap-2 flex-1 max-w-[220px]">
+                        <span class="text-xs text-slate-400 font-medium">Speed:</span>
+                        <input id="speedRange" type="range" min="0.1" max="3" step="0.1" value="1" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                        <span id="speedVal" class="text-xs font-mono text-slate-300 w-8">1.0x</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Control & Math Panel -->
+        <div class="lg:col-span-4 space-y-5">
+            
+            <!-- Customization Settings -->
+            <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400">Visualization Controls</h2>
+                
+                <div class="space-y-3">
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+                        <span class="text-sm font-medium text-slate-300">Show Cardioid Trace</span>
+                        <input id="chkTrace" type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-rose-500/20 accent-rose-500">
+                    </label>
+
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+                        <span class="text-sm font-medium text-slate-300">Show Helper Vectors</span>
+                        <input id="chkHelpers" type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-rose-500/20 accent-rose-500">
+                    </label>
+
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+                        <span class="text-sm font-medium text-slate-300">Show Contact Tangent Point</span>
+                        <input id="chkTangent" type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-rose-500/20 accent-rose-500">
+                    </label>
+                </div>
+
+                <div class="pt-2 border-t border-slate-800 space-y-3">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1.5">
+                            <span class="text-slate-400 font-medium">Circle Radius (r)</span>
+                            <span id="radiusVal" class="text-slate-300 font-mono">75 px</span>
+                        </div>
+                        <input id="radiusRange" type="range" min="40" max="110" value="75" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mathematical Explanation Card -->
+            <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 space-y-3 text-sm text-slate-300">
+                <h2 class="text-sm font-semibold uppercase tracking-wider text-rose-400">Mathematical Context</h2>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    A <strong>Cardioid</strong> is an epicycloid produced by a point $P$ on the circumference of a circle of radius $r$ rolling without slipping around a fixed circle of equal radius $r$.
+                </p>
+                <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-xs space-y-1.5 border border-slate-800/80 text-slate-300">
+                    <div class="text-slate-500 font-sans text-[10px] uppercase font-bold tracking-wider">Parametric Equations</div>
+                    <div>x(θ) = r(2 cos θ - cos 2θ)</div>
+                    <div>y(θ) = r(2 sin θ - sin 2θ)</div>
+                    <div class="pt-1 text-slate-500 font-sans text-[10px] uppercase font-bold tracking-wider">Polar Form</div>
+                    <div>ρ(θ) = 2r (1 - cos θ)</div>
+                </div>
+                <div class="text-xs text-slate-400 pt-1">
+                    Notice that as Circle A orbits Circle B by angle $\theta$, Circle A rotates by $2\theta$ around its own moving center to satisfy the non-slip condition.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // State variables
+        let isRunning = false;
+        let theta = 0; // Angle around central circle B (radians)
+        let speedMultiplier = 1.0;
+        let radius = 75; // Radius r of both circles
+        let tracePoints = []; // Stores path of Cardioid
+        const maxTracePoints = 2000;
+
+        // UI Element References
+        const btnPlay = document.getElementById('btnPlay');
+        const playIcon = document.getElementById('playIcon');
+        const playBtnText = document.getElementById('playBtnText');
+        const btnStep = document.getElementById('btnStep');
+        const btnReset = document.getElementById('btnReset');
+        const speedRange = document.getElementById('speedRange');
+        const speedVal = document.getElementById('speedVal');
+        const radiusRange = document.getElementById('radiusRange');
+        const radiusVal = document.getElementById('radiusVal');
+
+        const chkTrace = document.getElementById('chkTrace');
+        const chkHelpers = document.getElementById('chkHelpers');
+        const chkTangent = document.getElementById('chkTangent');
+
+        const telemetryTheta = document.getElementById('telemetryTheta');
+        const telemetryPos = document.getElementById('telemetryPos');
+        const telemetryRev = document.getElementById('telemetryRev');
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            draw();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        function getPositions() {
+            const rect = canvas.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Fixed Circle B center
+            const bX = centerX;
+            const bY = centerY;
+
+            // Rolling Circle A center
+            // Orbit radius = 2 * r
+            const aX = bX + 2 * radius * Math.cos(theta);
+            const aY = bY + 2 * radius * Math.sin(theta);
+
+            // Contact point C between Circle A and Circle B
+            const cX = bX + radius * Math.cos(theta);
+            const cY = bY + radius * Math.sin(theta);
+
+            // Trace Point P on Circle A
+            // Pure rolling condition: angle of P relative to circle A's center is 2*theta - PI (when starting at left)
+            // Starting P at cusp on the surface of circle B:
+            const pX = aX - radius * Math.cos(2 * theta);
+            const pY = aY - radius * Math.sin(2 * theta);
+
+            return { centerX, centerY, bX, bY, aX, aY, cX, cY, pX, pY };
+        }
+
+        function draw() {
+            const rect = canvas.getBoundingClientRect();
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            const pos = getPositions();
+
+            // 1. Draw Grid Background (subtle)
+            drawGrid(rect.width, rect.height);
+
+            // 2. Draw Cardioid Path Trace
+            if (chkTrace.checked && tracePoints.length > 1) {
+                ctx.beginPath();
+                ctx.moveTo(tracePoints[0].x, tracePoints[0].y);
+                for (let i = 1; i < tracePoints.length; i++) {
+                    ctx.lineTo(tracePoints[i].x, tracePoints[i].y);
+                }
+                ctx.strokeStyle = '#f43f5e'; // Rose-500
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+            }
+
+            // 3. Draw Fixed Circle B
+            ctx.beginPath();
+            ctx.arc(pos.bX, pos.bY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.05)'; // Amber tint
+            ctx.fill();
+            ctx.strokeStyle = '#f59e0b'; // Amber-500
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Center of Circle B
+            ctx.beginPath();
+            ctx.arc(pos.bX, pos.bY, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#f59e0b';
+            ctx.fill();
+
+            // 4. Draw Rolling Circle A
+            ctx.beginPath();
+            ctx.arc(pos.aX, pos.aY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(34, 211, 238, 0.05)'; // Cyan tint
+            ctx.fill();
+            ctx.strokeStyle = '#06b6d4'; // Cyan-500
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Center of Circle A
+            ctx.beginPath();
+            ctx.arc(pos.aX, pos.aY, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#06b6d4';
+            ctx.fill();
+
+            // 5. Draw Helper Lines
+            if (chkHelpers.checked) {
+                // Line connecting centers B -> A
+                ctx.beginPath();
+                ctx.moveTo(pos.bX, pos.bY);
+                ctx.lineTo(pos.aX, pos.aY);
+                ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)'; // Slate-400
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Line connecting Center A -> Trace Point P
+                ctx.beginPath();
+                ctx.moveTo(pos.aX, pos.aY);
+                ctx.lineTo(pos.pX, pos.pY);
+                ctx.strokeStyle = '#38bdf8'; // Sky-400
+                ctx.setLineDash([]);
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.setLineDash([]); // Reset dash
+            }
+
+            // 6. Draw Tangent Contact Point
+            if (chkTangent.checked) {
+                ctx.beginPath();
+                ctx.arc(pos.cX, pos.cY, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981'; // Emerald-500
+                ctx.fill();
+            }
+
+            // 7. Draw Trace Point P (The Pen)
+            ctx.beginPath();
+            ctx.arc(pos.pX, pos.pY, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#f43f5e'; // Rose-500
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Label P
+            ctx.fillStyle = '#f8fafc';
+            ctx.font = '600 12px Inter, sans-serif';
+            ctx.fillText('P', pos.pX + 10, pos.pY - 10);
+
+            // Update Telemetry UI
+            updateTelemetry(pos);
+        }
+
+        function drawGrid(w, h) {
+            ctx.strokeStyle = 'rgba(30, 41, 59, 0.5)';
+            ctx.lineWidth = 1;
+            const step = 40;
+            ctx.beginPath();
+            for (let x = 0; x < w; x += step) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+            }
+            for (let y = 0; y < h; y += step) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+            }
+            ctx.stroke();
+        }
+
+        function updateTelemetry(pos) {
+            const deg = ((theta * 180 / Math.PI) % 360).toFixed(1);
+            const relX = (pos.pX - pos.bX).toFixed(0);
+            const relY = (-(pos.pY - pos.bY)).toFixed(0); // Invert Y for standard math orientation
+            const revs = (theta / (2 * Math.PI)).toFixed(2);
+
+            telemetryTheta.textContent = `${deg}°`;
+            telemetryPos.textContent = `(${relX}, ${relY})`;
+            telemetryRev.textContent = revs;
+        }
+
+        let lastTime = null;
+
+        function animate(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const dt = (timestamp - lastTime) / 1000;
+            lastTime = timestamp;
+
+            if (isRunning) {
+                // Increment theta based on speed
+                theta += 0.8 * speedMultiplier * dt;
+                
+                // Add current point to trail
+                const pos = getPositions();
+                tracePoints.push({ x: pos.pX, y: pos.pY });
+
+                if (tracePoints.length > maxTracePoints) {
+                    tracePoints.shift();
+                }
+
+                draw();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        function togglePlay() {
+            isRunning = !isRunning;
+            if (isRunning) {
+                playBtnText.textContent = 'Pause';
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                btnPlay.classList.replace('bg-rose-600', 'bg-amber-600');
+                btnPlay.classList.replace('hover:bg-rose-500', 'hover:bg-amber-500');
+            } else {
+                playBtnText.textContent = 'Play';
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                btnPlay.classList.replace('bg-amber-600', 'bg-rose-600');
+                btnPlay.classList.replace('hover:bg-amber-500', 'hover:bg-rose-500');
+            }
+        }
+
+        btnPlay.addEventListener('click', togglePlay);
+
+        btnStep.addEventListener('click', () => {
+            if (isRunning) togglePlay();
+            theta += 0.05;
+            const pos = getPositions();
+            tracePoints.push({ x: pos.pX, y: pos.pY });
+            draw();
+        });
+
+        btnReset.addEventListener('click', () => {
+            if (isRunning) togglePlay();
+            theta = 0;
+            tracePoints = [];
+            const pos = getPositions();
+            tracePoints.push({ x: pos.pX, y: pos.pY });
+            draw();
+        });
+
+        speedRange.addEventListener('input', (e) => {
+            speedMultiplier = parseFloat(e.target.value);
+            speedVal.textContent = `${speedMultiplier.toFixed(1)}x`;
+        });
+
+        radiusRange.addEventListener('input', (e) => {
+            radius = parseInt(e.target.value, 10);
+            radiusVal.textContent = `${radius} px`;
+            tracePoints = []; // Clear trace on size change
+            const pos = getPositions();
+            tracePoints.push({ x: pos.pX, y: pos.pY });
+            draw();
+        });
+
+        chkTrace.addEventListener('change', draw);
+        chkHelpers.addEventListener('change', draw);
+        chkTangent.addEventListener('change', draw);
+
+        // Initial setup
+        window.onload = () => {
+            resizeCanvas();
+            const pos = getPositions();
+            tracePoints.push({ x: pos.pX, y: pos.pY });
+            draw();
+            requestAnimationFrame(animate);
+        };
+    </script>
+</body>
+</html>

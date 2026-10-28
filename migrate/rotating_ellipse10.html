@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Ellipse with Sinusoidal Minor Axis</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            display: block;
+            background-color: white;
+        }
+        #controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font: 13px/1.6 sans-serif;
+            color: #333;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+        #controls label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #controls button {
+            margin-top: 6px;
+            padding: 2px 10px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="controls">
+    <label>Sine cycles (m):
+        <input type="range" id="sineCycles" min="1" max="20" step="1" value="5">
+        <span id="sineCyclesValue">5</span>
+    </label>
+    <label>Ellipse rotations (n):
+        <input type="range" id="rotations" min="1" max="20" step="1" value="1">
+        <span id="rotationsValue">1</span>
+    </label>
+    <div id="ratioValue">Ratio m : n = 5 : 1</div>
+    <label>Base radius (r₁):
+        <input type="range" id="r1Slider" min="0" max="0.5" step="0.01" value="0.25">
+        <span id="r1Value">0.25</span>
+    </label>
+    <label>Sine amplitude (r₂):
+        <input type="range" id="r2Slider" min="0" max="0.5" step="0.01" value="0.25">
+        <span id="r2Value">0.25</span>
+    </label>
+    <label>Major axis size:
+        <input type="range" id="majorAxisSlider" min="10" max="100" step="1" value="50">
+        <span id="majorAxisValue">50%</span>
+    </label>
+    <label>Rotation speed (°/s):
+        <input type="range" id="speedSlider" min="1" max="720" step="1" value="180">
+        <span id="speedValue">180</span>
+    </label>
+    <button id="clearBtn">Clear lines</button>
+</div>
+<script>
+  document.addEventListener("contextmenu", function(event) { event.preventDefault(); });
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Lines are drawn onto a fixed-size offscreen canvas that is never
+    // cleared, so previously drawn lines are kept forever (even across
+    // window resizes). Each frame the offscreen is scaled and copied to
+    // the visible canvas.
+    const OFF_SIZE = 1049;
+    const offscreen = document.createElement("canvas");
+    offscreen.width = OFF_SIZE;
+    offscreen.height = OFF_SIZE;
+    const offCtx = offscreen.getContext("2d");
+    offCtx.fillStyle = "white";
+    offCtx.fillRect(0, 0, OFF_SIZE, OFF_SIZE);
+    const offCenter = OFF_SIZE / 2;
+    const offMajorAxis = OFF_SIZE / 2; // half the offscreen: maximally covers the viewport
+
+    function sizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", sizeCanvas);
+    sizeCanvas();
+
+    // The sine completes `sineCycles` cycles while the ellipse completes
+    // `ellipseRotations` full rotations — an arbitrary m:n ratio,
+    // adjustable with the two sliders (default 5:1).
+    let sineCycles = 5;
+    let ellipseRotations = 1;
+    const sineCyclesInput = document.getElementById("sineCycles");
+    const rotationsInput = document.getElementById("rotations");
+    const ratioValue = document.getElementById("ratioValue");
+    function updateRatioDisplay() {
+        ratioValue.textContent = "Ratio m : n = " + sineCycles + " : " + ellipseRotations;
+    }
+    sineCyclesInput.addEventListener("input", function() {
+        sineCycles = parseInt(sineCyclesInput.value, 10);
+        updateRatioDisplay();
+    });
+    rotationsInput.addEventListener("input", function() {
+        ellipseRotations = parseInt(rotationsInput.value, 10);
+        updateRatioDisplay();
+    });
+
+    // Minor-axis formula: minorAxis = offMajorAxis * (r1 + r2 * sin(...)).
+    // r1 is the base (offset) and r2 the amplitude of the sine term, both
+    // expressed as fractions of the major axis and adjustable with sliders
+    // (defaults 0.25 / 0.25 reproduce the original behavior).
+    let r1 = 0.25;
+    let r2 = 0.25;
+    const r1Input = document.getElementById("r1Slider");
+    const r1Value = document.getElementById("r1Value");
+    const r2Input = document.getElementById("r2Slider");
+    const r2Value = document.getElementById("r2Value");
+    r1Input.addEventListener("input", function() {
+        r1 = parseFloat(r1Input.value);
+        r1Value.textContent = r1.toFixed(2);
+    });
+    r2Input.addEventListener("input", function() {
+        r2 = parseFloat(r2Input.value);
+        r2Value.textContent = r2.toFixed(2);
+    });
+
+    // Major axis size as a percentage of half the viewport diagonal,
+    // so the whole ellipse always stays visible.
+    let majorAxisFraction = 50; // percent
+    const majorAxisInput = document.getElementById("majorAxisSlider");
+    const majorAxisValue = document.getElementById("majorAxisValue");
+    majorAxisInput.addEventListener("input", function() {
+        majorAxisFraction = parseInt(majorAxisInput.value, 10);
+        majorAxisValue.textContent = majorAxisFraction + "%";
+    });
+
+    // Rotation speed in degrees per second, so a slower (or faster)
+    // rotation can be selected with the slider.
+    let rotationSpeed = 180; // degrees per second (~matches the old 3°/frame at 60fps)
+    const speedInput = document.getElementById("speedSlider");
+    const speedValue = document.getElementById("speedValue");
+    speedInput.addEventListener("input", function() {
+        rotationSpeed = parseFloat(speedInput.value);
+        speedValue.textContent = rotationSpeed;
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", function() {
+        offCtx.fillStyle = "white";
+        offCtx.fillRect(0, 0, OFF_SIZE, OFF_SIZE);
+    });
+
+    let angle = 0;
+    let lastTime = performance.now();
+
+    function drawRotatedEllipse(now) {
+        // Time step in seconds, clamped so a background-tab pause does not
+        // cause a huge jump in the angle.
+        const dt = Math.min((now - lastTime) / 1000, 0.1);
+        lastTime = now;
+
+        // Do not clear: every previously drawn line is kept.
+        // The minor axis length follows a sinusoidal curve between
+        // (r1 - r2) and (r1 + r2) of the major axis, completing `sineCycles`
+        // sine cycles per `ellipseRotations` full rotations of the ellipse.
+        let minorAxis = offMajorAxis * (r1 + r2 * Math.sin((angle * (sineCycles / ellipseRotations) * Math.PI) / 180));
+        minorAxis = Math.max(0, Math.min(offMajorAxis, minorAxis));
+
+        // Line color cycles through the hue wheel once per full ellipse
+        // rotation (periodic in the angle), so the accumulated figure picks
+        // up a symmetric, rainbow-tinted appearance.
+        offCtx.strokeStyle = "hsl(" + (angle % 360) + ", 85%, 55%)";
+
+        offCtx.save();
+        offCtx.translate(offCenter, offCenter);
+        offCtx.rotate((angle * Math.PI) / 180);
+        offCtx.beginPath();
+        offCtx.ellipse(0, 0, offMajorAxis, minorAxis, 0, 0, 2 * Math.PI);
+        offCtx.stroke();
+        offCtx.restore();
+
+        angle += rotationSpeed * dt;
+
+        // Blit the accumulated drawing, scaled so the major axis is
+        // majorAxisFraction of half the viewport diagonal, keeping the
+        // whole ellipse inside the viewport.
+        const scale = Math.hypot(canvas.width, canvas.height) * (majorAxisFraction / 100) / OFF_SIZE;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.setTransform(scale, 0, 0, scale,
+            canvas.width / 2 - scale * OFF_SIZE / 2,
+            canvas.height / 2 - scale * OFF_SIZE / 2);
+        ctx.drawImage(offscreen, 0, 0);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        requestAnimationFrame(drawRotatedEllipse);
+    }
+
+    requestAnimationFrame(drawRotatedEllipse);
+</script>
+</body>
+</html>

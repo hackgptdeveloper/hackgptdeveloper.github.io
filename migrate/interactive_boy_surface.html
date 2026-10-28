@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Boy's Surface</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel: rgba(12, 16, 27, 0.82);
+      --border: rgba(255, 255, 255, 0.17);
+      --text: #eaf1ff;
+      --muted: #a9b7d0;
+      --accent: #79c7ff;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; overflow: hidden; background: #05070c; }
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    #canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+    #canvas.dragging { cursor: grabbing; }
+    .panel {
+      position: fixed; top: 16px; left: 16px; z-index: 2;
+      max-width: min(380px, calc(100vw - 32px)); padding: 16px 18px;
+      background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.35); backdrop-filter: blur(12px);
+    }
+    h1 { font-size: 18px; line-height: 1.2; margin: 0 0 8px; letter-spacing: .01em; }
+    p { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 0 0 13px; }
+    .controls { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; font-size: 13px; }
+    input[type="range"] { width: 155px; accent-color: var(--accent); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    button {
+      color: var(--text); background: rgba(255,255,255,.08); border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px 10px; font: inherit; cursor: pointer;
+    }
+    button:hover { background: rgba(121,199,255,.18); border-color: rgba(121,199,255,.58); }
+    .status { margin-top: 12px; color: #b8c8e5; font-size: 12px; }
+    .legend { position: fixed; right: 16px; bottom: 16px; color: #b7c5dc; font-size: 12px; text-align: right; pointer-events: none; }
+    @media (max-width: 560px) {
+      .panel { top: 10px; left: 10px; padding: 13px; }
+      .legend { right: 10px; bottom: 10px; }
+      input[type="range"] { width: 125px; }
+    }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <canvas id="canvas" aria-label="Interactive three-dimensional Boy's surface"></canvas>
+
+  <section class="panel">
+    <h1>Boy's Surface</h1>
+    <p>Drag to rotate. Scroll or pinch to zoom. After a brief pause, the surface resumes a slow rotation about a drifting arbitrary axis.</p>
+    <div class="controls">
+      <label for="speed">Auto-rotation speed</label>
+      <input id="speed" type="range" min="0" max="1.4" step="0.01" value="0.28" />
+      <label for="resolution">Mesh resolution</label>
+      <input id="resolution" type="range" min="70" max="220" step="10" value="140" />
+    </div>
+    <div class="buttons">
+      <button id="reset" type="button">Reset view</button>
+      <button id="toggle" type="button">Pause rotation</button>
+      <button id="wireframe" type="button">Toggle wireframe</button>
+    </div>
+    <div id="status" class="status">Auto-rotation active</div>
+  </section>
+  <div class="legend">Bryant–Kusner parametrization<br>Real projective plane immersed in b3</div>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const speedInput = document.getElementById('speed');
+      const resolutionInput = document.getElementById('resolution');
+      const status = document.getElementById('status');
+      const toggleButton = document.getElementById('toggle');
+
+      let width = 0, height = 0, dpr = 1;
+      let vertices = [], faces = [];
+      let rotation = quatIdentity();
+      let zoom = 3.05;
+      let dragging = false;
+      let paused = false;
+      let showWireframe = false;
+      let lastPointer = null;
+      let lastInteraction = performance.now();
+      let lastFrame = performance.now();
+      let axisTarget = randomUnitVector();
+      let axisCurrent = axisTarget.slice();
+      let nextAxisChange = performance.now() + 3600;
+      let pinchDistance = null;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function quatIdentity() { return [1, 0, 0, 0]; }
+      function quatNormalize(q) {
+        const n = Math.hypot(q[0], q[1], q[2], q[3]) || 1;
+        return [q[0]/n, q[1]/n, q[2]/n, q[3]/n];
+      }
+      function quatMultiply(a, b) {
+        return [
+          a[0]*b[0] - a[1]*b[1] - a[2]*b[2] - a[3]*b[3],
+          a[0]*b[1] + a[1]*b[0] + a[2]*b[3] - a[3]*b[2],
+          a[0]*b[2] - a[1]*b[3] + a[2]*b[0] + a[3]*b[1],
+          a[0]*b[3] + a[1]*b[2] - a[2]*b[1] + a[3]*b[0]
+        ];
+      }
+      function quatAxisAngle(axis, angle) {
+        const s = Math.sin(angle/2);
+        return [Math.cos(angle/2), axis[0]*s, axis[1]*s, axis[2]*s];
+      }
+      function rotate(q, p) {
+        const [w,x,y,z] = q;
+        const tx = 2 * (y*p[2] - z*p[1]);
+        const ty = 2 * (z*p[0] - x*p[2]);
+        const tz = 2 * (x*p[1] - y*p[0]);
+        return [
+          p[0] + w*tx + (y*tz - z*ty),
+          p[1] + w*ty + (z*tx - x*tz),
+          p[2] + w*tz + (x*ty - y*tx)
+        ];
+      }
+      function randomUnitVector() {
+        const z = Math.random() * 2 - 1;
+        const t = Math.random() * Math.PI * 2;
+        const r = Math.sqrt(1 - z*z);
+        return [r*Math.cos(t), r*Math.sin(t), z];
+      }
+      function normalize(v) {
+        const n = Math.hypot(v[0], v[1], v[2]) || 1;
+        return [v[0]/n, v[1]/n, v[2]/n];
+      }
+      function lerpVector(a, b, t) {
+        return normalize([a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t, a[2] + (b[2]-a[2])*t]);
+      }
+
+      // Bryant–Kusner Boy's surface. The disk edge represents antipodal points
+      // of RP^2; rendering it as a dense sampled triangular mesh gives the immersion.
+      function boyPoint(u, v) {
+        const w = { re: u, im: v };
+        const cAdd = (a,b) => ({re:a.re+b.re, im:a.im+b.im});
+        const cSub = (a,b) => ({re:a.re-b.re, im:a.im-b.im});
+        const cMul = (a,b) => ({re:a.re*b.re-a.im*b.im, im:a.re*b.im+a.im*b.re});
+        const cDiv = (a,b) => {
+          const d = b.re*b.re+b.im*b.im;
+          return {re:(a.re*b.re+a.im*b.im)/d, im:(a.im*b.re-a.re*b.im)/d};
+        };
+        const pow = (a,n) => {
+          let p = {re:1, im:0};
+          for (let i=0; i<n; i++) p = cMul(p,a);
+          return p;
+        };
+        const w3 = pow(w,3), w4 = pow(w,4), w6 = pow(w,6);
+        const D = cAdd(cAdd(w6, {re:Math.sqrt(5)*w3.re, im:Math.sqrt(5)*w3.im}), {re:-1,im:0});
+        const n1 = cMul(w, cSub({re:1,im:0}, w4));
+        const n2 = cMul(w, cAdd({re:1,im:0}, w4));
+        const n3 = cAdd({re:1,im:0}, w6);
+        const q1 = cDiv(n1,D), q2 = cDiv(n2,D), q3 = cDiv(n3,D);
+        const g1 = -1.5*q1.im;
+        const g2 = -1.5*q2.re;
+        const g3 = q3.im - 0.5;
+        const norm2 = g1*g1 + g2*g2 + g3*g3;
+        return [g1/norm2, g2/norm2, g3/norm2];
+      }
+
+      function buildMesh(n) {
+        vertices = [];
+        faces = [];
+        const angular = n * 2;
+        for (let i=0; i<=n; i++) {
+          const r = i / n;
+          for (let j=0; j<angular; j++) {
+            const a = j / angular * Math.PI * 2;
+            vertices.push(boyPoint(r*Math.cos(a), r*Math.sin(a)));
+          }
+        }
+        for (let i=0; i<n; i++) {
+          for (let j=0; j<angular; j++) {
+            const jp = (j+1) % angular;
+            const a = i*angular+j;
+            const b = i*angular+jp;
+            const c = (i+1)*angular+j;
+            const d = (i+1)*angular+jp;
+            faces.push([a,c,b], [b,c,d]);
+          }
+        }
+      }
+
+      function shadeColor(nx, ny, nz, depth) {
+        const light = normalize([0.38, -0.52, 0.76]);
+        const diffuse = Math.max(0, nx*light[0] + ny*light[1] + nz*light[2]);
+        const ambient = 0.22;
+        const value = Math.min(1, ambient + diffuse*0.78 + Math.max(0, depth)*0.025);
+        const r = Math.round(45 + 160*value);
+        const g = Math.round(93 + 154*value);
+        const b = Math.round(125 + 130*value);
+        return `rgb(${r},${g},${b})`;
+      }
+
+      function render() {
+        const gradient = ctx.createRadialGradient(width*0.46, height*0.4, 0, width*0.5, height*0.5, Math.max(width,height)*0.72);
+        gradient.addColorStop(0, '#17243c');
+        gradient.addColorStop(0.48, '#0a1020');
+        gradient.addColorStop(1, '#03050a');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+
+        const projected = new Array(vertices.length);
+        const focal = Math.min(width, height) * 0.88;
+        for (let i=0; i<vertices.length; i++) {
+          const p = rotate(rotation, vertices[i]);
+          const z = p[2] + zoom;
+          projected[i] = { x: width/2 + p[0]*focal/z, y: height/2 - p[1]*focal/z, z, rx:p[0], ry:p[1], rz:p[2] };
+        }
+
+        const drawFaces = [];
+        for (const face of faces) {
+          const a = projected[face[0]], b = projected[face[1]], c = projected[face[2]];
+          const abx = b.rx-a.rx, aby=b.ry-a.ry, abz=b.rz-a.rz;
+          const acx = c.rx-a.rx, acy=c.ry-a.ry, acz=c.rz-a.rz;
+          let nx = aby*acz-abz*acy;
+          let ny = abz*acx-abx*acz;
+          let nz = abx*acy-aby*acx;
+          const n = Math.hypot(nx,ny,nz);
+          if (n < 1e-9) continue;
+          nx /= n; ny /= n; nz /= n;
+          const depth = (a.z+b.z+c.z)/3;
+          drawFaces.push({a,b,c,nx,ny,nz,depth});
+        }
+        drawFaces.sort((p,q) => q.depth-p.depth);
+
+        ctx.lineJoin = 'round';
+        for (const f of drawFaces) {
+          ctx.beginPath();
+          ctx.moveTo(f.a.x,f.a.y); ctx.lineTo(f.b.x,f.b.y); ctx.lineTo(f.c.x,f.c.y); ctx.closePath();
+          ctx.fillStyle = shadeColor(f.nx, f.ny, f.nz, 5-f.depth);
+          ctx.fill();
+          if (showWireframe) {
+            ctx.strokeStyle = 'rgba(224,244,255,0.17)';
+            ctx.lineWidth = 0.45;
+            ctx.stroke();
+          }
+        }
+      }
+
+      function activity() {
+        lastInteraction = performance.now();
+        status.textContent = paused ? 'Rotation paused' : 'Manual control — auto-rotation resumes shortly';
+      }
+
+      canvas.addEventListener('pointerdown', e => {
+        dragging = true;
+        canvas.classList.add('dragging');
+        canvas.setPointerCapture(e.pointerId);
+        lastPointer = {x:e.clientX, y:e.clientY};
+        activity();
+      });
+      canvas.addEventListener('pointermove', e => {
+        if (!dragging || !lastPointer) return;
+        const dx = e.clientX-lastPointer.x;
+        const dy = e.clientY-lastPointer.y;
+        lastPointer = {x:e.clientX, y:e.clientY};
+        const qx = quatAxisAngle([0,1,0], dx*0.008);
+        const qy = quatAxisAngle([1,0,0], dy*0.008);
+        rotation = quatNormalize(quatMultiply(qx, quatMultiply(qy, rotation)));
+        activity();
+      });
+      function releasePointer() {
+        dragging = false;
+        lastPointer = null;
+        canvas.classList.remove('dragging');
+      }
+      canvas.addEventListener('pointerup', releasePointer);
+      canvas.addEventListener('pointercancel', releasePointer);
+      canvas.addEventListener('wheel', e => {
+        e.preventDefault();
+        zoom = Math.max(1.35, Math.min(7.5, zoom + e.deltaY*0.0035));
+        activity();
+      }, {passive:false});
+      canvas.addEventListener('touchstart', e => {
+        if (e.touches.length === 2) {
+          pinchDistance = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+          activity();
+        }
+      }, {passive:false});
+      canvas.addEventListener('touchmove', e => {
+        if (e.touches.length === 2 && pinchDistance) {
+          const d = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+          zoom = Math.max(1.35, Math.min(7.5, zoom - (d-pinchDistance)*0.008));
+          pinchDistance = d;
+          activity();
+        }
+      }, {passive:false});
+      canvas.addEventListener('touchend', () => { pinchDistance = null; });
+
+      document.getElementById('reset').addEventListener('click', () => {
+        rotation = quatNormalize(quatMultiply(quatAxisAngle([1,0,0], -0.38), quatAxisAngle([0,1,0], 0.55)));
+        zoom = 3.05;
+        lastInteraction = performance.now() - 2600;
+        status.textContent = paused ? 'Rotation paused' : 'Auto-rotation active';
+      });
+      toggleButton.addEventListener('click', () => {
+        paused = !paused;
+        toggleButton.textContent = paused ? 'Resume rotation' : 'Pause rotation';
+        status.textContent = paused ? 'Rotation paused' : 'Auto-rotation active';
+        if (!paused) lastInteraction = performance.now() - 2600;
+      });
+      document.getElementById('wireframe').addEventListener('click', () => { showWireframe = !showWireframe; });
+      resolutionInput.addEventListener('input', () => buildMesh(Number(resolutionInput.value)));
+      window.addEventListener('resize', resize);
+
+      function animate(now) {
+        const dt = Math.min(0.05, (now-lastFrame)/1000);
+        lastFrame = now;
+        if (!paused && !dragging && now-lastInteraction > 2200) {
+          if (now > nextAxisChange) {
+            axisTarget = randomUnitVector();
+            nextAxisChange = now + 2500 + Math.random()*4000;
+          }
+          axisCurrent = lerpVector(axisCurrent, axisTarget, Math.min(1, dt*0.32));
+          const speed = Number(speedInput.value);
+          rotation = quatNormalize(quatMultiply(quatAxisAngle(axisCurrent, speed*dt), rotation));
+          status.textContent = 'Auto-rotation active';
+        }
+        render();
+        requestAnimationFrame(animate);
+      }
+
+      resize();
+      buildMesh(Number(resolutionInput.value));
+      rotation = quatNormalize(quatMultiply(quatAxisAngle([1,0,0], -0.38), quatAxisAngle([0,1,0], 0.55)));
+      requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>

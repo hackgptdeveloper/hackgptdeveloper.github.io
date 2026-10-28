@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Euclid Geometry Problem Generator</title>
+<style>
+  :root { color-scheme: dark; --bg:#0a1020; --panel:#121c32; --line:#273756; --text:#e9eefb; --muted:#aab9d6; --accent:#69a7ff; --good:#66d9a3; --bad:#ff8794; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; color:var(--text); background:radial-gradient(circle at 20% 0%,#1a2d51 0,#0a1020 42rem); }
+  header { max-width:1260px; margin:auto; padding:28px 22px 12px; }
+  h1 { margin:0; font-size:clamp(1.5rem,3vw,2.25rem); } p { color:var(--muted); }
+  .grid { max-width:1260px; margin:auto; padding:10px 22px 30px; display:grid; grid-template-columns:minmax(280px,390px) 1fr; gap:18px; }
+  .panel { background:color-mix(in srgb,var(--panel) 94%,black); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:0 10px 32px #0005; }
+  label { display:block; margin:12px 0 5px; color:var(--muted); font-weight:650; }
+  select, input, textarea, button { width:100%; font:inherit; border-radius:10px; }
+  select, input, textarea { color:var(--text); background:#091327; border:1px solid #31466d; padding:10px; }
+  textarea { min-height:156px; resize:vertical; }
+  button { border:0; padding:11px 13px; margin-top:12px; cursor:pointer; font-weight:750; color:#06111f; background:linear-gradient(135deg,#77b4ff,#68dfb8); }
+  button.secondary { color:var(--text); background:#1c2b49; border:1px solid #385078; }
+  button:disabled { opacity:.55; cursor:not-allowed; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .status { min-height:24px; margin:10px 0 0; color:var(--muted); font-size:.9rem; }
+  .status.error { color:var(--bad); }.status.ok { color:var(--good); }
+  #diagram { width:100%; min-height:380px; background:#f8fbff; border-radius:12px; overflow:hidden; }
+  #diagram svg { width:100%; height:auto; display:block; }
+  .problem { white-space:pre-wrap; margin:0; color:var(--text); }
+  details { margin-top:15px; border-top:1px solid var(--line); padding-top:12px; }
+  summary { cursor:pointer; font-weight:700; }
+  code { color:#b8d4ff; }
+  .note { font-size:.88rem; }
+  @media (max-width:850px){ .grid{grid-template-columns:1fr}.row{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<header>
+  <h1>Euclid Geometry Problem Generator</h1>
+  <p>Generate a construction-style geometry problem, validate an SVG diagram, and optionally ask a Qwen model to create a new structured problem.</p>
+</header>
+<main class="grid">
+  <section class="panel">
+    <h2>Generate</h2>
+    <label for="topic">Topic</label>
+    <select id="topic">
+      <option value="triangle">Triangle similarity</option>
+      <option value="circle">Circle angle theorem</option>
+      <option value="parallel">Parallel lines</option>
+      <option value="mixed">Any Euclidean topic</option>
+    </select>
+
+    <label for="difficulty">Difficulty</label>
+    <select id="difficulty">
+      <option>Beginner</option><option selected>Intermediate</option><option>Advanced</option>
+    </select>
+
+    <button id="sampleBtn">Generate offline example</button>
+    <button id="qwenBtn" class="secondary">Generate with Qwen API</button>
+    <div id="status" class="status">Offline examples work immediately. API keys remain only in your browser for this session.</div>
+
+    <details>
+      <summary>Qwen API settings</summary>
+      <label for="endpoint">OpenAI-compatible base URL</label>
+      <input id="endpoint" value="https://dashscope-intl.aliyuncs.com/compatible-mode/v1" />
+      <label for="model">Model</label>
+      <input id="model" value="qwen-plus" />
+      <label for="apiKey">API key</label>
+      <input id="apiKey" type="password" autocomplete="off" placeholder="Enter a DashScope / Qwen-compatible API key" />
+      <p class="note">This page sends a request to <code>{baseURL}/chat/completions</code>. For deployment, place the API call behind a server-side proxy so that end users never receive your key.</p>
+    </details>
+  </section>
+
+  <section class="panel">
+    <h2 id="problemTitle">Problem</h2>
+    <p id="problem" class="problem"></p>
+    <div id="diagram" aria-label="Euclidean geometry SVG diagram"></div>
+    <details>
+      <summary>Solution</summary>
+      <p id="solution" class="problem"></p>
+    </details>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const samples = {
+  triangle: {
+    title: 'Similarity in a triangle',
+    statement: 'In triangle ABC, D lies on AB and E lies on AC. DE is parallel to BC. Given AD = 6, DB = 3, and AE = 8, find AC.',
+    solution: 'Since DE ∥ BC, triangles ADE and ABC are similar. Thus AD/AB = AE/AC. Here AB = 6 + 3 = 9, so 6/9 = 8/AC. Hence AC = 12.',
+    svg: `<svg viewBox="0 0 620 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triangle ABC with DE parallel to BC"><style>.s{stroke:#14233b;stroke-width:3;fill:none}.p{fill:#14233b}.t{font:600 20px system-ui;fill:#14233b}.q{font:16px system-ui;fill:#334b72}</style><path class="s" d="M105 340 L310 65 L535 340 Z M174 247 L425 247"/><path class="s" d="M174 240v14m251-14v14"/><circle class="p" cx="105" cy="340" r="5"/><circle class="p" cx="310" cy="65" r="5"/><circle class="p" cx="535" cy="340" r="5"/><circle class="p" cx="174" cy="247" r="5"/><circle class="p" cx="425" cy="247" r="5"/><text class="t" x="86" y="370">B</text><text class="t" x="300" y="48">A</text><text class="t" x="540" y="370">C</text><text class="t" x="151" y="239">D</text><text class="t" x="430" y="239">E</text><text class="q" x="125" y="203">AD = 6</text><text class="q" x="90" y="285">DB = 3</text><text class="q" x="350" y="220">AE = 8</text><text class="q" x="275" y="275">DE ∥ BC</text></svg>`
+  },
+  circle: {
+    title: 'Angle subtended by a diameter',
+    statement: 'AB is a diameter of a circle and C is a point on the circle. If ∠BAC = 32°, find ∠ABC and ∠ACB.',
+    solution: 'The angle subtended by a diameter at the circumference is 90°, so ∠ACB = 90°. The angles of triangle ABC sum to 180°, hence ∠ABC = 180° − 90° − 32° = 58°.',
+    svg: `<svg viewBox="0 0 620 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Circle with diameter AB and point C"><style>.s{stroke:#14233b;stroke-width:3;fill:none}.p{fill:#14233b}.t{font:600 20px system-ui;fill:#14233b}.q{font:16px system-ui;fill:#334b72}</style><circle class="s" cx="310" cy="215" r="155"/><path class="s" d="M155 215 H465 M155 215 L397 87 L465 215"/><circle class="p" cx="155" cy="215" r="5"/><circle class="p" cx="465" cy="215" r="5"/><circle class="p" cx="397" cy="87" r="5"/><text class="t" x="137" y="247">A</text><text class="t" x="471" y="247">B</text><text class="t" x="403" y="78">C</text><text class="q" x="235" y="205">diameter AB</text><text class="q" x="175" y="195">32°</text><path class="s" d="M380 93 h17 v17"/></svg>`
+  },
+  parallel: {
+    title: 'Interior angles on parallel lines',
+    statement: 'Lines l and m are parallel. A transversal intersects l at P and m at Q. One interior angle on the same side of the transversal measures 117°. Find the other interior angle on that side.',
+    solution: 'Co-interior angles formed by a transversal with parallel lines are supplementary. Therefore the required angle is 180° − 117° = 63°.',
+    svg: `<svg viewBox="0 0 620 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two parallel lines intersected by a transversal"><style>.s{stroke:#14233b;stroke-width:3;fill:none}.p{fill:#14233b}.t{font:600 20px system-ui;fill:#14233b}.q{font:16px system-ui;fill:#334b72}</style><path class="s" d="M75 115 H545 M75 305 H545 M175 375 L405 45"/><circle class="p" cx="356" cy="115" r="5"/><circle class="p" cx="224" cy="305" r="5"/><text class="t" x="555" y="120">l</text><text class="t" x="555" y="310">m</text><text class="t" x="365" y="106">P</text><text class="t" x="204" y="297">Q</text><text class="q" x="294" y="153">117°</text><text class="q" x="235" y="270">?</text><path class="s" d="M95 106v18m15-18v18 M95 296v18m15-18v18"/></svg>`
+  }
+};
+function chooseSample() {
+  const topic = $('topic').value;
+  if (topic === 'mixed') return samples[['triangle','circle','parallel'][Math.floor(Math.random()*3)]];
+  return samples[topic];
+}
+function render(problem) {
+  $('problemTitle').textContent = problem.title || 'Generated problem';
+  $('problem').textContent = problem.statement || '';
+  $('solution').textContent = problem.solution || 'No solution was returned.';
+  const svg = String(problem.svg || '');
+  if (!svg.includes('<svg')) throw new Error('The model response did not contain a valid SVG diagram.');
+  $('diagram').innerHTML = svg;
+}
+function setStatus(message, kind='') { const node=$('status'); node.textContent=message; node.className='status '+kind; }
+$('sampleBtn').onclick = () => { render(chooseSample()); setStatus('Generated an offline Euclidean geometry example.', 'ok'); };
+$('qwenBtn').onclick = async () => {
+  const apiKey = $('apiKey').value.trim();
+  const endpoint = $('endpoint').value.trim().replace(/\/$/, '');
+  const model = $('model').value.trim();
+  if (!apiKey || !endpoint || !model) { setStatus('Enter an API key, base URL, and model first.', 'error'); return; }
+  const topic = $('topic').options[$('topic').selectedIndex].text;
+  const difficulty = $('difficulty').value;
+  const schema = {title:'short title',statement:'self-contained problem',solution:'concise derivation',svg:'complete standalone <svg viewBox="0 0 620 420" ...> diagram'};
+  const prompt = `Create exactly one rigorous Euclidean geometry problem. Topic: ${topic}. Difficulty: ${difficulty}. Use only elementary Euclidean geometry. Return STRICT JSON only, matching this shape: ${JSON.stringify(schema)}. The SVG must be a complete, valid, readable diagram using labels and include xmlns="http://www.w3.org/2000/svg". Do not use Markdown. Ensure the numerical data yield a unique answer. Include a short correct solution.`;
+  $('qwenBtn').disabled=true; setStatus('Asking Qwen to generate a structured problem and SVG diagram…');
+  try {
+    const response = await fetch(endpoint + '/chat/completions', {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+      body:JSON.stringify({model, temperature:0.7, max_tokens:1800, messages:[
+        {role:'system',content:'You are a meticulous Euclidean geometry author. Output valid JSON only.'},
+        {role:'user',content:prompt}
+      ]})
+    });
+    if (!response.ok) throw new Error(`API request failed (${response.status}): ${await response.text()}`);
+    const data = await response.json();
+    let content = data?.choices?.[0]?.message?.content;
+    if (Array.isArray(content)) content = content.map(x => x.text || '').join('');
+    content = String(content || '').replace(/^```json\s*/i,'').replace(/\s*```$/,'').trim();
+    render(JSON.parse(content));
+    setStatus('Qwen generated a problem and SVG diagram.', 'ok');
+  } catch (error) {
+    console.error(error); setStatus(error.message || 'Unable to generate the problem.', 'error');
+  } finally { $('qwenBtn').disabled=false; }
+};
+render(samples.triangle);
+</script>
+</body>
+</html>

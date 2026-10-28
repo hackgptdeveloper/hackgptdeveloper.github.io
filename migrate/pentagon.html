@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<title>Dodecahedron – Pentagon Faces with Center Vectors & Pyramids</title>
+<style>
+  body { margin:0; font-family: system-ui, sans-serif; background:#111; color:#ddd; display:flex; height:100vh; }
+  #panel { width:360px; padding:12px; overflow:auto; background:#1b1b1b; box-sizing:border-box; }
+  #panel h2 { font-size:16px; margin:4px 0 10px; }
+  #panel label { display:block; margin:8px 0; font-size:13px; }
+  #panel input[type=range] { width:100%; }
+  button { margin:4px 4px 4px 0; padding:5px 10px; background:#333; color:#ddd; border:1px solid #555; cursor:pointer; }
+  pre { font-size:11px; background:#0c0c0c; padding:8px; white-space:pre-wrap; max-height:45vh; overflow:auto; }
+  canvas { flex:1; display:block; cursor:grab; }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="panel">
+  <h2>Regular Dodecahedron (12 pentagon faces)</h2>
+  <label>Edge length: <span id="edgeVal"></span>
+    <input id="edge" type="range" min="0.5" max="3" step="0.05" value="1.236"></label>
+  <label>Vector height h: <span id="hVal"></span>
+    <input id="h" type="range" min="0" max="3" step="0.01" value="0.8"></label>
+  <label><input id="showSolid" type="checkbox" checked> Show pentagon faces</label>
+  <label><input id="showPyr" type="checkbox" checked> Show pyramid (apex → 5 vertices)</label>
+  <label><input id="showVec" type="checkbox" checked> Show center vectors</label>
+  <label><input id="showLabels" type="checkbox"> Show vertex labels</label>
+  <button id="dlJson">Download JSON</button>
+  <button id="dlCsv">Download CSV</button>
+  <pre id="out"></pre>
+</div>
+<canvas id="cv"></canvas>
+
+<script>
+// ---------- vector helpers ----------
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const mul=(a,s)=>[a[0]*s,a[1]*s,a[2]*s];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const len=a=>Math.hypot(...a);
+const norm=a=>mul(a,1/len(a));
+const fmt=v=>v.map(x=>x.toFixed(6)).join(', ');
+
+// ---------- geometry ----------
+function buildGeometry(edge, h){
+  const phi=(1+Math.sqrt(5))/2, ip=1/phi;
+  let V=[];
+  for(const x of [-1,1])for(const y of [-1,1])for(const z of [-1,1])V.push([x,y,z]);
+  for(const a of [-1,1])for(const b of [-1,1]){
+    V.push([0,a*ip,b*phi]); V.push([a*ip,b*phi,0]); V.push([a*phi,0,b*ip]);
+  }
+  const s=edge/(2/phi);                 // base edge = 2/phi
+  V=V.map(v=>mul(v,s));
+
+  // face normals = icosahedron vertices
+  const N=[];
+  for(const a of [-1,1])for(const b of [-1,1]){
+    N.push([0,a,b*phi]); N.push([a,b*phi,0]); N.push([b*phi,0,a]);
+  }
+
+  const faces=N.map((n0,fi)=>{
+    const n=norm(n0);
+    const idx=V.map((v,i)=>[dot(v,n),i]).sort((p,q)=>q[0]-p[0]).slice(0,5).map(p=>p[1]);
+    const center=mul(idx.reduce((acc,i)=>add(acc,V[i]),[0,0,0]),1/5);
+    // order vertices counter-clockwise seen from outside
+    const u=norm(sub(V[idx[0]],center)), w=cross(n,u);
+    idx.sort((i,j)=>{
+      const a=sub(V[i],center), b=sub(V[j],center);
+      return Math.atan2(dot(a,w),dot(a,u))-Math.atan2(dot(b,w),dot(b,u));
+    });
+    const apex=add(center,mul(n,h));
+    const triangles=idx.map((_,k)=>[idx[k],idx[(k+1)%5]]);
+    return {id:fi, vertexIndices:idx, vertices:idx.map(i=>V[i]),
+            center, normal:n, apex, triangles};
+  });
+  return {vertices:V, faces};
+}
+
+// ---------- rendering ----------
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+let rotX=-0.5, rotY=0.6, zoom=1, geo;
+function resize(){cv.width=cv.clientWidth*devicePixelRatio; cv.height=cv.clientHeight*devicePixelRatio;}
+window.addEventListener('resize',()=>{resize();draw();});
+
+function rotate(p){
+  let [x,y,z]=p;
+  let c=Math.cos(rotY), s=Math.sin(rotY);
+  [x,z]=[c*x+s*z,-s*x+c*z];
+  c=Math.cos(rotX); s=Math.sin(rotX);
+  [y,z]=[c*y-s*z,s*y+c*z];
+  return [x,y,z];
+}
+function project(p){
+  const r=rotate(p), d=8, f=Math.min(cv.width,cv.height)*0.18*zoom;
+  const k=d/(d-r[2]);
+  return [cv.width/2+r[0]*f*k, cv.height/2-r[1]*f*k, r[2]];
+}
+const light=norm([0.4,0.6,1]);
+function shade(n,base){
+  const i=0.25+0.75*Math.max(0,dot(rotate(n),light));
+  return `rgba(${base.map(c=>Math.round(c*i)).join(',')},0.92)`;
+}
+
+function draw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const polys=[], opt=id=>document.getElementById(id).checked;
+  const V=geo.vertices;
+  for(const f of geo.faces){
+    if(opt('showPyr')){
+      for(const [a,b] of f.triangles){
+        const pts=[f.apex,V[a],V[b]];
+        const n=norm(cross(sub(V[a],f.apex),sub(V[b],f.apex)));
+        polys.push({pts,n,color:[80,170,255]});
+      }
+    } else if(opt('showSolid')){
+      polys.push({pts:f.vertices,n:f.normal,color:[255,180,70]});
+    }
+  }
+  // painter's algorithm
+  polys.forEach(p=>p.z=p.pts.reduce((s,q)=>s+rotate(q)[2],0)/p.pts.length);
+  polys.sort((a,b)=>a.z-b.z);
+  for(const p of polys){
+    const P=p.pts.map(project);
+    ctx.beginPath(); P.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath();
+    ctx.fillStyle=shade(p.n,p.color); ctx.fill();
+    ctx.strokeStyle='#000'; ctx.lineWidth=1; ctx.stroke();
+  }
+  // pentagon outlines
+  if(opt('showSolid')){
+    ctx.strokeStyle='#ffb347'; ctx.lineWidth=2*devicePixelRatio;
+    for(const f of geo.faces){
+      const P=f.vertices.map(project);
+      ctx.beginPath(); P.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); ctx.stroke();
+    }
+  }
+  // center vectors
+  if(opt('showVec')){
+    for(const f of geo.faces){
+      const a=project(f.center), b=project(f.apex);
+      ctx.strokeStyle='#ff4060'; ctx.lineWidth=2.5*devicePixelRatio;
+      ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+      ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(a[0],a[1],3*devicePixelRatio,0,7); ctx.fill();
+      ctx.fillStyle='#ff4060'; ctx.beginPath(); ctx.arc(b[0],b[1],4*devicePixelRatio,0,7); ctx.fill();
+    }
+  }
+  if(opt('showLabels')){
+    ctx.fillStyle='#fff'; ctx.font=`${11*devicePixelRatio}px monospace`;
+    V.forEach((v,i)=>{const p=project(v); ctx.fillText('V'+i,p[0]+4,p[1]-4);});
+  }
+}
+
+// ---------- output ----------
+function report(){
+  let s=`VERTICES (${geo.vertices.length})\n`;
+  geo.vertices.forEach((v,i)=>s+=`V${i}: (${fmt(v)})\n`);
+  s+=`\nFACES (${geo.faces.length})\n`;
+  for(const f of geo.faces){
+    s+=`\nFace ${f.id}: [${f.vertexIndices.map(i=>'V'+i).join(', ')}]\n`;
+    s+=`  center: (${fmt(f.center)})\n  normal: (${fmt(f.normal)})\n  apex:   (${fmt(f.apex)})\n`;
+    s+=`  triangles: ${f.triangles.map(([a,b])=>`(A,V${a},V${b})`).join(' ')}\n`;
+  }
+  document.getElementById('out').textContent=s;
+}
+function download(name,text,type){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([text],{type})); a.download=name; a.click();
+}
+document.getElementById('dlJson').onclick=()=>download('dodecahedron_pyramids.json',JSON.stringify(geo,null,2),'application/json');
+document.getElementById('dlCsv').onclick=()=>{
+  let c='face,type,index,x,y,z\n';
+  for(const f of geo.faces){
+    f.vertexIndices.forEach((i,k)=>c+=`${f.id},vertex,${i},${f.vertices[k].join(',')}\n`);
+    c+=`${f.id},center,,${f.center.join(',')}\n${f.id},apex,,${f.apex.join(',')}\n`;
+  }
+  download('dodecahedron_pyramids.csv',c,'text/csv');
+};
+
+// ---------- UI ----------
+function rebuild(){
+  const e=+document.getElementById('edge').value, h=+document.getElementById('h').value;
+  document.getElementById('edgeVal').textContent=e.toFixed(3);
+  document.getElementById('hVal').textContent=h.toFixed(3);
+  geo=buildGeometry(e,h); report(); draw();
+}
+['edge','h'].forEach(id=>document.getElementById(id).oninput=rebuild);
+['showSolid','showPyr','showVec','showLabels'].forEach(id=>document.getElementById(id).onchange=draw);
+
+let drag=null;
+cv.onmousedown=e=>{drag=[e.clientX,e.clientY]; cv.style.cursor='grabbing';};
+window.onmouseup=()=>{drag=null; cv.style.cursor='grab';};
+window.onmousemove=e=>{
+  if(!drag)return;
+  rotY+=(e.clientX-drag[0])*0.01; rotX+=(e.clientY-drag[1])*0.01;
+  drag=[e.clientX,e.clientY]; draw();
+};
+cv.onwheel=e=>{e.preventDefault(); zoom*=e.deltaY<0?1.1:0.9; draw();};
+
+resize(); rebuild();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Regular Dodecahedron – 12 Regular Pentagon Faces</title>
+<style>
+  html,body{margin:0;height:100%;background:radial-gradient(#26304a,#0b0d14);color:#ddd;font-family:system-ui,sans-serif;overflow:hidden}
+  canvas{display:block;width:100%;height:100%;cursor:grab}
+  #ui{position:absolute;top:12px;left:12px;background:rgba(20,20,30,.8);padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.9}
+  #ui h3{margin:0 0 6px;font-size:15px}
+  select,button{background:#333;color:#ddd;border:1px solid #555;padding:3px 8px;border-radius:4px}
+  #info{position:absolute;bottom:10px;left:12px;font-size:12px;opacity:.7}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="ui">
+  <h3>Regular Dodecahedron</h3>
+  Mode:
+  <select id="mode">
+    <option value="solid">Solid + edges</option>
+    <option value="wire">Wireframe (hidden dashed)</option>
+    <option value="solidonly">Solid only</option>
+  </select><br>
+  <label><input type="checkbox" id="spin" checked> Auto-rotate</label><br>
+  <label><input type="checkbox" id="verts" checked> Show vertices</label><br>
+  <label><input type="checkbox" id="labels"> Face numbers</label><br>
+  <button id="snap">Save PNG</button>
+</div>
+<div id="info">V = 20 · E = 30 · F = 12 · V − E + F = 2 · drag to rotate, wheel to zoom</div>
+
+<script>
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const mul=(a,s)=>[a[0]*s,a[1]*s,a[2]*s];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const norm=a=>mul(a,1/Math.hypot(...a));
+
+// ---- build dodecahedron ----
+const phi=(1+Math.sqrt(5))/2, ip=1/phi;
+const V=[];
+for(const x of[-1,1])for(const y of[-1,1])for(const z of[-1,1])V.push([x,y,z]);
+for(const a of[-1,1])for(const b of[-1,1]){V.push([0,a*ip,b*phi]);V.push([a*ip,b*phi,0]);V.push([a*phi,0,b*ip]);}
+
+const faces=[];
+for(const a of[-1,1])for(const b of[-1,1])
+  for(const n0 of[[0,a,b*phi],[a,b*phi,0],[b*phi,0,a]]){
+    const n=norm(n0);
+    const idx=V.map((v,i)=>[dot(v,n),i]).sort((p,q)=>q[0]-p[0]).slice(0,5).map(p=>p[1]);
+    const c=mul(idx.reduce((s,i)=>add(s,V[i]),[0,0,0]),.2);
+    const u=norm(sub(V[idx[0]],c)), w=cross(n,u);
+    const ang=i=>{const d=sub(V[i],c);return Math.atan2(dot(d,w),dot(d,u));};
+    idx.sort((i,j)=>ang(i)-ang(j));
+    faces.push({idx,n,c});
+  }
+
+// unique edges
+const edgeSet=new Map();
+faces.forEach((f,fi)=>f.idx.forEach((a,k)=>{
+  const b=f.idx[(k+1)%5], key=a<b?a+'-'+b:b+'-'+a;
+  if(!edgeSet.has(key))edgeSet.set(key,{a,b,faces:[]});
+  edgeSet.get(key).faces.push(fi);
+}));
+const edges=[...edgeSet.values()];
+
+const palette=faces.map((_,i)=>`hsl(${i*30},70%,55%)`);
+
+// ---- view ----
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let rx=-0.45,ry=0.5,zoom=1,drag=null,last=performance.now();
+const dpr=devicePixelRatio||1;
+function resize(){cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;}
+addEventListener('resize',resize);resize();
+
+function rot(p){
+  let[x,y,z]=p,c=Math.cos(ry),s=Math.sin(ry);
+  [x,z]=[c*x+s*z,-s*x+c*z];
+  c=Math.cos(rx);s=Math.sin(rx);
+  [y,z]=[c*y-s*z,s*y+c*z];
+  return[x,y,z];
+}
+function proj(p){
+  const r=rot(p),d=7,f=Math.min(cv.width,cv.height)*0.22*zoom,k=d/(d-r[2]);
+  return[cv.width/2+r[0]*f*k,cv.height/2-r[1]*f*k];
+}
+const light=norm([-0.4,0.7,1]);
+function lit(color,n){
+  const i=0.3+0.7*Math.max(0,dot(n,light));
+  return`color-mix(in srgb, ${color} ${Math.round(i*100)}%, black)`;
+}
+function facing(f){
+  const c=rot(f.c),n=rot(f.n);
+  return dot(n,sub([0,0,7],c))>0;          // toward camera at z=7
+}
+function poly(pts){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();}
+
+function draw(){
+  const mode=document.getElementById('mode').value;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const vis=faces.map(facing);
+
+  if(mode==='wire'){
+    for(const e of edges){
+      const shown=e.faces.some(fi=>vis[fi]);
+      ctx.setLineDash(shown?[]:[6*dpr,6*dpr]);
+      ctx.strokeStyle=shown?'#e8f0ff':'rgba(200,210,255,.35)';
+      ctx.lineWidth=(shown?2.2:1.2)*dpr;
+      ctx.beginPath();ctx.moveTo(...proj(V[e.a]));ctx.lineTo(...proj(V[e.b]));ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }else{
+    faces.forEach((f,i)=>{
+      if(!vis[i])return;
+      poly(f.idx.map(j=>proj(V[j])));
+      ctx.fillStyle=lit(palette[i],rot(f.n));ctx.fill();
+      if(mode==='solid'){ctx.strokeStyle='#111';ctx.lineWidth=2*dpr;ctx.lineJoin='round';ctx.stroke();}
+    });
+  }
+
+  if(document.getElementById('verts').checked){
+    V.forEach((v,i)=>{
+      const front=faces.some((f,fi)=>vis[fi]&&f.idx.includes(i));
+      if(mode!=='wire'&&!front)return;
+      const p=proj(v);
+      ctx.fillStyle=front?'#fff':'rgba(255,255,255,.35)';
+      ctx.beginPath();ctx.arc(p[0],p[1],3.5*dpr,0,7);ctx.fill();
+    });
+  }
+  if(document.getElementById('labels').checked){
+    ctx.font=`bold ${13*dpr}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';
+    faces.forEach((f,i)=>{
+      if(!vis[i])return;
+      const p=proj(f.c);ctx.fillStyle='#fff';ctx.fillText(i+1,p[0],p[1]);
+    });
+  }
+}
+
+function loop(t){
+  const dt=(t-last)/1000;last=t;
+  if(document.getElementById('spin').checked&&!drag){ry+=dt*0.4;rx+=dt*0.13;}
+  draw();requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+cv.onmousedown=e=>{drag=[e.clientX,e.clientY];cv.style.cursor='grabbing';};
+addEventListener('mouseup',()=>{drag=null;cv.style.cursor='grab';});
+addEventListener('mousemove',e=>{
+  if(!drag)return;
+  ry+=(e.clientX-drag[0])*0.01;rx+=(e.clientY-drag[1])*0.01;drag=[e.clientX,e.clientY];
+});
+cv.addEventListener('wheel',e=>{e.preventDefault();zoom*=e.deltaY<0?1.1:0.9;},{passive:false});
+cv.addEventListener('touchstart',e=>{const t=e.touches[0];drag=[t.clientX,t.clientY];});
+cv.addEventListener('touchmove',e=>{e.preventDefault();const t=e.touches[0];
+  ry+=(t.clientX-drag[0])*0.01;rx+=(t.clientY-drag[1])*0.01;drag=[t.clientX,t.clientY];},{passive:false});
+cv.addEventListener('touchend',()=>drag=null);
+
+document.getElementById('snap').onclick=()=>{
+  const a=document.createElement('a');a.download='dodecahedron.png';a.href=cv.toDataURL('image/png');a.click();
+};
+</script>
+</body>
+</html>

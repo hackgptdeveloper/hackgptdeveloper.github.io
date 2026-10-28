@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schwarz D Surface Visualizer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 300px;
+        }
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: #16213e;
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #0f3460;
+            font-size: 14px;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        .value-display {
+            text-align: right;
+            font-size: 12px;
+            color: #e94560;
+            font-weight: bold;
+        }
+        .equation {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            border-left: 4px solid #e94560;
+        }
+        button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #c13651;
+        }
+        #info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 12px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <div id="canvas-container"></div>
+    
+    <div id="controls">
+        <h1>Schwarz D Surface</h1>
+        
+        <div class="equation">
+            cos(x)cos(y)cos(z) - sin(x)sin(y)sin(z) = c
+        </div>
+        
+        <div class="control-group">
+            <label>Constant (c):</label>
+            <input type="range" id="c-slider" min="-1" max="1" step="0.01" value="0">
+            <div class="value-display" id="c-value">0.00</div>
+        </div>
+        
+        <div class="control-group">
+            <label>Resolution:</label>
+            <input type="range" id="res-slider" min="20" max="60" step="10" value="40">
+            <div class="value-display" id="res-value">40</div>
+        </div>
+        
+        <div class="control-group">
+            <label>Surface Opacity:</label>
+            <input type="range" id="opacity-slider" min="0.1" max="1" step="0.1" value="0.9">
+            <div class="value-display" id="opacity-value">0.9</div>
+        </div>
+        
+        <button onclick="updateSurface()">Update Surface</button>
+        <button onclick="resetView()">Reset View</button>
+    </div>
+    
+    <div id="info">
+        Left Click: Rotate | Right Click: Pan | Scroll: Zoom
+    </div>
+
+    <script>
+        let scene, camera, renderer, controls;
+        let surfaceMesh;
+        let c = 0;
+        let resolution = 40;
+        
+        // Initialize Three.js scene
+        function init() {
+            const container = document.getElementById('canvas-container');
+            
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a2e);
+            
+            // Camera
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.set(5, 5, 5);
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+            
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 10);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+            directionalLight2.position.set(-10, -10, -10);
+            scene.add(directionalLight2);
+            
+            // Create initial surface
+            createSurface();
+            
+            // Animation loop
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize, false);
+        }
+        
+        // Marching Cubes implementation for implicit surface
+        function createSurface() {
+            if (surfaceMesh) {
+                scene.remove(surfaceMesh);
+                surfaceMesh.geometry.dispose();
+                surfaceMesh.material.dispose();
+            }
+            
+            const vertices = [];
+            const faces = [];
+            const size = 4;
+            const step = (2 * size) / resolution;
+            
+            // Generate isosurface using marching cubes-like approach
+            // Sample the implicit function on a grid
+            const gridSize = resolution + 1;
+            const values = new Float32Array(gridSize * gridSize * gridSize);
+            
+            // Calculate function values at grid points
+            for (let i = 0; i <= resolution; i++) {
+                for (let j = 0; j <= resolution; j++) {
+                    for (let k = 0; k <= resolution; k++) {
+                        const x = -size + i * step;
+                        const y = -size + j * step;
+                        const z = -size + k * step;
+                        
+                        // f(x,y,z) = cos(x)cos(y)cos(z) - sin(x)sin(y)sin(z)
+                        const f = Math.cos(x) * Math.cos(y) * Math.cos(z) - 
+                                  Math.sin(x) * Math.sin(y) * Math.sin(z);
+                        
+                        values[i + j * gridSize + k * gridSize * gridSize] = f - c;
+                    }
+                }
+            }
+            
+            // Extract isosurface using marching cubes
+            const indices = extractIsosurface(values, gridSize, step, -size);
+            
+            // Create geometry
+            const geometry = new THREE.BufferGeometry();
+            const positionArray = new Float32Array(indices.length * 3);
+            
+            for (let i = 0; i < indices.length; i++) {
+                positionArray[i * 3] = indices[i].x;
+                positionArray[i * 3 + 1] = indices[i].y;
+                positionArray[i * 3 + 2] = indices[i].z;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+            geometry.computeVertexNormals();
+            
+            // Create material with gradient based on position
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x00d9ff,
+                emissive: 0x001133,
+                specular: 0xffffff,
+                shininess: 100,
+                opacity: parseFloat(document.getElementById('opacity-slider').value),
+                transparent: true,
+                side: THREE.DoubleSide,
+                flatShading: false
+            });
+            
+            surfaceMesh = new THREE.Mesh(geometry, material);
+            scene.add(surfaceMesh);
+        }
+        
+        // Simplified marching cubes isosurface extraction
+        function extractIsosurface(values, gridSize, step, offset) {
+            const vertices = [];
+            const edgeTable = [
+                0x000, 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
+                0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00
+            ];
+            const triTable = [
+                [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [1, 8, 3, 9, 8, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [1, 2, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [0, 8, 3, 1, 2, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [9, 2, 10, 0, 2, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [2, 8, 3, 2, 10, 8, 10, 9, 8, -1, -1, -1, -1, -1, -1, -1],
+                [3, 11, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [0, 11, 2, 8, 11, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [1, 9, 0, 2, 3, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [1, 11, 2, 1, 9, 11, 9, 8, 11, -1, -1, -1, -1, -1, -1, -1],
+                [3, 10, 1, 11, 10, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+                [0, 10, 1, 0, 8, 10, 8, 11, 10, -1, -1, -1, -1, -1, -1, -1],
+                [3, 9, 0, 3, 11, 9, 11, 10, 9, -1, -1, -1, -1, -1, -1, -1],
+                [9, 8, 10, 10, 8, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+            ];
+            
+            // Simpler approach: use linear interpolation on grid edges
+            for (let i = 0; i < resolution; i++) {
+                for (let j = 0; j < resolution; j++) {
+                    for (let k = 0; k < resolution; k++) {
+                        const idx = i + j * gridSize + k * gridSize * gridSize;
+                        const val = values[idx];
+                        
+                        // Check if this cell contains the isosurface
+                        let cubeIndex = 0;
+                        if (val < 0) cubeIndex |= 1;
+                        if (values[idx + 1] < 0) cubeIndex |= 2;
+                        if (values[idx + 1 + gridSize] < 0) cubeIndex |= 4;
+                        if (values[idx + gridSize] < 0) cubeIndex |= 8;
+                        if (values[idx + gridSize * gridSize] < 0) cubeIndex |= 16;
+                        if (values[idx + 1 + gridSize * gridSize] < 0) cubeIndex |= 32;
+                        if (values[idx + 1 + gridSize + gridSize * gridSize] < 0) cubeIndex |= 64;
+                        if (values[idx + gridSize + gridSize * gridSize] < 0) cubeIndex |= 128;
+                        
+                        if (cubeIndex === 0 || cubeIndex === 255) continue;
+                        
+                        // Calculate vertex positions
+                        const x = offset + i * step;
+                        const y = offset + j * step;
+                        const z = offset + k * step;
+                        
+                        // Interpolate vertices on edges
+                        const verts = [];
+                        for (let edge = 0; edge < 12; edge++) {
+                            if (edgeTable[cubeIndex] & (1 << edge)) {
+                                const v0 = getVertexForEdge(edge, x, y, z, step, gridSize, values, idx);
+                                if (v0) verts.push(v0);
+                            }
+                        }
+                        
+                        // Create triangles
+                        for (let t = 0; triTable[cubeIndex][t] !== -1; t += 3) {
+                            const i0 = triTable[cubeIndex][t];
+                            const i1 = triTable[cubeIndex][t + 1];
+                            const i2 = triTable[cubeIndex][t + 2];
+                            
+                            if (i0 < verts.length && i1 < verts.length && i2 < verts.length) {
+                                vertices.push(verts[i0], verts[i1], verts[i2]);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return vertices;
+        }
+        
+        function getVertexForEdge(edge, x, y, z, step, gridSize, values, idx) {
+            const v0 = new THREE.Vector3();
+            const v1 = new THREE.Vector3();
+            let f0, f1;
+            
+            switch(edge) {
+                case 0: // Edge from (0,0,0) to (1,0,0)
+                    v0.set(x, y, z);
+                    v1.set(x + step, y, z);
+                    f0 = values[idx];
+                    f1 = values[idx + 1];
+                    break;
+                case 1: // Edge from (1,0,0) to (1,1,0)
+                    v0.set(x + step, y, z);
+                    v1.set(x + step, y + step, z);
+                    f0 = values[idx + 1];
+                    f1 = values[idx + 1 + gridSize];
+                    break;
+                case 2: // Edge from (0,1,0) to (1,1,0)
+                    v0.set(x, y + step, z);
+                    v1.set(x + step, y + step, z);
+                    f0 = values[idx + gridSize];
+                    f1 = values[idx + 1 + gridSize];
+                    break;
+                case 3: // Edge from (0,0,0) to (0,1,0)
+                    v0.set(x, y, z);
+                    v1.set(x, y + step, z);
+                    f0 = values[idx];
+                    f1 = values[idx + gridSize];
+                    break;
+                case 4: // Edge from (0,0,1) to (1,0,1)
+                    v0.set(x, y, z + step);
+                    v1.set(x + step, y, z + step);
+                    f0 = values[idx + gridSize * gridSize];
+                    f1 = values[idx + 1 + gridSize * gridSize];
+                    break;
+                case 5: // Edge from (1,0,1) to (1,1,1)
+                    v0.set(x + step, y, z + step);
+                    v1.set(x + step, y + step, z + step);
+                    f0 = values[idx + 1 + gridSize * gridSize];
+                    f1 = values[idx + 1 + gridSize + gridSize * gridSize];
+                    break;
+                case 6: // Edge from (0,1,1) to (1,1,1)
+                    v0.set(x, y + step, z + step);
+                    v1.set(x + step, y + step, z + step);
+                    f0 = values[idx + gridSize + gridSize * gridSize];
+                    f1 = values[idx + 1 + gridSize + gridSize * gridSize];
+                    break;
+                case 7: // Edge from (0,0,1) to (0,1,1)
+                    v0.set(x, y, z + step);
+                    v1.set(x, y + step, z + step);
+                    f0 = values[idx + gridSize * gridSize];
+                    f1 = values[idx + gridSize + gridSize * gridSize];
+                    break;
+                case 8: // Edge from (0,0,0) to (0,0,1)
+                    v0.set(x, y, z);
+                    v1.set(x, y, z + step);
+                    f0 = values[idx];
+                    f1 = values[idx + gridSize * gridSize];
+                    break;
+                case 9: // Edge from (1,0,0) to (1,0,1)
+                    v0.set(x + step, y, z);
+                    v1.set(x + step, y, z + step);
+                    f0 = values[idx + 1];
+                    f1 = values[idx + 1 + gridSize * gridSize];
+                    break;
+                case 10: // Edge from (1,1,0) to (1,1,1)
+                    v0.set(x + step, y + step, z);
+                    v1.set(x + step, y + step, z + step);
+                    f0 = values[idx + 1 + gridSize];
+                    f1 = values[idx + 1 + gridSize + gridSize * gridSize];
+                    break;
+                case 11: // Edge from (0,1,0) to (0,1,1)
+                    v0.set(x, y + step, z);
+                    v1.set(x, y + step, z + step);
+                    f0 = values[idx + gridSize];
+                    f1 = values[idx + gridSize + gridSize * gridSize];
+                    break;
+            }
+            
+            // Linear interpolation
+            const mu = Math.abs(f0) / (Math.abs(f0) + Math.abs(f1));
+            return v0.lerp(v1, mu);
+        }
+        
+        function updateSurface() {
+            c = parseFloat(document.getElementById('c-slider').value);
+            resolution = parseInt(document.getElementById('res-slider').value);
+            createSurface();
+        }
+        
+        function resetView() {
+            camera.position.set(5, 5, 5);
+            controls.reset();
+        }
+        
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // Event listeners for sliders
+        document.getElementById('c-slider').addEventListener('input', function(e) {
+            document.getElementById('c-value').textContent = parseFloat(e.target.value).toFixed(2);
+        });
+        
+        document.getElementById('res-slider').addEventListener('input', function(e) {
+            document.getElementById('res-value').textContent = e.target.value;
+        });
+        
+        document.getElementById('opacity-slider').addEventListener('input', function(e) {
+            document.getElementById('opacity-value').textContent = e.target.value;
+            if (surfaceMesh) {
+                surfaceMesh.material.opacity = parseFloat(e.target.value);
+            }
+        });
+        
+        // Initialize
+        init();
+    </script>
+</body>
+</html>

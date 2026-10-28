@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epicycloid & Cardioid Generator - Generalized Rolling Circles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        canvas {
+            touch-action: none;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden bg-slate-900 text-slate-100">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header Bar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 font-bold text-lg">
+                    ⌘
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-100 leading-tight">Epicycloid & Cardioid Simulator</h1>
+                    <p class="text-xs text-slate-400">Circle A rolling without slipping around fixed Circle B</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="curveTypeBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-sm">
+                    Cardioid (k = 1.00)
+                </span>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> 60 FPS Engine
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto w-full p-4 lg:p-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Canvas & Playback Controls Column -->
+        <div class="lg:col-span-8 flex flex-col gap-4">
+            <div class="relative w-full aspect-square md:aspect-[4/3] bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden flex items-center justify-center">
+                <canvas id="simCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+                
+                <!-- Telemetry Overlay -->
+                <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-3 text-xs space-y-1 font-mono pointer-events-none text-slate-300 shadow-lg z-10">
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Angle θ (Orbit):</span> <span id="telemetryTheta" class="text-rose-400 font-bold">0.0°</span></div>
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Angle φ (Self):</span> <span id="telemetryPhi" class="text-indigo-400 font-bold">0.0°</span></div>
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Point P(x, y):</span> <span id="telemetryPos" class="text-cyan-400 font-bold">(0, 0)</span></div>
+                    <div class="flex justify-between gap-4"><span class="text-slate-500">Ratio (k = r_B / r_A):</span> <span id="telemetryRatio" class="text-amber-400 font-bold">1.00</span></div>
+                </div>
+
+                <!-- Legend Overlay -->
+                <div class="absolute bottom-4 left-4 flex flex-wrap gap-2 text-xs font-medium z-10">
+                    <span class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-300 backdrop-blur-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Circle B (Fixed, r_B)
+                    </span>
+                    <span class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-300 backdrop-blur-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Circle A (Rolling, r_A)
+                    </span>
+                    <span class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-300 backdrop-blur-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Epicycloid Path
+                    </span>
+                </div>
+            </div>
+
+            <!-- Animation Action Toolbar -->
+            <div class="bg-slate-800/50 backdrop-blur-md border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <button id="btnPlay" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-medium text-sm rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-rose-600/20 active:scale-95">
+                        <svg id="playIcon" class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <span id="playBtnText">Play</span>
+                    </button>
+                    <button id="btnStep" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium rounded-lg transition-all active:scale-95" title="Step forward">
+                        Step ➔
+                    </button>
+                    <button id="btnReset" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium rounded-lg transition-all active:scale-95">
+                        Reset Path
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-4 flex-1 min-w-[200px] justify-end">
+                    <div class="flex items-center gap-2 flex-1 max-w-[220px]">
+                        <span class="text-xs text-slate-400 font-medium">Speed:</span>
+                        <input id="speedRange" type="range" min="0.1" max="3" step="0.1" value="1" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                        <span id="speedVal" class="text-xs font-mono text-slate-300 w-8">1.0x</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls & Mathematics Panel -->
+        <div class="lg:col-span-4 space-y-5">
+            
+            <!-- Radius Controls Card -->
+            <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 space-y-5 shadow-xl">
+                <h2 class="text-xs font-semibold uppercase tracking-wider text-rose-400">Circle Radii Parameters</h2>
+                
+                <!-- Radius Circle A -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-300 font-medium flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span>
+                            Circle A Radius (r_A)
+                        </span>
+                        <span id="radiusAVal" class="text-cyan-400 font-mono font-bold">60 px</span>
+                    </div>
+                    <input id="radiusARange" type="range" min="15" max="120" value="60" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                </div>
+
+                <!-- Radius Circle B -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-300 font-medium flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                            Circle B Radius (r_B)
+                        </span>
+                        <span id="radiusBVal" class="text-amber-400 font-mono font-bold">60 px</span>
+                    </div>
+                    <input id="radiusBRange" type="range" min="15" max="150" value="60" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400">
+                </div>
+
+                <!-- Quick Preset Ratios -->
+                <div class="pt-2 border-t border-slate-800/80">
+                    <span class="text-[11px] text-slate-400 font-medium block mb-2">Preset Configurations:</span>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button id="presetCardioid" class="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 rounded-lg transition-all text-center">
+                            Cardioid (1:1)
+                        </button>
+                        <button id="presetNephroid" class="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 rounded-lg transition-all text-center">
+                            Nephroid (2:1)
+                        </button>
+                        <button id="presetTrefoil" class="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 rounded-lg transition-all text-center">
+                            Trefoil (3:1)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Toggles Card -->
+            <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-xl">
+                <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Display Settings</h2>
+                
+                <div class="space-y-2">
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+                        <span class="text-sm font-medium text-slate-300">Show Traced Path</span>
+                        <input id="chkTrace" type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-rose-500/20 accent-rose-500">
+                    </label>
+
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+                        <span class="text-sm font-medium text-slate-300">Show Radius Vectors & Radial Lines</span>
+                        <input id="chkHelpers" type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-rose-500/20 accent-rose-500">
+                    </label>
+
+                    <label class="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-slate-800/50 transition-colors">
+                        <span class="text-sm font-medium text-slate-300">Show Contact Tangent Point</span>
+                        <input id="chkTangent" type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-rose-500/20 accent-rose-500">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Mathematics Explanation Card -->
+            <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 space-y-3 text-sm text-slate-300 shadow-xl">
+                <h2 class="text-xs font-semibold uppercase tracking-wider text-amber-400">Mathematical Mechanics</h2>
+                <p class="text-xs text-slate-400 leading-relaxed" id="mathDesc">
+                    An <strong>Epicycloid</strong> is traced by a point $P$ on a circle of radius $r_A$ rolling without slipping around a fixed circle of radius $r_B$.
+                </p>
+                <div class="bg-slate-950/60 p-3 rounded-xl font-mono text-xs space-y-2 border border-slate-800/80 text-slate-300">
+                    <div class="text-slate-500 font-sans text-[10px] uppercase font-bold tracking-wider">Generalized Equations</div>
+                    <div class="text-cyan-400" id="eqX">x(θ) = (r_B + r_A)cos θ - r_A cos((1 + r_B/r_A)θ)</div>
+                    <div class="text-cyan-400" id="eqY">y(θ) = (r_B + r_A)sin θ - r_A sin((1 + r_B/r_A)θ)</div>
+                    <div class="pt-1 text-slate-500 font-sans text-[10px] uppercase font-bold tracking-wider">No-Slip Rotation Condition</div>
+                    <div class="text-indigo-300" id="eqRotation">φ = θ · (1 + r_B / r_A)</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Implementation -->
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // State variables
+        let isRunning = false;
+        let theta = 0; // Orbit angle of Circle A center around Circle B (radians)
+        let speedMultiplier = 1.0;
+        
+        let rA = 60; // Radius of rolling Circle A
+        let rB = 60; // Radius of fixed Circle B
+        
+        let tracePoints = []; // Stores trace of point P
+        const maxTracePoints = 4000;
+
+        // UI References
+        const btnPlay = document.getElementById('btnPlay');
+        const playIcon = document.getElementById('playIcon');
+        const playBtnText = document.getElementById('playBtnText');
+        const btnStep = document.getElementById('btnStep');
+        const btnReset = document.getElementById('btnReset');
+        const speedRange = document.getElementById('speedRange');
+        const speedVal = document.getElementById('speedVal');
+        
+        const radiusARange = document.getElementById('radiusARange');
+        const radiusAVal = document.getElementById('radiusAVal');
+        const radiusBRange = document.getElementById('radiusBRange');
+        const radiusBVal = document.getElementById('radiusBVal');
+
+        const presetCardioid = document.getElementById('presetCardioid');
+        const presetNephroid = document.getElementById('presetNephroid');
+        const presetTrefoil = document.getElementById('presetTrefoil');
+
+        const chkTrace = document.getElementById('chkTrace');
+        const chkHelpers = document.getElementById('chkHelpers');
+        const chkTangent = document.getElementById('chkTangent');
+
+        const telemetryTheta = document.getElementById('telemetryTheta');
+        const telemetryPhi = document.getElementById('telemetryPhi');
+        const telemetryPos = document.getElementById('telemetryPos');
+        const telemetryRatio = document.getElementById('telemetryRatio');
+        const curveTypeBadge = document.getElementById('curveTypeBadge');
+
+        const eqX = document.getElementById('eqX');
+        const eqY = document.getElementById('eqY');
+        const eqRotation = document.getElementById('eqRotation');
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            draw();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        function getPositions() {
+            const rect = canvas.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Center of fixed Circle B
+            const bX = centerX;
+            const bY = centerY;
+
+            // Distance between centers = r_B + r_A
+            const distCenters = rB + rA;
+
+            // Center of rolling Circle A
+            const aX = bX + distCenters * Math.cos(theta);
+            const aY = bY + distCenters * Math.sin(theta);
+
+            // Point of contact C between Circle A and Circle B
+            const cX = bX + rB * Math.cos(theta);
+            const cY = bY + rB * Math.sin(theta);
+
+            // Angle of rotation of Circle A around its own center
+            // Non-slip rolling condition: angle phi = theta * (1 + rB / rA)
+            const ratio = rB / rA;
+            const phi = theta * (1 + ratio);
+
+            // Trace point P on Circle A (Starts at contact point C when theta = 0)
+            const pX = aX - rA * Math.cos(phi);
+            const pY = aY - rA * Math.sin(phi);
+
+            return { centerX, centerY, bX, bY, aX, aY, cX, cY, pX, pY, phi, ratio };
+        }
+
+        function draw() {
+            const rect = canvas.getBoundingClientRect();
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            const pos = getPositions();
+
+            // 1. Draw Grid Background
+            drawGrid(rect.width, rect.height);
+
+            // 2. Draw Epicycloid Trace
+            if (chkTrace.checked && tracePoints.length > 1) {
+                ctx.beginPath();
+                ctx.moveTo(tracePoints[0].x, tracePoints[0].y);
+                for (let i = 1; i < tracePoints.length; i++) {
+                    ctx.lineTo(tracePoints[i].x, tracePoints[i].y);
+                }
+                ctx.strokeStyle = '#f43f5e'; // Rose-500
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+            }
+
+            // 3. Draw Fixed Circle B
+            ctx.beginPath();
+            ctx.arc(pos.bX, pos.bY, rB, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(251, 191, 36, 0.05)'; // Amber tint
+            ctx.fill();
+            ctx.strokeStyle = '#f59e0b'; // Amber-500
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Center of Circle B
+            ctx.beginPath();
+            ctx.arc(pos.bX, pos.bY, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#f59e0b';
+            ctx.fill();
+
+            // 4. Draw Rolling Circle A
+            ctx.beginPath();
+            ctx.arc(pos.aX, pos.aY, rA, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(34, 211, 238, 0.05)'; // Cyan tint
+            ctx.fill();
+            ctx.strokeStyle = '#06b6d4'; // Cyan-500
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Center of Circle A
+            ctx.beginPath();
+            ctx.arc(pos.aX, pos.aY, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#06b6d4';
+            ctx.fill();
+
+            // 5. Draw Helper Lines & Vectors
+            if (chkHelpers.checked) {
+                // Line connecting center B to center A
+                ctx.beginPath();
+                ctx.moveTo(pos.bX, pos.bY);
+                ctx.lineTo(pos.aX, pos.aY);
+                ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)'; // Slate-400
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Line connecting Center A to Trace Point P
+                ctx.beginPath();
+                ctx.moveTo(pos.aX, pos.aY);
+                ctx.lineTo(pos.pX, pos.pY);
+                ctx.strokeStyle = '#38bdf8'; // Sky-400
+                ctx.setLineDash([]);
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.setLineDash([]); // Reset dash
+            }
+
+            // 6. Draw Tangent Contact Point
+            if (chkTangent.checked) {
+                ctx.beginPath();
+                ctx.arc(pos.cX, pos.cY, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981'; // Emerald-500
+                ctx.fill();
+            }
+
+            // 7. Draw Trace Point P (The Pen)
+            ctx.beginPath();
+            ctx.arc(pos.pX, pos.pY, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#f43f5e'; // Rose-500
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Label P
+            ctx.fillStyle = '#f8fafc';
+            ctx.font = '600 12px Inter, sans-serif';
+            ctx.fillText('P', pos.pX + 10, pos.pY - 10);
+
+            // Update Dynamic Telemetry & Formulas
+            updateTelemetry(pos);
+        }
+
+        function drawGrid(w, h) {
+            ctx.strokeStyle = 'rgba(30, 41, 59, 0.5)';
+            ctx.lineWidth = 1;
+            const step = 40;
+            ctx.beginPath();
+            for (let x = 0; x < w; x += step) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+            }
+            for (let y = 0; y < h; y += step) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+            }
+            ctx.stroke();
+        }
+
+        function updateTelemetry(pos) {
+            const degTheta = ((theta * 180 / Math.PI) % 360).toFixed(1);
+            const degPhi = ((pos.phi * 180 / Math.PI) % 360).toFixed(1);
+            const relX = (pos.pX - pos.bX).toFixed(0);
+            const relY = (-(pos.pY - pos.bY)).toFixed(0); // Standard math Y-axis
+            const k = (rB / rA).toFixed(2);
+
+            telemetryTheta.textContent = `${degTheta}°`;
+            telemetryPhi.textContent = `${degPhi}°`;
+            telemetryPos.textContent = `(${relX}, ${relY})`;
+            telemetryRatio.textContent = k;
+
+            // Classify Curve
+            const kVal = rB / rA;
+            let curveName = `Epicycloid (k = ${kVal.toFixed(2)})`;
+            if (Math.abs(kVal - 1.0) < 0.01) {
+                curveName = "Cardioid (k = 1.00)";
+            } else if (Math.abs(kVal - 2.0) < 0.01) {
+                curveName = "Nephroid (k = 2.00)";
+            } else if (Number.isInteger(kVal)) {
+                curveName = `${kVal}-Cusp Epicycloid`;
+            }
+
+            curveTypeBadge.textContent = curveName;
+
+            // Dynamic Math Equations
+            eqX.textContent = `x(θ) = ${rB + rA}cos θ - ${rA}cos(${(1 + kVal).toFixed(2)}θ)`;
+            eqY.textContent = `y(θ) = ${rB + rA}sin θ - ${rA}sin(${(1 + kVal).toFixed(2)}θ)`;
+            eqRotation.textContent = `φ = θ · (1 + ${rB}/${rA}) = ${(1 + kVal).toFixed(2)}θ`;
+        }
+
+        let lastTime = null;
+
+        function animate(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const dt = (timestamp - lastTime) / 1000;
+            lastTime = timestamp;
+
+            if (isRunning) {
+                // Increment angle theta based on speed multiplier
+                theta += 0.8 * speedMultiplier * dt;
+                
+                const pos = getPositions();
+                tracePoints.push({ x: pos.pX, y: pos.pY });
+
+                if (tracePoints.length > maxTracePoints) {
+                    tracePoints.shift();
+                }
+
+                draw();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        function togglePlay() {
+            isRunning = !isRunning;
+            if (isRunning) {
+                playBtnText.textContent = 'Pause';
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                btnPlay.classList.replace('bg-rose-600', 'bg-amber-600');
+                btnPlay.classList.replace('hover:bg-rose-500', 'hover:bg-amber-500');
+            } else {
+                playBtnText.textContent = 'Play';
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                btnPlay.classList.replace('bg-amber-600', 'bg-rose-600');
+                btnPlay.classList.replace('hover:bg-amber-500', 'hover:bg-rose-500');
+            }
+        }
+
+        // Event Listeners
+        btnPlay.addEventListener('click', togglePlay);
+
+        btnStep.addEventListener('click', () => {
+            if (isRunning) togglePlay();
+            theta += 0.05;
+            const pos = getPositions();
+            tracePoints.push({ x: pos.pX, y: pos.pY });
+            draw();
+        });
+
+        function resetSimulation() {
+            if (isRunning) togglePlay();
+            theta = 0;
+            tracePoints = [];
+            const pos = getPositions();
+            tracePoints.push({ x: pos.pX, y: pos.pY });
+            draw();
+        }
+
+        btnReset.addEventListener('click', resetSimulation);
+
+        speedRange.addEventListener('input', (e) => {
+            speedMultiplier = parseFloat(e.target.value);
+            speedVal.textContent = `${speedMultiplier.toFixed(1)}x`;
+        });
+
+        radiusARange.addEventListener('input', (e) => {
+            rA = parseInt(e.target.value, 10);
+            radiusAVal.textContent = `${rA} px`;
+            resetSimulation();
+        });
+
+        radiusBRange.addEventListener('input', (e) => {
+            rB = parseInt(e.target.value, 10);
+            radiusBVal.textContent = `${rB} px`;
+            resetSimulation();
+        });
+
+        // Presets
+        presetCardioid.addEventListener('click', () => {
+            rA = 60;
+            rB = 60;
+            radiusARange.value = 60;
+            radiusBRange.value = 60;
+            radiusAVal.textContent = '60 px';
+            radiusBVal.textContent = '60 px';
+            resetSimulation();
+        });
+
+        presetNephroid.addEventListener('click', () => {
+            rA = 35;
+            rB = 70;
+            radiusARange.value = 35;
+            radiusBRange.value = 70;
+            radiusAVal.textContent = '35 px';
+            radiusBVal.textContent = '70 px';
+            resetSimulation();
+        });
+
+        presetTrefoil.addEventListener('click', () => {
+            rA = 30;
+            rB = 90;
+            radiusARange.value = 30;
+            radiusBRange.value = 90;
+            radiusAVal.textContent = '30 px';
+            radiusBVal.textContent = '90 px';
+            resetSimulation();
+        });
+
+        chkTrace.addEventListener('change', draw);
+        chkHelpers.addEventListener('change', draw);
+        chkTangent.addEventListener('change', draw);
+
+        // Initial setup on window load
+        window.onload = () => {
+            resizeCanvas();
+            resetSimulation();
+            requestAnimationFrame(animate);
+        };
+    </script>
+</body>
+</html>

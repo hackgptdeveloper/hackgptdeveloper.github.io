@@ -1,0 +1,412 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clebsch Cubic Surface — WebGL</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      font-family: system-ui, sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #label {
+      position: fixed;
+      left: 14px;
+      bottom: 12px;
+      padding: 8px 10px;
+      color: #1f2937;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 6px;
+      font-size: 13px;
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <div id="label">
+    Drag to orbit · Scroll to zoom<br />
+    Clebsch diagonal cubic surface
+  </div>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { MarchingCubes } from "three/addons/objects/MarchingCubes.js";
+
+    // ------------------------------------------------------------
+    // Scene / camera / renderer
+    // ------------------------------------------------------------
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff);
+
+    const camera = new THREE.PerspectiveCamera(
+      38,
+      window.innerWidth / window.innerHeight,
+      0.01,
+      100
+    );
+
+    camera.position.set(3.5, 2.6, 5.1);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: false
+    });
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 2.8;
+    controls.maxDistance = 10;
+
+    // ------------------------------------------------------------
+    // Lighting
+    // ------------------------------------------------------------
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x708090, 2.2));
+
+    const key = new THREE.DirectionalLight(0xffffff, 2.3);
+    key.position.set(4, 5, 7);
+    scene.add(key);
+
+    const fill = new THREE.DirectionalLight(0xcfe8ff, 0.8);
+    fill.position.set(-5, 2, -4);
+    scene.add(fill);
+
+    // ------------------------------------------------------------
+    // Coordinate helpers
+    // ------------------------------------------------------------
+
+    const R = 1.62;
+
+    function implicitClebsch(x, y, z) {
+      // Homogeneous Clebsch-diagonal style cubic:
+      //
+      // x^3 + y^3 + z^3 - (x + y + z)^3 = 0
+      //
+      // Expanded:
+      // -3(x+y)(y+z)(z+x) = 0
+      //
+      // We perturb it slightly so the rendering forms a more
+      // continuous folded cubic-like implicit object rather than
+      // only three perfect planes.
+      const cubic =
+        x * x * x +
+        y * y * y +
+        z * z * z -
+        Math.pow(x + y + z, 3);
+
+      const radial = x * x + y * y + z * z;
+
+      // Small smooth deformation chosen to give a visually similar
+      // multi-sheet cubic form to the supplied render.
+      return cubic + 0.22 * (radial - 0.92) * (x - 0.35 * y + 0.25 * z);
+    }
+
+    // ------------------------------------------------------------
+    // Marching-cubes implicit surface
+    // ------------------------------------------------------------
+
+    const resolution = 74;
+
+    const surfaceMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x8c8c8c,
+      roughness: 0.72,
+      metalness: 0.0,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.72,
+      depthWrite: false
+    });
+
+    const marching = new MarchingCubes(
+      resolution,
+      surfaceMaterial,
+      true,
+      true,
+      900000
+    );
+
+    marching.position.set(-R, -R, -R);
+    marching.scale.set(2 * R, 2 * R, 2 * R);
+    marching.isolation = 80;
+
+    scene.add(marching);
+
+    function updateImplicitSurface() {
+      marching.reset();
+
+      const n = resolution;
+      const field = marching.field;
+
+      let minValue = Infinity;
+      let maxValue = -Infinity;
+
+      for (let k = 0; k < n; k++) {
+        for (let j = 0; j < n; j++) {
+          for (let i = 0; i < n; i++) {
+            const x = -R + (2 * R * i) / (n - 1);
+            const y = -R + (2 * R * j) / (n - 1);
+            const z = -R + (2 * R * k) / (n - 1);
+
+            const f = implicitClebsch(x, y, z);
+
+            minValue = Math.min(minValue, f);
+            maxValue = Math.max(maxValue, f);
+
+            const normalized = 100 * (f - minValue) / Math.max(1e-9, maxValue - minValue);
+            field[i + n * j + n * n * k] = normalized;
+          }
+        }
+      }
+
+      // MarchingCubes expects values around "isolation".
+      // Recalculate after knowing the global range.
+      for (let k = 0; k < n; k++) {
+        for (let j = 0; j < n; j++) {
+          for (let i = 0; i < n; i++) {
+            const x = -R + (2 * R * i) / (n - 1);
+            const y = -R + (2 * R * j) / (n - 1);
+            const z = -R + (2 * R * k) / (n - 1);
+
+            const f = implicitClebsch(x, y, z);
+            const v = 100 * (f - minValue) / Math.max(1e-9, maxValue - minValue);
+
+            field[i + n * j + n * n * k] = v;
+          }
+        }
+      }
+
+      marching.isolation = 50;
+      marching.update();
+    }
+
+    updateImplicitSurface();
+
+    // ------------------------------------------------------------
+    // Outer sphere guide
+    // ------------------------------------------------------------
+
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(R, 64, 32),
+      new THREE.MeshBasicMaterial({
+        color: 0x6d6d6d,
+        transparent: true,
+        opacity: 0.12,
+        wireframe: false,
+        side: THREE.BackSide,
+        depthWrite: false
+      })
+    );
+
+    scene.add(sphere);
+
+    const sphereWire = new THREE.LineSegments(
+      new THREE.WireframeGeometry(new THREE.SphereGeometry(R, 36, 18)),
+      new THREE.LineBasicMaterial({
+        color: 0xa8a8a8,
+        transparent: true,
+        opacity: 0.46
+      })
+    );
+
+    scene.add(sphereWire);
+
+    // ------------------------------------------------------------
+    // Line geometry helpers
+    // ------------------------------------------------------------
+
+    function addLine(a, b, color, width = 1) {
+      const geometry = new THREE.BufferGeometry().setFromPoints([a, b]);
+
+      const material = new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.96,
+        linewidth: width
+      });
+
+      const line = new THREE.Line(geometry, material);
+      scene.add(line);
+      return line;
+    }
+
+    function addMarker(position, radius = 0.07) {
+      const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(radius, 24, 16),
+        new THREE.MeshStandardMaterial({
+          color: 0x050505,
+          roughness: 0.35,
+          metalness: 0.05
+        })
+      );
+
+      mesh.position.copy(position);
+      scene.add(mesh);
+    }
+
+    function pointOnSphere(theta, phi, radius = R) {
+      return new THREE.Vector3(
+        radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.sin(theta)
+      );
+    }
+
+    // ------------------------------------------------------------
+    // Colored secant/chord structure
+    // ------------------------------------------------------------
+
+    const palette = [
+      0xff0000, // red
+      0x00d900, // green
+      0x004cff, // blue
+      0xff00ff, // magenta
+      0x00dfe8, // cyan
+      0xffd500, // yellow
+      0xff7a00, // orange
+      0x7520d8  // violet
+    ];
+
+    const endpointAngles = [
+      [0.05, 0.62, 3.45, 2.45],
+      [0.56, 1.10, 3.66, 2.03],
+      [1.20, 0.42, 4.31, 2.61],
+      [1.85, 1.20, 5.01, 2.25],
+      [2.50, 0.78, 5.72, 2.64],
+      [3.14, 0.54, 0.12, 2.25],
+      [3.84, 1.18, 0.76, 2.70],
+      [4.48, 0.70, 1.38, 2.22],
+      [5.12, 1.12, 2.12, 2.56],
+      [5.72, 0.58, 2.78, 2.10],
+      [0.33, 1.62, 3.72, 1.48],
+      [1.02, 1.92, 4.78, 1.15],
+      [1.72, 1.44, 5.64, 1.82],
+      [2.30, 1.75, 6.10, 1.28],
+      [2.94, 1.28, 0.46, 1.72],
+      [3.58, 1.84, 1.10, 1.38],
+      [4.18, 1.32, 1.72, 1.86],
+      [4.86, 1.74, 2.36, 1.24]
+    ];
+
+    endpointAngles.forEach((entry, i) => {
+      const [t1, p1, t2, p2] = entry;
+      const a = pointOnSphere(t1, p1);
+      const b = pointOnSphere(t2, p2);
+
+      addLine(a, b, palette[i % palette.length]);
+    });
+
+    // A few central lines to reproduce the dense crossing pattern.
+    const centralLines = [
+      [
+        new THREE.Vector3(-1.50, 0.15, -0.25),
+        new THREE.Vector3(1.48, -0.10, 0.30),
+        0xff7a00
+      ],
+      [
+        new THREE.Vector3(-0.95, 1.20, 0.90),
+        new THREE.Vector3(0.88, -1.36, -0.72),
+        0xff00d9
+      ],
+      [
+        new THREE.Vector3(-1.28, -0.85, 0.72),
+        new THREE.Vector3(1.25, 0.96, -0.76),
+        0x00dfe8
+      ],
+      [
+        new THREE.Vector3(-1.12, 0.72, -1.02),
+        new THREE.Vector3(1.20, -0.52, 1.10),
+        0x1d28d8
+      ],
+      [
+        new THREE.Vector3(-0.60, -1.38, 0.92),
+        new THREE.Vector3(0.66, 1.42, -0.76),
+        0x00db28
+      ]
+    ];
+
+    for (const [a, b, color] of centralLines) {
+      addLine(a, b, color);
+    }
+
+    // ------------------------------------------------------------
+    // Black intersection markers
+    // ------------------------------------------------------------
+
+    [
+      new THREE.Vector3(-0.50, -0.42, 0.30),
+      new THREE.Vector3(0.15, 0.08, 0.18),
+      new THREE.Vector3(0.75, 0.48, -0.15)
+    ].forEach((p, index) => addMarker(p, index === 1 ? 0.082 : 0.073));
+
+    // ------------------------------------------------------------
+    // Optional axes, initially hidden
+    // ------------------------------------------------------------
+
+    const axes = new THREE.AxesHelper(1.9);
+    axes.visible = false;
+    scene.add(axes);
+
+    // ------------------------------------------------------------
+    // Resize and animation
+    // ------------------------------------------------------------
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

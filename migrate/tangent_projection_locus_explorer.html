@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Centered Tangent-Projection Locus Explorer</title>
+  <style>
+    :root { color-scheme: dark; --bg:#10151f; --panel:#182231; --panel2:#202e40; --text:#eaf2ff; --muted:#b4c3d9; --accent:#6ee7ff; --pink:#fb7185; --gold:#fbbf24; --green:#86efac; --line:#34465e; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--text); background:linear-gradient(145deg,#0b1018,var(--bg)); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { max-width:1500px; margin:0 auto; padding:24px 22px 12px; }
+    h1 { margin:0; font-size:clamp(1.45rem,3vw,2.15rem); letter-spacing:-.03em; }
+    header p { max-width:1000px; margin:9px 0 0; color:var(--muted); line-height:1.5; }
+    main { max-width:1500px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:18px; padding:0 22px 24px; }
+    .canvas-wrap,.controls,.info { border:1px solid var(--line); border-radius:14px; background:rgba(24,34,49,.84); box-shadow:0 15px 50px rgba(0,0,0,.22); }
+    .canvas-wrap { overflow:hidden; min-height:600px; }
+    canvas { display:block; width:100%; height:min(72vh,790px); min-height:560px; background:radial-gradient(circle at 50% 44%,#172235,#0b1018 75%); cursor:crosshair; }
+    .sidebar { display:flex; flex-direction:column; gap:14px; }
+    .controls,.info { padding:16px; }
+    h2 { margin:0 0 12px; font-size:1rem; }
+    .control { margin:0 0 13px; }
+    .control:last-child { margin-bottom:0; }
+    label { display:flex; justify-content:space-between; gap:12px; align-items:baseline; margin-bottom:6px; font-size:.88rem; color:var(--muted); }
+    output { min-width:66px; text-align:right; color:var(--text); font-variant-numeric:tabular-nums; }
+    input[type=range] { width:100%; accent-color:var(--accent); }
+    .checks { display:grid; grid-template-columns:1fr 1fr; gap:8px 6px; margin-top:4px; }
+    .checks label { justify-content:flex-start; align-items:center; gap:7px; margin:0; color:var(--text); cursor:pointer; }
+    input[type=checkbox] { accent-color:var(--accent); }
+    .buttons { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:15px; }
+    button { appearance:none; border:1px solid #47627f; border-radius:9px; padding:9px 10px; color:var(--text); background:var(--panel2); font:inherit; cursor:pointer; }
+    button:hover { border-color:var(--accent); background:#2b4058; }
+    .stat { display:grid; grid-template-columns:1fr auto; gap:8px; border-top:1px solid var(--line); padding:9px 0; font-size:.87rem; }
+    .stat:first-of-type { border-top:0; padding-top:0; }
+    .stat span { color:var(--muted); }
+    .stat strong { text-align:right; font-weight:600; font-variant-numeric:tabular-nums; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 12px; padding:11px 14px; border-top:1px solid var(--line); color:var(--muted); background:rgba(10,15,23,.55); font-size:.78rem; }
+    .key { display:inline-flex; align-items:center; gap:6px; }
+    .dot { display:inline-block; width:10px; height:10px; border-radius:50%; }
+    .linekey { display:inline-block; width:17px; height:0; border-top:2px solid; }
+    .formula { overflow-x:auto; margin-top:12px; padding:10px; border-radius:8px; color:var(--muted); background:#101925; font-size:.78rem; line-height:1.5; }
+    .hint { margin:12px 0 0; color:var(--muted); font-size:.8rem; line-height:1.45; }
+    @media(max-width:980px) { main { grid-template-columns:1fr; } canvas { height:68vh; } .sidebar { display:grid; grid-template-columns:1fr 1fr; } }
+    @media(max-width:640px) { header,main { padding-right:12px; padding-left:12px; } .sidebar { display:flex; } canvas { min-height:440px; height:62vh; } }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <header>
+    <h1>Centered Tangent-Projection Locus Explorer</h1>
+    <p>Point B moves on a circle. The perpendicular foot D from fixed point C to the tangent at B traces a locus. The default is deliberately normalized to a small, centered cardioid: R = 1 and AC = 1.</p>
+  </header>
+  <main>
+    <section class="canvas-wrap">
+      <canvas id="plot" aria-label="Interactive tangent projection geometry plot"></canvas>
+      <div class="legend">
+        <span class="key"><i class="dot" style="background:#fbbf24"></i>Centre A</span><span class="key"><i class="dot" style="background:#fb7185"></i>Fixed point C</span><span class="key"><i class="dot" style="background:#86efac"></i>Moving point B</span><span class="key"><i class="dot" style="background:#6ee7ff"></i>Projection D</span><span class="key"><i class="linekey" style="border-color:#6ee7ff"></i>Locus</span><span class="key"><i class="linekey" style="border-color:#fbbf24"></i>Tangent</span>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="controls">
+        <h2>Parameters</h2>
+        <div class="control"><label for="radius">Circle radius R <output id="radiusOut"></output></label><input id="radius" type="range" min="0.25" max="3" step="0.01" value="1" /></div>
+        <div class="control"><label for="distance">Distance AC <output id="distanceOut"></output></label><input id="distance" type="range" min="0" max="6" step="0.01" value="1" /></div>
+        <div class="control"><label for="angle">Direction of C <output id="angleOut"></output></label><input id="angle" type="range" min="0" max="360" step="1" value="0" /></div>
+        <div class="control"><label for="time">Position of B, t <output id="timeOut"></output></label><input id="time" type="range" min="0" max="360" step="0.1" value="35" /></div>
+        <div class="control"><label for="samples">Locus resolution <output id="samplesOut"></output></label><input id="samples" type="range" min="240" max="2400" step="60" value="960" /></div>
+        <div class="checks">
+          <label><input id="showTangent" type="checkbox" checked /> Tangent</label><label><input id="showCircle" type="checkbox" checked /> Circle</label><label><input id="showGrid" type="checkbox" checked /> Grid</label><label><input id="showCurvature" type="checkbox" /> Curvature</label><label><input id="animate" type="checkbox" /> Animate B</label>
+        </div>
+        <div class="buttons"><button id="cardioid">Centered cardioid</button><button id="reset">Reset defaults</button><button id="export">Save PNG</button><button id="fit">Fit locus</button></div>
+        <p class="hint">The drawing is automatically centred on the locus, with padding. Drag C to change its distance and direction. Use the mouse wheel for gentle zoom: each scroll step changes scale by only 5%.</p>
+      </section>
+      <section class="info">
+        <h2>Measurements</h2>
+        <div class="stat"><span>Normalized distance λ = AC/R</span><strong id="lambdaStat">—</strong></div><div class="stat"><span>Family classification</span><strong id="classStat">—</strong></div><div class="stat"><span>Signed area (numerical)</span><strong id="areaStat">—</strong></div><div class="stat"><span>Approx. perimeter</span><strong id="lengthStat">—</strong></div><div class="stat"><span>Curvature at D</span><strong id="curvatureStat">—</strong></div>
+        <div class="formula">B(t) = R(cos t, sin t)<br>C = AC(cos φ, sin φ)<br><br>D(t) = C + [R − C·u(t)]u(t),<br>where u(t) = (cos t, sin t).<br><br>Cardioid condition: AC = R.</div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    (() => {
+      const canvas=document.getElementById('plot'),ctx=canvas.getContext('2d');
+      const ids=['radius','distance','angle','time','samples'];
+      const el=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+      const out=Object.fromEntries(ids.map(id=>[id,document.getElementById(id+'Out')]));
+      const opts={tangent:document.getElementById('showTangent'),circle:document.getElementById('showCircle'),grid:document.getElementById('showGrid'),curvature:document.getElementById('showCurvature'),animate:document.getElementById('animate')};
+      const stats={lambda:document.getElementById('lambdaStat'),cls:document.getElementById('classStat'),area:document.getElementById('areaStat'),length:document.getElementById('lengthStat'),curvature:document.getElementById('curvatureStat')};
+      const col={grid:'#27374d',axis:'#607792',circle:'#d8a72b',tangent:'#fbbf24',locus:'#6ee7ff',c:'#fb7185',b:'#86efac',d:'#6ee7ff',a:'#fbbf24',normal:'#9bb6d3'};
+      let view={cx:0,cy:0,scale:150},dragging=false,last=performance.now(),followLocus=true;
+      const rad=d=>d*Math.PI/180;
+      const values=()=>({R:+el.radius.value,d:+el.distance.value,phi:rad(+el.angle.value),t:rad(+el.time.value),n:+el.samples.value});
+      const C=p=>({x:p.d*Math.cos(p.phi),y:p.d*Math.sin(p.phi)});
+      const B=p=>({x:p.R*Math.cos(p.t),y:p.R*Math.sin(p.t)});
+      const D=(p,t=p.t)=>{const c=C(p),ux=Math.cos(t),uy=Math.sin(t),h=p.R-c.x*ux-c.y*uy;return{x:c.x+h*ux,y:c.y+h*uy};};
+      const locus=p=>Array.from({length:p.n+1},(_,i)=>D(p,2*Math.PI*i/p.n));
+      function size(){return{w:canvas._w||canvas.clientWidth,h:canvas._h||canvas.clientHeight};}
+      function screen(q){const {w,h}=size();return{x:w/2+(q.x-view.cx)*view.scale,y:h/2-(q.y-view.cy)*view.scale};}
+      function world(q){const {w,h}=size();return{x:view.cx+(q.x-w/2)/view.scale,y:view.cy-(q.y-h/2)/view.scale};}
+      function resize(){const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';canvas._w=r.width;canvas._h=r.height;ctx.setTransform(dpr,0,0,dpr,0,0);}
+      function line(a,b,style,width=1,dash=[]){ctx.save();ctx.strokeStyle=style;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.restore();}
+      function dot(q,color,r,label){ctx.save();ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,r,0,2*Math.PI);ctx.fill();ctx.strokeStyle='#07101a';ctx.lineWidth=1.5;ctx.stroke();if(label){ctx.fillStyle='#eef6ff';ctx.font='600 13px Inter,system-ui';ctx.fillText(label,q.x+r+6,q.y-r-3);}ctx.restore();}
+      function circle(c,r,color,width=1.8){const s=screen(c);ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.arc(s.x,s.y,r*view.scale,0,2*Math.PI);ctx.stroke();ctx.restore();}
+      function drawGrid(){if(!opts.grid.checked)return;const {w,h}=size(),target=80/view.scale,mag=10**Math.floor(Math.log10(target)),unit=[1,2,5,10].find(v=>v*mag>=target)*mag,left=view.cx-w/(2*view.scale),right=view.cx+w/(2*view.scale),bottom=view.cy-h/(2*view.scale),top=view.cy+h/(2*view.scale);for(let x=Math.ceil(left/unit)*unit;x<=right;x+=unit)line(screen({x,y:bottom}),screen({x,y:top}),col.grid);for(let y=Math.ceil(bottom/unit)*unit;y<=top;y+=unit)line(screen({x:left,y}),screen({x:right,y}),col.grid);line(screen({x:0,y:bottom}),screen({x:0,y:top}),col.axis,1.2);line(screen({x:left,y:0}),screen({x:right,y:0}),col.axis,1.2);}
+      function drawPoly(pts){ctx.save();ctx.strokeStyle=col.locus;ctx.lineWidth=2.6;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();pts.forEach((q,i)=>{const s=screen(q);i?ctx.lineTo(s.x,s.y):ctx.moveTo(s.x,s.y);});ctx.stroke();ctx.restore();}
+      function curvature(p){const h=1e-4,a=D(p,p.t-h),b=D(p),c=D(p,p.t+h),dx=(c.x-a.x)/(2*h),dy=(c.y-a.y)/(2*h),ddx=(c.x-2*b.x+a.x)/(h*h),ddy=(c.y-2*b.y+a.y)/(h*h),den=(dx*dx+dy*dy)**1.5;return den<1e-9?Infinity:Math.abs(dx*ddy-dy*ddx)/den;}
+      function metrics(pts,p){let area=0,len=0;for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1];area+=a.x*b.y-b.x*a.y;len+=Math.hypot(b.x-a.x,b.y-a.y);}const lam=p.d/p.R;return{area:Math.abs(area)/2,len,lam,cls:Math.abs(lam-1)<.005?'Cardioid (cusp threshold)':lam<1?'Smooth, non-cusped locus':'Loop / self-intersection regime',k:curvature(p)};}
+      function drawCurvature(p,d,k){if(!opts.curvature.checked||!Number.isFinite(k)||k<1e-5)return;const h=1e-4,a=D(p,p.t-h),b=D(p,p.t+h),tx=b.x-a.x,ty=b.y-a.y,l=Math.hypot(tx,ty);if(!l)return;const rho=Math.min(1/k,100),center={x:d.x-ty/l*rho,y:d.y+tx/l*rho};circle(center,rho,'#a78bfa',1.1);line(screen(d),screen(center),'#a78bfa',1,[5,4]);}
+      function render(){const {w,h}=size();ctx.clearRect(0,0,w,h);const p=values(),c=C(p),b=B(p),d=D(p),pts=locus(p);drawGrid();if(opts.circle.checked)circle({x:0,y:0},p.R,col.circle);drawPoly(pts);const A=screen({x:0,y:0}),Cs=screen(c),Bs=screen(b),Ds=screen(d);line(A,Cs,'#8aa2bd',1.1,[5,5]);if(opts.tangent.checked){const u={x:Math.cos(p.t),y:Math.sin(p.t)},v={x:-u.y,y:u.x},span=Math.max(6,p.R*3+p.d);line(screen({x:b.x-v.x*span,y:b.y-v.y*span}),screen({x:b.x+v.x*span,y:b.y+v.y*span}),col.tangent,1.6);line(Cs,Ds,col.normal,1.3,[5,4]);}drawCurvature(p,d,curvature(p));dot(A,col.a,5,'A');dot(Cs,col.c,6,'C');dot(Bs,col.b,6,'B');dot(Ds,col.d,6,'D');const m=metrics(pts,p);stats.lambda.textContent=m.lam.toFixed(4);stats.cls.textContent=m.cls;stats.area.textContent=m.area.toFixed(5)+' units²';stats.length.textContent=m.len.toFixed(5)+' units';stats.curvature.textContent=Number.isFinite(m.k)?m.k.toFixed(5)+' units⁻¹':'undefined at cusp';}
+      function outputs(){out.radius.textContent=(+el.radius.value).toFixed(2);out.distance.textContent=(+el.distance.value).toFixed(2);out.angle.textContent=(+el.angle.value).toFixed(0)+'°';out.time.textContent=(+el.time.value).toFixed(1)+'°';out.samples.textContent=el.samples.value;}
+      function fit(){const p=values(),pts=locus(p),c=C(p),all=[...pts,{x:0,y:0},c],{w,h}=size();let loX=Infinity,hiX=-Infinity,loY=Infinity,hiY=-Infinity;for(const q of all){loX=Math.min(loX,q.x);hiX=Math.max(hiX,q.x);loY=Math.min(loY,q.y);hiY=Math.max(hiY,q.y);}const sx=Math.max(.1,hiX-loX),sy=Math.max(.1,hiY-loY);view.cx=(loX+hiX)/2;view.cy=(loY+hiY)/2;view.scale=Math.min(w/(sx*1.34),h/(sy*1.34));}
+      function refresh(refit=false){outputs();if(refit||followLocus)fit();render();}
+      function defaults(){el.radius.value=1;el.distance.value=1;el.angle.value=0;el.time.value=35;el.samples.value=960;opts.tangent.checked=true;opts.circle.checked=true;opts.grid.checked=true;opts.curvature.checked=false;opts.animate.checked=false;followLocus=true;refresh(true);}
+      ids.forEach(id=>el[id].addEventListener('input',()=>refresh(id==='radius'||id==='distance'||id==='angle')));
+      Object.values(opts).forEach(x=>x.addEventListener('change',()=>refresh(false)));
+      document.getElementById('cardioid').addEventListener('click',()=>{el.distance.value=el.radius.value;followLocus=true;refresh(true);});
+      document.getElementById('reset').addEventListener('click',defaults);
+      document.getElementById('fit').addEventListener('click',()=>{followLocus=true;refresh(true);});
+      document.getElementById('export').addEventListener('click',()=>{render();const a=document.createElement('a');a.download='centered-tangent-projection-locus.png';a.href=canvas.toDataURL('image/png');a.click();});
+      function pointer(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+      canvas.addEventListener('pointerdown',e=>{const c=screen(C(values())),q=pointer(e);if(Math.hypot(q.x-c.x,q.y-c.y)<20){dragging=true;followLocus=true;canvas.setPointerCapture(e.pointerId);}});
+      canvas.addEventListener('pointermove',e=>{if(!dragging)return;const q=world(pointer(e)),dist=Math.hypot(q.x,q.y),phi=(Math.atan2(q.y,q.x)*180/Math.PI+360)%360;el.distance.value=Math.min(+el.distance.max,Math.max(+el.distance.min,dist));el.angle.value=phi;refresh(true);});
+      canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+      canvas.addEventListener('wheel',e=>{e.preventDefault();const before=world(pointer(e));const factor=e.deltaY<0?1.05:1/1.05;view.scale=Math.max(20,Math.min(1000,view.scale*factor));const after=world(pointer(e));view.cx+=before.x-after.x;view.cy+=before.y-after.y;followLocus=false;render();},{passive:false});
+      function animate(now){const dt=(now-last)/1000;last=now;if(opts.animate.checked&&!dragging){el.time.value=(+el.time.value+dt*28)%360;outputs();render();}requestAnimationFrame(animate);}
+      new ResizeObserver(()=>{resize();if(followLocus)fit();render();}).observe(canvas);
+      resize();defaults();requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>

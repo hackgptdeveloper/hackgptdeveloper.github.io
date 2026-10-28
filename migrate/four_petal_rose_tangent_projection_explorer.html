@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Four-Petal Rose Tangent-Projection Locus Explorer</title>
+  <style>
+    :root { color-scheme:dark; --bg:#0d1420; --panel:#182536; --panel2:#23364d; --line:#39526e; --text:#edf5ff; --muted:#b4c5da; --locus:#64e9ff; --curve:#fbbf24; --fixed:#fb7185; --moving:#86efac; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 35% 10%,#172942,#0d1420 60%); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { max-width:1500px; margin:0 auto; padding:24px 22px 12px; }
+    h1 { margin:0; font-size:clamp(1.45rem,3vw,2.15rem); letter-spacing:-.03em; }
+    header p { max-width:1080px; margin:9px 0 0; color:var(--muted); line-height:1.5; }
+    main { max-width:1500px; margin:0 auto; padding:0 22px 25px; display:grid; grid-template-columns:minmax(0,1fr) 350px; gap:18px; }
+    .plot-card,.card { border:1px solid var(--line); border-radius:14px; background:rgba(24,37,54,.9); box-shadow:0 16px 52px rgba(0,0,0,.25); }
+    .plot-card { overflow:hidden; min-height:610px; }
+    canvas { display:block; width:100%; height:min(72vh,790px); min-height:570px; background:radial-gradient(circle at 50% 44%,#172a41,#0a111c 77%); cursor:crosshair; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 13px; padding:11px 14px; border-top:1px solid var(--line); color:var(--muted); background:rgba(7,12,19,.5); font-size:.78rem; }
+    .key { display:inline-flex; align-items:center; gap:6px; }.dot { width:10px; height:10px; display:inline-block; border-radius:50%; }.line { width:18px; height:0; display:inline-block; border-top:2px solid; }
+    .sidebar { display:flex; flex-direction:column; gap:14px; }.card { padding:16px; } h2 { margin:0 0 12px; font-size:1rem; }
+    .control { margin:0 0 13px; }.control:last-child { margin-bottom:0; }
+    label { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:6px; color:var(--muted); font-size:.88rem; }
+    output { min-width:76px; color:var(--text); text-align:right; font-variant-numeric:tabular-nums; }
+    input[type=range] { width:100%; accent-color:var(--locus); }.checks { display:grid; grid-template-columns:1fr 1fr; gap:8px 6px; margin-top:4px; }
+    .checks label { justify-content:flex-start; align-items:center; gap:7px; margin:0; color:var(--text); cursor:pointer; } input[type=checkbox] { accent-color:var(--locus); }
+    .buttons { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:15px; }
+    button { appearance:none; border:1px solid #466889; border-radius:9px; padding:9px 10px; background:var(--panel2); color:var(--text); font:inherit; cursor:pointer; } button:hover { background:#2b4664; border-color:var(--locus); }
+    .stat { display:grid; grid-template-columns:1fr auto; gap:9px; border-top:1px solid var(--line); padding:9px 0; font-size:.86rem; }.stat:first-of-type { border-top:0; padding-top:0; }.stat span { color:var(--muted); }.stat strong { max-width:176px; text-align:right; font-weight:600; font-variant-numeric:tabular-nums; }
+    .formula { margin-top:12px; padding:10px; overflow-x:auto; border-radius:8px; background:#0e1825; color:var(--muted); font-size:.78rem; line-height:1.52; }.hint { margin:12px 0 0; color:var(--muted); font-size:.8rem; line-height:1.45; }
+    @media(max-width:980px){main{grid-template-columns:1fr}canvas{height:68vh}.sidebar{display:grid;grid-template-columns:1fr 1fr}}@media(max-width:640px){header,main{padding-left:12px;padding-right:12px}.sidebar{display:flex}canvas{min-height:445px;height:62vh}}
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <header>
+    <h1>Four-Petal Rose Tangent-Projection Locus Explorer</h1>
+    <p>Point B moves around the four-lobed polar rose <strong>r = a cos(2θ)</strong>. At each point, the tangent line is drawn and the perpendicular foot D of a fixed point C is constructed. The cyan curve is the complete trajectory of D while θ swings between <strong>−π</strong> and <strong>+π</strong>.</p>
+  </header>
+  <main>
+    <section class="plot-card">
+      <canvas id="plot" aria-label="Four petal rose tangent projection locus animation"></canvas>
+      <div class="legend"><span class="key"><i class="line" style="border-color:#fbbf24"></i>Rose r = a cos(2θ)</span><span class="key"><i class="dot" style="background:#86efac"></i>Moving B</span><span class="key"><i class="line" style="border-color:#fbbf24"></i>Tangent at B</span><span class="key"><i class="dot" style="background:#fb7185"></i>Fixed C</span><span class="key"><i class="dot" style="background:#64e9ff"></i>Projection D</span><span class="key"><i class="line" style="border-color:#64e9ff"></i>Locus of D</span></div>
+    </section>
+    <aside class="sidebar">
+      <section class="card">
+        <h2>Geometry and motion</h2>
+        <div class="control"><label for="a">Rose scale a <output id="aOut"></output></label><input id="a" type="range" min="0.25" max="5" step="0.01" value="2.50" /></div>
+        <div class="control"><label for="cx">Fixed point C: x <output id="cxOut"></output></label><input id="cx" type="range" min="-10" max="10" step="0.02" value="1.30" /></div>
+        <div class="control"><label for="cy">Fixed point C: y <output id="cyOut"></output></label><input id="cy" type="range" min="-10" max="10" step="0.02" value="2.10" /></div>
+        <div class="control"><label for="theta">Angle θ <output id="thetaOut"></output></label><input id="theta" type="range" min="-3.141592653589793" max="3.141592653589793" step="0.002" value="-3.141592653589793" /></div>
+        <div class="control"><label for="speed">Swing speed <output id="speedOut"></output></label><input id="speed" type="range" min="0.10" max="4" step="0.05" value="0.45" /></div>
+        <div class="control"><label for="samples">Locus resolution <output id="samplesOut"></output></label><input id="samples" type="range" min="600" max="5000" step="100" value="2400" /></div>
+        <div class="checks"><label><input id="animate" type="checkbox" checked /> Animate swing</label><label><input id="showRose" type="checkbox" checked /> Rose curve</label><label><input id="showTangent" type="checkbox" checked /> Tangent</label><label><input id="showGrid" type="checkbox" checked /> Grid</label><label><input id="showTrace" type="checkbox" checked /> Travel trace</label></div>
+        <div class="buttons"><button id="reset">Reset example</button><button id="fit">Fit geometry</button><button id="export">Save PNG</button><button id="pause">Pause</button></div>
+        <p class="hint">θ is animated by reflected linear motion: −π → +π → −π. A four-petal rose is already fully traced by any interval of length π, but the full swing is retained so the reversing motion is visible.</p>
+      </section>
+      <section class="card">
+        <h2>Current quantities</h2>
+        <div class="stat"><span>Moving point B</span><strong id="bStat">—</strong></div><div class="stat"><span>Projection D</span><strong id="dStat">—</strong></div><div class="stat"><span>Speed |B′(θ)|</span><strong id="speedBStat">—</strong></div><div class="stat"><span>Projection distance CD</span><strong id="distStat">—</strong></div><div class="stat"><span>Locus bounding box</span><strong id="rangeStat">—</strong></div>
+        <div class="formula">Polar rose: r = a cos(2θ)<br><br>Cartesian parametrization:<br>x(θ) = a cos(2θ)cos θ<br>y(θ) = a cos(2θ)sin θ<br><br>For tangent direction v = (x′,y′), the perpendicular foot of C onto the tangent at B is<br>D = B + v · ((C−B)·v)/(v·v).<br><br>The limiting tangent is used at the origin-crossings, where B′(θ)=0.</div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    (() => {
+      const PI=Math.PI,MIN=-PI,MAX=PI,EPS=1e-10;
+      const canvas=document.getElementById('plot'),ctx=canvas.getContext('2d');
+      const names=['a','cx','cy','theta','speed','samples'];
+      const el=Object.fromEntries(names.map(n=>[n,document.getElementById(n)]));
+      const out=Object.fromEntries(names.map(n=>[n,document.getElementById(n+'Out')]));
+      const opt={animate:document.getElementById('animate'),rose:document.getElementById('showRose'),tangent:document.getElementById('showTangent'),grid:document.getElementById('showGrid'),trace:document.getElementById('showTrace')};
+      const stat={b:document.getElementById('bStat'),d:document.getElementById('dStat'),speedB:document.getElementById('speedBStat'),dist:document.getElementById('distStat'),range:document.getElementById('rangeStat')};
+      const col={grid:'#293e57',axis:'#6d87a7',rose:'#fbbf24',tangent:'#fbbf24',fixed:'#fb7185',moving:'#86efac',projected:'#64e9ff',normal:'#9bb6d3',trace:'#80dce8'};
+      let view={cx:0,cy:0,scale:105},phase=0,dragging=false,last=performance.now(),follow=true,travel=[];
+      const q=()=>({a:+el.a.value,cx:+el.cx.value,cy:+el.cy.value,t:+el.theta.value,speed:+el.speed.value,n:+el.samples.value});
+      const B=(p,t=p.t)=>{const r=p.a*Math.cos(2*t);return{x:r*Math.cos(t),y:r*Math.sin(t)};};
+      const derivative=(p,t=p.t)=>{const a=p.a,c2=Math.cos(2*t),s2=Math.sin(2*t),c=Math.cos(t),s=Math.sin(t);return{x:a*(-2*s2*c-c2*s),y:a*(-2*s2*s+c2*c)};};
+      function tangentDirection(p,t=p.t){let v=derivative(p,t),n=Math.hypot(v.x,v.y);if(n>EPS)return v;const h=1e-5,b0=B(p,t-h),b1=B(p,t+h);v={x:b1.x-b0.x,y:b1.y-b0.y};n=Math.hypot(v.x,v.y);if(n>EPS)return v;return{x:1,y:0};}
+      function foot(p,t=p.t){const b=B(p,t),v=tangentDirection(p,t),vx=v.x,vy=v.y,n=vx*vx+vy*vy,s=((p.cx-b.x)*vx+(p.cy-b.y)*vy)/n;return{x:b.x+s*vx,y:b.y+s*vy};}
+      function locus(p){const arr=[];for(let i=0;i<=p.n;i++){const t=MIN+(MAX-MIN)*i/p.n;arr.push(foot(p,t));}return arr;}
+      function size(){return{w:canvas._w||canvas.clientWidth,h:canvas._h||canvas.clientHeight};}
+      function screen(z){const {w,h}=size();return{x:w/2+(z.x-view.cx)*view.scale,y:h/2-(z.y-view.cy)*view.scale};}
+      function world(z){const {w,h}=size();return{x:view.cx+(z.x-w/2)/view.scale,y:view.cy-(z.y-h/2)/view.scale};}
+      function resize(){const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';canvas._w=r.width;canvas._h=r.height;ctx.setTransform(d,0,0,d,0,0);}
+      function line(a,b,color,w=1,dash=[]){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.restore();}
+      function dot(z,color,r,label){ctx.save();ctx.fillStyle=color;ctx.beginPath();ctx.arc(z.x,z.y,r,0,2*PI);ctx.fill();ctx.strokeStyle='#07101a';ctx.lineWidth=1.5;ctx.stroke();if(label){ctx.fillStyle='#edf5ff';ctx.font='600 13px Inter,system-ui';ctx.fillText(label,z.x+r+6,z.y-r-4);}ctx.restore();}
+      function grid(){if(!opt.grid.checked)return;const {w,h}=size(),target=80/view.scale,mag=10**Math.floor(Math.log10(target)),unit=[1,2,5,10].find(v=>v*mag>=target)*mag,L=view.cx-w/(2*view.scale),R=view.cx+w/(2*view.scale),D=view.cy-h/(2*view.scale),U=view.cy+h/(2*view.scale);for(let x=Math.ceil(L/unit)*unit;x<=R;x+=unit)line(screen({x,y:D}),screen({x,y:U}),col.grid);for(let y=Math.ceil(D/unit)*unit;y<=U;y+=unit)line(screen({x:L,y}),screen({x:R,y}),col.grid);line(screen({x:0,y:D}),screen({x:0,y:U}),col.axis,1.2);line(screen({x:L,y:0}),screen({x:R,y:0}),col.axis,1.2);}
+      function poly(arr,color,w=2.2){if(arr.length<2)return;ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();arr.forEach((z,i)=>{const s=screen(z);i?ctx.lineTo(s.x,s.y):ctx.moveTo(s.x,s.y);});ctx.stroke();ctx.restore();}
+      function rose(p){const arr=[];for(let i=0;i<=1600;i++)arr.push(B(p,MIN+(MAX-MIN)*i/1600));poly(arr,col.rose,2.25);}
+      function setOutputs(){out.a.textContent=(+el.a.value).toFixed(2);out.cx.textContent=(+el.cx.value).toFixed(2);out.cy.textContent=(+el.cy.value).toFixed(2);const v=+el.theta.value;out.theta.textContent=v.toFixed(4)+' ('+(v/PI).toFixed(3)+'π)';out.speed.textContent=(+el.speed.value).toFixed(2)+' swings/s';out.samples.textContent=el.samples.value;}
+      function setStats(p,all){const b=B(p),d=foot(p),v=derivative(p),vb=Math.hypot(v.x,v.y);let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;for(const z of all){x0=Math.min(x0,z.x);x1=Math.max(x1,z.x);y0=Math.min(y0,z.y);y1=Math.max(y1,z.y);}stat.b.textContent=`(${b.x.toFixed(3)}, ${b.y.toFixed(3)})`;stat.d.textContent=`(${d.x.toFixed(3)}, ${d.y.toFixed(3)})`;stat.speedB.textContent=vb.toFixed(4);stat.dist.textContent=Math.hypot(d.x-p.cx,d.y-p.cy).toFixed(4);stat.range.textContent=`x:[${x0.toFixed(2)},${x1.toFixed(2)}], y:[${y0.toFixed(2)},${y1.toFixed(2)}]`;}
+      function render(){const {w,h}=size();ctx.clearRect(0,0,w,h);const p=q(),b=B(p),d=foot(p),all=locus(p);grid();if(opt.rose.checked)rose(p);poly(all,col.projected,2.5);if(opt.trace.checked&&travel.length>1)poly(travel,col.trace,1.15);const bs=screen(b),ds=screen(d),cs=screen({x:p.cx,y:p.cy});if(opt.tangent.checked){const v=tangentDirection(p),n=Math.hypot(v.x,v.y),ux=v.x/n,uy=v.y/n,span=Math.max(12,p.a*5);line(screen({x:b.x-ux*span,y:b.y-uy*span}),screen({x:b.x+ux*span,y:b.y+uy*span}),col.tangent,1.6);line(cs,ds,col.normal,1.3,[6,4]);}dot(cs,col.fixed,6,'C');dot(bs,col.moving,6,'B');dot(ds,col.projected,6,'D');setStats(p,all);}
+      function fit(){const p=q(),all=[...locus(p),...Array.from({length:801},(_,i)=>B(p,MIN+(MAX-MIN)*i/800)),{x:p.cx,y:p.cy}],{w,h}=size();let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;for(const z of all){x0=Math.min(x0,z.x);x1=Math.max(x1,z.x);y0=Math.min(y0,z.y);y1=Math.max(y1,z.y);}const sx=Math.max(1,x1-x0),sy=Math.max(1,y1-y0);view.cx=(x0+x1)/2;view.cy=(y0+y1)/2;view.scale=Math.min(w/(sx*1.30),h/(sy*1.30));}
+      function refresh(refit=false){setOutputs();if(refit||follow)fit();render();}
+      function reset(){el.a.value=2.5;el.cx.value=1.3;el.cy.value=2.1;el.theta.value=MIN;el.speed.value=.45;el.samples.value=2400;opt.animate.checked=true;opt.rose.checked=true;opt.tangent.checked=true;opt.grid.checked=true;opt.trace.checked=true;phase=0;travel=[];follow=true;refresh(true);document.getElementById('pause').textContent='Pause';}
+      names.forEach(n=>el[n].addEventListener('input',()=>{if(n==='theta')phase=(+el.theta.value-MIN)/(MAX-MIN)/2;if(['a','cx','cy','samples'].includes(n)){travel=[];follow=true;refresh(true);}else refresh(false);}));
+      Object.values(opt).forEach(o=>o.addEventListener('change',()=>render()));
+      document.getElementById('reset').addEventListener('click',reset);document.getElementById('fit').addEventListener('click',()=>{follow=true;refresh(true);});
+      document.getElementById('pause').addEventListener('click',()=>{opt.animate.checked=!opt.animate.checked;document.getElementById('pause').textContent=opt.animate.checked?'Pause':'Resume';});
+      document.getElementById('export').addEventListener('click',()=>{render();const a=document.createElement('a');a.download='four-petal-rose-tangent-projection-locus.png';a.href=canvas.toDataURL('image/png');a.click();});
+      function pointer(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+      canvas.addEventListener('pointerdown',e=>{const p=q(),c=screen({x:p.cx,y:p.cy}),v=pointer(e);if(Math.hypot(v.x-c.x,v.y-c.y)<20){dragging=true;canvas.setPointerCapture(e.pointerId);}});
+      canvas.addEventListener('pointermove',e=>{if(!dragging)return;const z=world(pointer(e));el.cx.value=Math.max(-10,Math.min(10,z.x));el.cy.value=Math.max(-10,Math.min(10,z.y));travel=[];follow=true;refresh(true);});
+      canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+      canvas.addEventListener('wheel',e=>{e.preventDefault();const before=world(pointer(e)),f=e.deltaY<0?1.05:1/1.05;view.scale=Math.max(16,Math.min(1000,view.scale*f));const after=world(pointer(e));view.cx+=before.x-after.x;view.cy+=before.y-after.y;follow=false;render();},{passive:false});
+      function animate(now){const dt=(now-last)/1000;last=now;if(opt.animate.checked&&!dragging){const p=q();phase=(phase+dt*p.speed/2)%1;const fraction=phase<=.5?2*phase:2-2*phase;const t=MIN+(MAX-MIN)*fraction;el.theta.value=t;const d=foot({...p,t});if(opt.trace.checked){travel.push(d);if(travel.length>1200)travel.shift();}setOutputs();render();}requestAnimationFrame(animate);}
+      new ResizeObserver(()=>{resize();if(follow)fit();render();}).observe(canvas);
+      resize();reset();requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>

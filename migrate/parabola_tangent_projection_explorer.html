@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Parabola Tangent-Projection Locus Explorer</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0d1420; --panel:#182536; --panel2:#23364d; --line:#39526e; --text:#edf5ff; --muted:#b4c5da; --locus:#64e9ff; --parabola:#fbbf24; --fixed:#fb7185; --moving:#86efac; --projected:#64e9ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 35% 10%,#172942,#0d1420 60%); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { max-width:1500px; margin:0 auto; padding:24px 22px 12px; }
+    h1 { margin:0; font-size:clamp(1.45rem,3vw,2.15rem); letter-spacing:-.03em; }
+    header p { max-width:1040px; margin:9px 0 0; color:var(--muted); line-height:1.5; }
+    main { max-width:1500px; margin:0 auto; padding:0 22px 25px; display:grid; grid-template-columns:minmax(0,1fr) 350px; gap:18px; }
+    .plot-card,.card { border:1px solid var(--line); border-radius:14px; background:rgba(24,37,54,.9); box-shadow:0 16px 52px rgba(0,0,0,.25); }
+    .plot-card { overflow:hidden; min-height:610px; }
+    canvas { display:block; width:100%; height:min(72vh,790px); min-height:570px; background:radial-gradient(circle at 50% 44%,#172a41,#0a111c 77%); cursor:crosshair; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 13px; padding:11px 14px; border-top:1px solid var(--line); color:var(--muted); background:rgba(7,12,19,.5); font-size:.78rem; }
+    .key { display:inline-flex; align-items:center; gap:6px; }
+    .dot { width:10px; height:10px; display:inline-block; border-radius:50%; }
+    .line { width:18px; height:0; display:inline-block; border-top:2px solid; }
+    .sidebar { display:flex; flex-direction:column; gap:14px; }
+    .card { padding:16px; }
+    h2 { margin:0 0 12px; font-size:1rem; }
+    .control { margin:0 0 13px; }
+    .control:last-child { margin-bottom:0; }
+    label { display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:6px; color:var(--muted); font-size:.88rem; }
+    output { min-width:70px; color:var(--text); text-align:right; font-variant-numeric:tabular-nums; }
+    input[type=range] { width:100%; accent-color:var(--locus); }
+    .checks { display:grid; grid-template-columns:1fr 1fr; gap:8px 6px; margin-top:4px; }
+    .checks label { justify-content:flex-start; align-items:center; gap:7px; margin:0; color:var(--text); cursor:pointer; }
+    input[type=checkbox] { accent-color:var(--locus); }
+    .buttons { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:15px; }
+    button { appearance:none; border:1px solid #466889; border-radius:9px; padding:9px 10px; background:var(--panel2); color:var(--text); font:inherit; cursor:pointer; }
+    button:hover { background:#2b4664; border-color:var(--locus); }
+    .stat { display:grid; grid-template-columns:1fr auto; gap:9px; border-top:1px solid var(--line); padding:9px 0; font-size:.86rem; }
+    .stat:first-of-type { border-top:0; padding-top:0; }
+    .stat span { color:var(--muted); }
+    .stat strong { max-width:175px; text-align:right; font-weight:600; font-variant-numeric:tabular-nums; }
+    .formula { margin-top:12px; padding:10px; overflow-x:auto; border-radius:8px; background:#0e1825; color:var(--muted); font-size:.78rem; line-height:1.5; }
+    .hint { margin:12px 0 0; color:var(--muted); font-size:.8rem; line-height:1.45; }
+    @media(max-width:980px) { main { grid-template-columns:1fr; } canvas { height:68vh; } .sidebar { display:grid; grid-template-columns:1fr 1fr; } }
+    @media(max-width:640px) { header,main { padding-left:12px; padding-right:12px; } .sidebar { display:flex; } canvas { min-height:445px; height:62vh; } }
+  </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <header>
+    <h1>Parabola Tangent-Projection Locus Explorer</h1>
+    <p>Case 26: let the moving point B travel along a parabola, draw the tangent at B, and project a fixed point C perpendicularly onto that tangent. The animated parameter swings repeatedly between <strong>x=-5</strong> and <strong>x=+5</strong>, rather than rotating cyclically.</p>
+  </header>
+  <main>
+    <section class="plot-card">
+      <canvas id="plot" aria-label="Parabola tangent-projection locus animation"></canvas>
+      <div class="legend">
+        <span class="key"><i class="line" style="border-color:#fbbf24"></i>Parabola</span>
+        <span class="key"><i class="dot" style="background:#86efac"></i>Moving point B</span>
+        <span class="key"><i class="line" style="border-color:#fbbf24"></i>Tangent at B</span>
+        <span class="key"><i class="dot" style="background:#fb7185"></i>Fixed point C</span>
+        <span class="key"><i class="dot" style="background:#64e9ff"></i>Projection D</span>
+        <span class="key"><i class="line" style="border-color:#64e9ff"></i>Full locus of D</span>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="card">
+        <h2>Geometry and motion</h2>
+        <div class="control"><label for="a">Parabola coefficient a <output id="aOut"></output></label><input id="a" type="range" min="0.05" max="1.20" step="0.01" value="0.20" /></div>
+        <div class="control"><label for="cx">Fixed point C: x <output id="cxOut"></output></label><input id="cx" type="range" min="-8" max="8" step="0.05" value="1.50" /></div>
+        <div class="control"><label for="cy">Fixed point C: y <output id="cyOut"></output></label><input id="cy" type="range" min="-5" max="20" step="0.05" value="2.00" /></div>
+        <div class="control"><label for="x">Moving parameter x <output id="xOut"></output></label><input id="x" type="range" min="-5" max="5" step="0.01" value="-5" /></div>
+        <div class="control"><label for="speed">Swing speed <output id="speedOut"></output></label><input id="speed" type="range" min="0.20" max="4" step="0.05" value="1.25" /></div>
+        <div class="control"><label for="samples">Locus resolution <output id="samplesOut"></output></label><input id="samples" type="range" min="300" max="3000" step="100" value="1200" /></div>
+        <div class="checks">
+          <label><input id="animate" type="checkbox" checked /> Animate swing</label>
+          <label><input id="showParabola" type="checkbox" checked /> Parabola</label>
+          <label><input id="showTangent" type="checkbox" checked /> Tangent</label>
+          <label><input id="showGrid" type="checkbox" checked /> Grid</label>
+          <label><input id="showTrace" type="checkbox" checked /> Travel trace</label>
+        </div>
+        <div class="buttons"><button id="reset">Reset example</button><button id="fit">Fit geometry</button><button id="export">Save PNG</button><button id="pause">Pause</button></div>
+        <p class="hint">The x slider is constrained to b5[-5,5]. Animation follows a reflected linear motion, so B travels from −5 to +5, reverses smoothly, then returns to −5.</p>
+      </section>
+      <section class="card">
+        <h2>Current quantities</h2>
+        <div class="stat"><span>Moving point B</span><strong id="bStat">—</strong></div>
+        <div class="stat"><span>Projection D</span><strong id="dStat">—</strong></div>
+        <div class="stat"><span>Tangent slope</span><strong id="slopeStat">—</strong></div>
+        <div class="stat"><span>Projection distance CD</span><strong id="distStat">—</strong></div>
+        <div class="stat"><span>Locus x range</span><strong id="rangeStat">—</strong></div>
+        <div class="formula">Parabola: y = ax²<br><br>At B = (u, au²), tangent:<br>y = 2au·x − au²<br><br>For C = (cₓ,cᵧ), the perpendicular foot is:<br>D = C + q(−m, 1),<br>q = (m cₓ − cᵧ − au²)/(m²+1),<br>where m = 2au.<br><br>Animation domain: u ∈ [−5, +5].</div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    (() => {
+      const canvas=document.getElementById('plot'),ctx=canvas.getContext('2d');
+      const names=['a','cx','cy','x','speed','samples'];
+      const el=Object.fromEntries(names.map(n=>[n,document.getElementById(n)]));
+      const out=Object.fromEntries(names.map(n=>[n,document.getElementById(n+'Out')]));
+      const opt={animate:document.getElementById('animate'),parabola:document.getElementById('showParabola'),tangent:document.getElementById('showTangent'),grid:document.getElementById('showGrid'),trace:document.getElementById('showTrace')};
+      const stat={b:document.getElementById('bStat'),d:document.getElementById('dStat'),slope:document.getElementById('slopeStat'),dist:document.getElementById('distStat'),range:document.getElementById('rangeStat')};
+      const col={grid:'#293e57',axis:'#6d87a7',parabola:'#fbbf24',tangent:'#fbbf24',fixed:'#fb7185',moving:'#86efac',projected:'#64e9ff',normal:'#9bb6d3',trace:'#80dce8'};
+      let view={cx:0,cy:4,scale:55},phase=0,dragging=false,last=performance.now(),follow=true;
+      let travel=[];
+      const p=()=>({a:+el.a.value,cx:+el.cx.value,cy:+el.cy.value,u:+el.x.value,speed:+el.speed.value,n:+el.samples.value});
+      const B=q=>({x:q.u,y:q.a*q.u*q.u});
+      function foot(q,u=q.u){const m=2*q.a*u, c={x:q.cx,y:q.cy}; const k=(m*c.x-c.y-q.a*u*u)/(m*m+1);return{x:c.x-k*m,y:c.y+k};}
+      function locus(q){const arr=[];for(let i=0;i<=q.n;i++){const u=-5+10*i/q.n;arr.push(foot(q,u));}return arr;}
+      function size(){return{w:canvas._w||canvas.clientWidth,h:canvas._h||canvas.clientHeight};}
+      function screen(q){const {w,h}=size();return{x:w/2+(q.x-view.cx)*view.scale,y:h/2-(q.y-view.cy)*view.scale};}
+      function world(q){const {w,h}=size();return{x:view.cx+(q.x-w/2)/view.scale,y:view.cy-(q.y-h/2)/view.scale};}
+      function resize(){const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*d);canvas.height=Math.round(r.height*d);canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';canvas._w=r.width;canvas._h=r.height;ctx.setTransform(d,0,0,d,0,0);}
+      function line(a,b,color,w=1,dash=[]){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.restore();}
+      function dot(q,color,r,label){ctx.save();ctx.fillStyle=color;ctx.beginPath();ctx.arc(q.x,q.y,r,0,2*Math.PI);ctx.fill();ctx.strokeStyle='#07101a';ctx.lineWidth=1.5;ctx.stroke();if(label){ctx.fillStyle='#edf5ff';ctx.font='600 13px Inter,system-ui';ctx.fillText(label,q.x+r+6,q.y-r-4);}ctx.restore();}
+      function grid(){if(!opt.grid.checked)return;const {w,h}=size(),target=80/view.scale,mag=10**Math.floor(Math.log10(target)),unit=[1,2,5,10].find(v=>v*mag>=target)*mag,L=view.cx-w/(2*view.scale),R=view.cx+w/(2*view.scale),D=view.cy-h/(2*view.scale),U=view.cy+h/(2*view.scale);for(let x=Math.ceil(L/unit)*unit;x<=R;x+=unit)line(screen({x,y:D}),screen({x,y:U}),col.grid);for(let y=Math.ceil(D/unit)*unit;y<=U;y+=unit)line(screen({x:L,y}),screen({x:R,y}),col.grid);line(screen({x:0,y:D}),screen({x:0,y:U}),col.axis,1.2);line(screen({x:L,y:0}),screen({x:R,y:0}),col.axis,1.2);}
+      function poly(arr,color,w=2.2){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();arr.forEach((q,i)=>{const s=screen(q);i?ctx.lineTo(s.x,s.y):ctx.moveTo(s.x,s.y);});ctx.stroke();ctx.restore();}
+      function parabola(q){const arr=[];for(let u=-5;u<=5.0001;u+=.025)arr.push({x:u,y:q.a*u*u});poly(arr,col.parabola,2.2);}
+      function setOutputs(){out.a.textContent=(+el.a.value).toFixed(2);out.cx.textContent=(+el.cx.value).toFixed(2);out.cy.textContent=(+el.cy.value).toFixed(2);out.x.textContent=(+el.x.value).toFixed(2);out.speed.textContent=(+el.speed.value).toFixed(2)+' cycles/s';out.samples.textContent=el.samples.value;}
+      function setStats(q,all){const b=B(q),d=foot(q),m=2*q.a*q.u;let mn=Infinity,mx=-Infinity;for(const z of all){mn=Math.min(mn,z.x);mx=Math.max(mx,z.x);}stat.b.textContent=`(${b.x.toFixed(3)}, ${b.y.toFixed(3)})`;stat.d.textContent=`(${d.x.toFixed(3)}, ${d.y.toFixed(3)})`;stat.slope.textContent=m.toFixed(4);stat.dist.textContent=Math.hypot(d.x-q.cx,d.y-q.cy).toFixed(4);stat.range.textContent=`[${mn.toFixed(3)}, ${mx.toFixed(3)}]`;}
+      function render(){const {w,h}=size();ctx.clearRect(0,0,w,h);const q=p(),b=B(q),d=foot(q),all=locus(q);grid();if(opt.parabola.checked)parabola(q);poly(all,col.projected,2.5);if(opt.trace.checked&&travel.length>1)poly(travel,col.trace,1.2);const bs=screen(b),ds=screen(d),cs=screen({x:q.cx,y:q.cy});if(opt.tangent.checked){const m=2*q.a*q.u,span=14;line(screen({x:q.u-span,y:b.y-m*span}),screen({x:q.u+span,y:b.y+m*span}),col.tangent,1.6);line(cs,ds,col.normal,1.3,[6,4]);}dot(cs,col.fixed,6,'C');dot(bs,col.moving,6,'B');dot(ds,col.projected,6,'D');setStats(q,all);}
+      function fit(){const q=p(),all=[...locus(q),{x:-5,y:25*q.a},{x:5,y:25*q.a},{x:q.cx,y:q.cy}],{w,h}=size();let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;for(const z of all){x0=Math.min(x0,z.x);x1=Math.max(x1,z.x);y0=Math.min(y0,z.y);y1=Math.max(y1,z.y);}const sx=Math.max(1,x1-x0),sy=Math.max(1,y1-y0);view.cx=(x0+x1)/2;view.cy=(y0+y1)/2;view.scale=Math.min(w/(sx*1.28),h/(sy*1.28));}
+      function refresh(refit=false){setOutputs();if(refit||follow)fit();render();}
+      function reset(){el.a.value=.20;el.cx.value=1.5;el.cy.value=2;el.x.value=-5;el.speed.value=1.25;el.samples.value=1200;opt.animate.checked=true;opt.parabola.checked=true;opt.tangent.checked=true;opt.grid.checked=true;opt.trace.checked=true;phase=0;travel=[];follow=true;refresh(true);document.getElementById('pause').textContent='Pause';}
+      names.forEach(n=>el[n].addEventListener('input',()=>{if(n==='x')phase=(+el.x.value+5)/10; if(['a','cx','cy','samples'].includes(n)){travel=[];follow=true;refresh(true);}else refresh(false);}));
+      Object.values(opt).forEach(o=>o.addEventListener('change',()=>render()));
+      document.getElementById('reset').addEventListener('click',reset);
+      document.getElementById('fit').addEventListener('click',()=>{follow=true;refresh(true);});
+      document.getElementById('pause').addEventListener('click',()=>{opt.animate.checked=!opt.animate.checked;document.getElementById('pause').textContent=opt.animate.checked?'Pause':'Resume';});
+      document.getElementById('export').addEventListener('click',()=>{render();const a=document.createElement('a');a.download='parabola-tangent-projection-locus.png';a.href=canvas.toDataURL('image/png');a.click();});
+      function pointer(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+      canvas.addEventListener('pointerdown',e=>{const q=p(),c=screen({x:q.cx,y:q.cy}),v=pointer(e);if(Math.hypot(v.x-c.x,v.y-c.y)<20){dragging=true;canvas.setPointerCapture(e.pointerId);}});
+      canvas.addEventListener('pointermove',e=>{if(!dragging)return;const q=world(pointer(e));el.cx.value=Math.max(-8,Math.min(8,q.x));el.cy.value=Math.max(-5,Math.min(20,q.y));travel=[];follow=true;refresh(true);});
+      canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+      canvas.addEventListener('wheel',e=>{e.preventDefault();const before=world(pointer(e)),f=e.deltaY<0?1.05:1/1.05;view.scale=Math.max(16,Math.min(1000,view.scale*f));const after=world(pointer(e));view.cx+=before.x-after.x;view.cy+=before.y-after.y;follow=false;render();},{passive:false});
+      function animate(now){const dt=(now-last)/1000;last=now;if(opt.animate.checked&&!dragging){const q=p();phase=(phase+dt*q.speed/2)%1;const u=-5+10*(phase<=.5?2*phase:2-2*phase);el.x.value=u;const d=foot({...q,u});if(opt.trace.checked){travel.push(d);if(travel.length>900)travel.shift();}setOutputs();render();}requestAnimationFrame(animate);}
+      new ResizeObserver(()=>{resize();if(follow)fit();render();}).observe(canvas);
+      resize();reset();requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KC57H5P9');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zellij — Mathematical Islamic Patterns</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    overflow: hidden; background: #030309;
+    cursor: pointer;
+  }
+  canvas { display: block; }
+  #hud {
+    position: fixed; left: 24px; top: 20px; pointer-events: none;
+    color: #cfd2ff; font-family: Georgia, 'Times New Roman', serif;
+    letter-spacing: .35em; text-transform: uppercase; font-size: 13px;
+    opacity: .75; text-shadow: 0 0 12px rgba(120,120,255,.5);
+  }
+  #hud small {
+    display: block; margin-top: 7px; font-size: 10px;
+    letter-spacing: .12em; text-transform: none; opacity: .65;
+  }
+  #caption {
+    position: fixed; left: 0; right: 0; bottom: 30px; pointer-events: none;
+    text-align: center; color: #e8e6ff; font-family: Georgia, serif;
+    font-size: 16px; letter-spacing: .35em; text-transform: uppercase;
+    opacity: 0; transition: opacity 1.4s ease;
+    text-shadow: 0 0 14px rgba(140,120,255,.65);
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC57H5P9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<canvas id="c"></canvas>
+<div id="hud">Zellij<small>mathematical islamic patterns &middot; click or press space to change</small></div>
+<div id="caption"></div>
+<script>
+'use strict';
+const canvas  = document.getElementById('c');
+const ctx     = canvas.getContext('2d');
+const caption = document.getElementById('caption');
+const TAU = Math.PI * 2;
+let W = 0, H = 0, DPR = 1;
+
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.fillStyle = '#04040e'; ctx.fillRect(0, 0, W, H);
+}
+window.addEventListener('resize', resize);
+resize();
+
+/* ---------------- geometry helpers ---------------- */
+
+// Classic {n/s} star outline: alternating tips and "waist" vertices.
+// The waist radius of a true {n/s} star polygon is cos(pi*s/n)/cos(pi*(s-1)/n).
+function starOutline(cx, cy, r, n, s, rot) {
+  const w = Math.cos(Math.PI * s / n) / Math.cos(Math.PI * (s - 1) / n);
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * TAU / n, b = a + Math.PI / n;
+    const x1 = cx + r * Math.cos(a),     y1 = cy + r * Math.sin(a);
+    const x2 = cx + r * w * Math.cos(b), y2 = cy + r * w * Math.sin(b);
+    if (i === 0) ctx.moveTo(x1, y1); else ctx.lineTo(x1, y1);
+    ctx.lineTo(x2, y2);
+  }
+  ctx.closePath();
+}
+
+function polygon(cx, cy, r, n, rot) {
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * TAU / n;
+    const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+}
+
+// Pointed-arch petal (vesica) between radii r1..r2, centered on angle a.
+function petalPath(cx, cy, r1, r2, a, half) {
+  const cr = r1 + (r2 - r1) * 1.3, hh = half * 0.95;
+  const Ax = cx + r1 * Math.cos(a - half), Ay = cy + r1 * Math.sin(a - half);
+  const Bx = cx + r1 * Math.cos(a + half), By = cy + r1 * Math.sin(a + half);
+  const Tx = cx + r2 * Math.cos(a),        Ty = cy + r2 * Math.sin(a);
+  const C1x = cx + cr * Math.cos(a - hh),  C1y = cy + cr * Math.sin(a - hh);
+  const C2x = cx + cr * Math.cos(a + hh),  C2y = cy + cr * Math.sin(a + hh);
+  ctx.beginPath();
+  ctx.moveTo(Ax, Ay);
+  ctx.quadraticCurveTo(C1x, C1y, Tx, Ty);
+  ctx.quadraticCurveTo(C2x, C2y, Bx, By);
+  ctx.closePath();
+}
+
+function hsl(h, s, l, a) {
+  return 'hsla(' + (((h % 360) + 360) % 360) + ',' + s + '%,' + l + '%,' + a + ')';
+}
+
+/* ---------------- scene 1: twelvefold rose window ---------------- */
+
+function drawRoseWindow(t) {
+  const cx = W / 2, cy = H / 2, R = Math.min(W, H) * 0.44;
+  ctx.globalCompositeOperation = 'lighter';
+
+  // framing rings, slowly counter-rotating
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = hsl(t * 8, 70, 55, 0.30);
+  polygon(cx, cy, R * 1.03, 12,  t * 0.012); ctx.stroke();
+  ctx.strokeStyle = hsl(t * 8 + 60, 70, 55, 0.20);
+  polygon(cx, cy, R * 1.07, 12, -t * 0.010); ctx.stroke();
+
+  // breathing petals
+  const n = 12, rIn = R * 0.42;
+  for (let i = 0; i < n; i++) {
+    const a = i * TAU / n - t * 0.03;
+    const rOut = R * (0.62 + 0.10 * Math.sin(t * 1.3 - i * 2));
+    petalPath(cx, cy, rIn, rOut, a, Math.PI / n);
+    ctx.fillStyle = hsl(t * 8 + i * 30, 80, 58, 0.05);
+    ctx.fill();
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = hsl(t * 8 + i * 30, 80, 62, 0.5);
+    ctx.stroke();
+  }
+
+  // layered rotating star polygons {12/s}
+  const skips = [5, 3, 2, 4, 1];
+  for (let L = 0; L < skips.length; L++) {
+    const dir = (L % 2) ? -1 : 1;
+    const rot = dir * t * (0.040 + 0.022 * L);
+    const r = R * (0.30 + 0.15 * L) * (1 + 0.045 * Math.sin(t * 0.9 + L * 1.9));
+    const hue = t * 10 + L * 52;
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = hsl(hue + 30, 90, 70, 0.12);
+    starOutline(cx, cy, r, 12, skips[L], rot); ctx.stroke();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = hsl(hue, 85, 64, 0.8);
+    starOutline(cx, cy, r, 12, skips[L], rot); ctx.stroke();
+  }
+
+  // orbiting jewels on the outer rim
+  for (let i = 0; i < n; i++) {
+    const a = i * TAU / n + t * 0.10;
+    const x = cx + R * 0.985 * Math.cos(a), y = cy + R * 0.985 * Math.sin(a);
+    ctx.fillStyle = hsl(t * 20 + i * 30, 90, 72, 0.9);
+    ctx.beginPath(); ctx.arc(x, y, 2.6, 0, TAU); ctx.fill();
+  }
+
+  // central medallion
+  ctx.fillStyle = hsl(t * 14, 80, 60, 0.12);
+  starOutline(cx, cy, R * 0.16 * (1 + 0.10 * Math.sin(t * 2)), 12, 5, t * 0.2);
+  ctx.fill();
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = hsl(t * 14, 85, 70, 0.8);
+  ctx.stroke();
+}
+
+/* ---------------- scene 2: khatam tessellation (8-fold) ---------------- */
+
+function drawKhatam(t) {
+  ctx.globalCompositeOperation = 'source-over';
+  const d = Math.min(W, H) / 6.5, R = d * 0.485;
+  const nx = Math.ceil(W / d) + 2, ny = Math.ceil(H / d) + 2;
+  const ox = (W - (nx - 1) * d) / 2, oy = (H - (ny - 1) * d) / 2;
+
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const x = ox + i * d, y = oy + j * d;
+    const dist = Math.hypot(x - W / 2, y - H / 2);
+    const wave = Math.sin(t * 2.2 - dist * 0.012);
+    const r = R * (0.82 + 0.14 * wave);
+    const hue = t * 12 + dist * 0.08 + wave * 25;
+    ctx.lineWidth = 1.3;
+    ctx.strokeStyle = hsl(hue, 80, 60, 0.85);
+    ctx.fillStyle = hsl(hue, 80, 55, 0.08);
+    starOutline(x, y, r, 8, 3, -Math.PI / 2);
+    ctx.fill(); ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = hsl(hue + 40, 85, 65, 0.35);
+    polygon(x, y, r * 0.30, 8, t * 0.1);
+    ctx.stroke();
+  }
+
+  // cross-shaped gap ornaments between four stars
+  for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) {
+    const x = ox + (i + 0.5) * d, y = oy + (j + 0.5) * d;
+    const dist = Math.hypot(x - W / 2, y - H / 2);
+    const pulse = 0.8 + 0.35 * Math.sin(t * 2.2 - dist * 0.012 + 2);
+    ctx.fillStyle = hsl(t * 12 + dist * 0.08 + 90, 85, 62, 0.55);
+    polygon(x, y, R * 0.34 * pulse, 4, Math.PI / 4);
+    ctx.fill();
+  }
+}
+
+/* ---------------- scene 3: sixfold hexagram garden ---------------- */
+
+function drawHex(t) {
+  ctx.globalCompositeOperation = 'source-over';
+  const d = Math.min(W, H) / 7, R = d * 0.5;
+  const dy = d * Math.sin(Math.PI / 3);
+  const nx = Math.ceil(W / d) + 2, ny = Math.ceil(H / dy) + 2;
+  const ox = (W - (nx - 1) * d) / 2, oy = (H - (ny - 1) * dy) / 2;
+
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const x = ox + i * d + (j % 2 ? d / 2 : 0), y = oy + j * dy;
+    const dist = Math.hypot(x - W / 2, y - H / 2);
+    const wob = Math.sin(t * 1.6 - dist * 0.010);
+    const rot = wob * 0.16 + ((i + j) % 2 ? Math.PI / 6 : 0);
+    const hue = t * 10 + dist * 0.07 + wob * 30;
+    ctx.lineWidth = 1.3;
+    ctx.strokeStyle = hsl(hue, 82, 62, 0.85);
+    ctx.fillStyle = hsl(hue, 82, 56, 0.07);
+    starOutline(x, y, R * 0.92, 6, 2, rot);   // hexagram
+    ctx.fill(); ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = hsl(hue + 50, 85, 66, 0.35);
+    polygon(x, y, R * 0.45, 6, rot);
+    ctx.stroke();
+    ctx.fillStyle = hsl(hue + 90, 90, 72, 0.7);
+    ctx.beginPath(); ctx.arc(x, y, 1.8, 0, TAU); ctx.fill();
+  }
+}
+
+/* ---------------- scene 4: golden-angle phyllotaxis ---------------- */
+
+function drawPhyllo(t, tl) {
+  ctx.globalCompositeOperation = 'lighter';
+  const cx = W / 2, cy = H / 2;
+  const N = 340, GA = Math.PI * (3 - Math.sqrt(5));   // golden angle
+  const c = Math.min(W, H) * 0.44 / Math.sqrt(N);
+  const bloom = Math.min(1, tl / 4);                  // grow in on entry
+  for (let i = 0; i < N; i++) {
+    const f = i / N;
+    const a = i * GA + t * 0.06;
+    const r = c * Math.sqrt(i) * bloom * (1 + 0.05 * Math.sin(t * 1.2 - i * 0.10));
+    const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+    const hue = t * 12 + i * 1.1;
+    const sz = (4 + 11 * f) * (0.75 + 0.25 * Math.sin(t * 2 - i * 0.22));
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = hsl(hue, 90, 64, 0.9);
+    starOutline(x, y, sz, 8, 2, a);
+    ctx.stroke();
+    ctx.fillStyle = hsl(hue + 40, 90, 70, 0.8);
+    ctx.beginPath(); ctx.arc(x, y, Math.max(0.6, sz * 0.18), 0, TAU); ctx.fill();
+  }
+}
+
+/* ---------------- scene 5: rose-curve mandala (motion trails) ---------------- */
+
+let rcTheta = 0;
+function drawRoseCurve(t) {
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = 'rgba(4,4,14,0.055)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'lighter';
+  const cx = W / 2, cy = H / 2, R = Math.min(W, H) * 0.42;
+  const k = 4 + 3 * Math.sin(t * 0.11) + Math.sin(t * 0.043 + 1.7); // evolving petal ratio
+  const steps = 24, dth = 0.02;
+  for (let copy = 0; copy < 3; copy++) {
+    const rot = copy * TAU / 3 + t * 0.02;
+    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = hsl(t * 18 + copy * 120, 90, 65, 0.55);
+    ctx.beginPath();
+    for (let s = 0; s <= steps; s++) {
+      const th = rcTheta + s * dth;
+      const rr = R * Math.cos(k * th);
+      const x = cx + rr * Math.cos(th + rot), y = cy + rr * Math.sin(th + rot);
+      if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  rcTheta += steps * dth;
+}
+
+/* ---------------- engine ---------------- */
+
+const scenes = [
+  { name: 'Twelvefold Rose Window',                 draw: drawRoseWindow, trails: false },
+  { name: 'Khatam · Eight-Pointed Star Tessellation', draw: drawKhatam,   trails: false },
+  { name: 'Sixfold Hexagram Garden',                draw: drawHex,        trails: false },
+  { name: 'Golden-Angle Phyllotaxis',               draw: drawPhyllo,     trails: false },
+  { name: 'Rose-Curve Mandala',                     draw: drawRoseCurve,  trails: true  },
+];
+const AUTO_MS = 22000;
+let scene = 0, sceneStart = performance.now(), capT = 0;
+
+const bgStars = [];
+for (let i = 0; i < 140; i++) bgStars.push({
+  x: Math.random(), y: Math.random(),
+  sz: Math.random() < 0.85 ? 1 : 2,
+  tw: 0.5 + Math.random() * 2, ph: Math.random() * TAU
+});
+
+function paintBackground(t) {
+  const g = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.75);
+  g.addColorStop(0, '#0a0a1c'); g.addColorStop(1, '#020208');
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  for (const s of bgStars) {
+    const a = 0.10 + 0.25 * (0.5 + 0.5 * Math.sin(t * s.tw + s.ph));
+    ctx.fillStyle = 'rgba(200,200,255,' + a.toFixed(3) + ')';
+    ctx.fillRect(s.x * W, s.y * H, s.sz, s.sz);
+  }
+}
+
+function setScene(i) {
+  scene = ((i % scenes.length) + scenes.length) % scenes.length;
+  sceneStart = performance.now();
+  rcTheta = 0;
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#04040e'; ctx.fillRect(0, 0, W, H);
+  caption.textContent = scenes[scene].name;
+  caption.style.opacity = 1;
+  clearTimeout(capT);
+  capT = setTimeout(() => { caption.style.opacity = 0; }, 3500);
+}
+
+window.addEventListener('pointerdown', () => setScene(scene + 1));
+window.addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code === 'ArrowRight') { e.preventDefault(); setScene(scene + 1); }
+  else if (e.code === 'ArrowLeft') setScene(scene - 1);
+});
+
+const params = new URLSearchParams(location.search);
+const q = parseInt(params.get('scene') || '0', 10);
+const tq = parseFloat(params.get('t') || '0') || 0;   // start mid-animation, e.g. ?scene=3&t=8
+setScene(isNaN(q) ? 0 : q);
+sceneStart -= tq * 1000;
+
+let t0 = performance.now() - tq * 1000;
+function frame(now) {
+  const t = (now - t0) / 1000;
+  const tl = (now - sceneStart) / 1000;
+  const sc = scenes[scene];
+  if (!sc.trails) paintBackground(t);
+  sc.draw(t, tl);
+  if (tl * 1000 > AUTO_MS) setScene(scene + 1);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
