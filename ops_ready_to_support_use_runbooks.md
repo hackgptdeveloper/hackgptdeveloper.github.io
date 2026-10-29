@@ -1,5 +1,3 @@
-
-
 # OPS07-BP03 Use runbooks to perform procedures
 <a name="ops_ready_to_support_use_runbooks"></a>
 
