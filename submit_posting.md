@@ -6,6 +6,36 @@ General tasks applied to every blog post before it goes live. These steps are in
 
 ---
 
+## 0. Writing style: direct English
+
+Apply these rules when writing, editing, or combining content. They take priority over any instruction that encourages hype, decorative phrasing, or unnecessary length.
+
+- Preserve all technical content. Do not remove technical details, derivations, assumptions, limitations, examples, code, references, or explanations to make the prose shorter.
+- Use direct, clear English. Express simple ideas simply. Use technical terms when they are needed for accuracy, and explain unfamiliar terms where they first appear.
+- Remove non-essential exaggeration, filler, repetition, promotional language, and dramatic framing. Do not add special phrasing just to make technical content sound important.
+- State what happens, how it works, and why it matters in concrete terms. Replace vague praise with the specific mechanism, result, or limitation.
+- Prefer ordinary verbs and short, readable sentences. Split sentences when that improves clarity; do not impose a word limit or remove necessary reasoning.
+- Avoid stock introductions and transitions such as “let us embark on,” “dive into,” “unlock the secrets,” “a fascinating journey,” and “it is important to note.” Start with the actual point.
+- Avoid unsupported labels such as “groundbreaking,” “revolutionary,” “game-changing,” “mind-blowing,” “remarkable,” or “powerful.” If a claim of significance is necessary, explain and support it.
+- Keep qualifications that affect correctness. Do not turn a conditional result into an absolute claim to make it sound stronger.
+- Use neutral, descriptive titles and headings. Do not use clickbait, artificial suspense, or claims of secrecy, beauty, or surprise merely to attract attention.
+- Use emphasis to identify useful information, not to manufacture excitement.
+- Add SVG diagrams when they help explain memory corruption or another complex concept. Label relevant addresses, offsets, objects, states, and transitions accurately. Place each diagram beside the explanation it supports; do not add decorative diagrams.
+
+Examples of the intended style:
+
+| Avoid | Use |
+|-------|-----|
+| “Let us dive into the fascinating world of type confusion.” | “Type confusion occurs when a value is used as the wrong type.” |
+| “This powerful technique unlocks arbitrary memory access.” | “Under these conditions, this technique allows arbitrary memory access.” |
+| “The real magic happens in the next step.” | “The next step overwrites the object's length field.” |
+| “This elegant formula reveals a profound connection.” | “This formula relates X to Y.” |
+| “It is important to note that the exploit requires this version.” | “The exploit requires this version.” |
+
+Before accepting a rewrite, check both technical completeness and language. Remove unnecessary words, not necessary explanations.
+
+---
+
 ## 1. Source material preparation
 
 Read the raw content file and identify:
@@ -42,22 +72,23 @@ Rules (specific to this blog — `hackgptdeveloper.github.io`):
 
 ## 3. Title requirements
 
-The title must be **viral-style**: curiosity-driven, arouses interest, promises a revelation.
+Use a clear, specific title that identifies the subject and the main result, mechanism, or question.
 
-Patterns that work:
+Rules:
+- Describe what the post actually explains.
+- Name the relevant technology, vulnerability, theorem, or method when useful.
+- Keep the title as short as accuracy allows.
+- Do not promise a revelation, exaggerate the result, or imply secrecy or novelty without evidence.
+- Do not require a “viral-style” title. A straightforward title is acceptable.
 
-| Pattern | Example skeleton |
-|---------|-----------------|
-| "The X That Secretly Y — And You've Never Heard of It" | Surprise + exclusivity |
-| "Why X Lives Inside Y — The Strangest Secret of Z" | Unexpected connection |
-| "X's Secret: How Y Escaped Z and Took Over W" | Origin story + ambition |
-| "The X That Lets You Y — Z's Most Beautiful Formula" | Empowerment + beauty |
-
-Avoid: dry declarative titles like "An Introduction to X" or "On the Theory of Y".
+Examples:
+- “How Type Confusion Leads to an Out-of-Bounds Read”
+- “Configuring OIDC Authentication for a Multi-Tenant API”
+- “Deriving the Hexagon Spiral Formula”
 
 ---
 
-## 4. Opening hook
+## 4. Opening challenge
 
 Immediately after the frontmatter, place a **challenge to the reader** in bold:
 
@@ -69,6 +100,7 @@ Rules:
 - It must be specific (e.g. "Compute X for Y" not "Explore X")
 - It must be solvable after reading the post
 - It appears **before** any body text
+- Use direct wording. Do not frame it as a teaser or exaggerate its difficulty or significance.
 
 Scatter 2-3 additional challenges at midpoints and one final challenge at the end.
 
@@ -127,15 +159,15 @@ Every post follows this skeleton:
 
 1. **Challenge** (bold, before any body text)
 2. **Core concept/theorem** stated upfront
-3. **Why it matters** (2-3 lines)
+3. **Practical use or consequence** (2-3 lines explaining a concrete use, effect, or limitation)
 4. **Numbered sections** — each section is one digestible idea
 5. **Mid-post challenges** (after key derivations)
 6. **Reference table** (where applicable — show related functions, offset maps, comparison matrices)
-7. **Deeper significance / root cause** section
+7. **Mechanism / root cause / implications** section, as appropriate; explain the actual relationship rather than adding a generic significance paragraph
 8. **Final challenge** (harder, synthesis-required)
 9. **Source code / references** (where applicable — link to repos, CVEs, further reading)
 
-Section headings use `## N. Descriptive Name` format.
+Section headings use `## N. Descriptive Name` format. Name the mechanism or topic directly; avoid dramatic or promotional headings.
 
 For non-math posts (security, AI, web tech), replace "core theorem" with the post's central concept or finding, and "connection table" with any structured reference (offset map, comparison table, exploit summary table, etc.).
 
@@ -148,6 +180,16 @@ Use `---` to separate major sections. These must be on their own line, outside a
 ---
 
 ## 8. Pre-publish verification
+
+### Language and technical-content review — every post
+
+- Compare the draft with the source material. Confirm that no technical content was lost while rewriting or combining files.
+- Check the title, headings, introduction, transitions, challenges, diagram labels, and conclusion against section 0.
+- Remove exaggeration, filler, repeated summaries, and unnecessary adjectives. Keep definitions, reasoning, evidence, caveats, and useful examples.
+- Replace vague claims of importance with a specific explanation, or remove the claim if it adds nothing.
+- Confirm that SVG diagrams clarify the explanation and agree with the text and code.
+
+### Rendering checks
 
 **⚠️ Conditional:** Checks 1, 4, 5, and the pipe/math sub-checks apply **only to posts with LaTeX math**. For non-math posts, only run checks 2 and 3 (and even then, only to confirm no accidental `<`/`>` issues).
 
@@ -316,7 +358,11 @@ The 3-column grid is configured in `_includes/head-custom.html`. If the grid bre
 ```
 □ Frontmatter: title + tags: only (no categories/excerpt/share/read_time)
 □ Date in filename: YYYY-MM-DD-slug.md
-□ Viral-style title (curiosity + promise)
+□ Direct English throughout: no hype, filler, or decorative phrasing
+□ Technical content preserved when editing or combining sources
+□ Clear, specific title and descriptive headings; no clickbait
+□ Concrete mechanisms, results, and limitations instead of vague praise
+□ SVG diagrams included where they clarify memory corruption or other complex concepts
 □ Reader challenge at top (bold, concrete)
 □ [MATH ONLY] All math uses $$ / $ delimiters
 □ [MATH ONLY] Site config intact: _includes/scripts.html declares $/$$ delimiters and has NO renderActions.find override (section 5a)
@@ -461,6 +507,8 @@ has ...
 ---
 
 ## 13. Blog-specific conventions (hackgptdeveloper.github.io)
+
+The direct-English rules in section 0 apply to all posts, including technical explanations, challenges, captions, and source-code introductions.
 
 These were discovered during the type-confusion exploit walkthrough posting and differ from the generic math-blog template this checklist was originally written for.
 
