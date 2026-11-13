@@ -18,6 +18,7 @@ en: &DEFAULT_EN
   pages_tagged: "Pages tagged"
   table_of_contents: "Table of Contents"
   results_found: "Result(s) found"
+  no_results: "No results found. Try a different search term."
   share: "Share"
   tweet: "Tweet"
   next: "Next"

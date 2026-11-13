@@ -4,8 +4,10 @@ layout: page
 
 {{ content }}
 
-<form onsubmit="return false;">
-  <input type="input" id="search" class="search-input" placeholder="{{ site.data.text[site.locale].search_placeholder_text | default: 'Enter your search term...' }}" autofocus>
+<form class="search-form search-form--page" action="{{ '/search/' | relative_url }}" method="get" role="search">
+  <label class="screen-reader-text" for="search">Search</label>
+  <input type="search" id="search" name="q" class="search-input" placeholder="{{ site.data.text[site.locale].search_placeholder_text | default: 'Enter your search term...' }}" autofocus autocomplete="off">
+  <button type="submit" class="search-submit" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i><span>Search</span></button>
 </form>
 
-<div id="results"></div>
+<div id="results" aria-live="polite"></div>
