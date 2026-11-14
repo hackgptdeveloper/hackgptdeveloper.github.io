@@ -234,7 +234,7 @@ Two teams can look at the same incident and see different failures. The mail tea
 
 ## 5. Could a Different Switchover Have Helped?
 
-The question is not whether failover exists. It is whether the standby shares the fault. The table takes the three mechanisms that made this outage worse and states what a switchover needed to address each one.
+The question is not whether failover exists. It is whether the standby shares the fault. The table lists the three mechanisms that made this outage worse and states what a switchover needed to address each one.
 
 | Failure mechanism | What the switchover needed | Why the normal failover did not provide it |
 | --- | --- | --- |
@@ -265,7 +265,7 @@ The key condition is configuration isolation. A standby that runs the same updat
   <text x="125" y="180" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="11.5" fill="#3b2323">updated network build</text>
 
   <line x1="210" y1="165" x2="242" y2="165" stroke="#b02a2a" stroke-width="2" marker-end="url(#foArrowRed)"/>
-  <text x="226" y="156" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#8a1f1f">shift</text>
+  <text x="226" y="152" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#8a1f1f">shift</text>
 
   <rect x="250" y="130" width="170" height="70" rx="6" fill="#f8e9e9" stroke="#b02a2a" stroke-width="1.3"/>
   <text x="335" y="158" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" font-weight="bold" fill="#8a1f1f">Standby</text>
@@ -290,7 +290,7 @@ The key condition is configuration isolation. A standby that runs the same updat
   <text x="565" y="180" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="11.5" fill="#1e3a2a">updated network build</text>
 
   <line x1="650" y1="165" x2="682" y2="165" stroke="#1f6f43" stroke-width="2" marker-end="url(#foArrowGreen)"/>
-  <text x="666" y="156" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#14532d">shift</text>
+  <text x="666" y="152" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#14532d">shift</text>
 
   <rect x="690" y="130" width="170" height="70" rx="6" fill="#e9f6ee" stroke="#1f6f43" stroke-width="1.3"/>
   <text x="775" y="158" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" font-weight="bold" fill="#14532d">Standby</text>
