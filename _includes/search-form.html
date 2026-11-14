@@ -1,0 +1,8 @@
+{%- unless page.layout == "search" -%}
+  {%- assign search_placeholder = site.data.text[site.locale].search_placeholder_text | default: "Search the site..." -%}
+  <form class="site-search" action="{{ '/search/' | relative_url }}" method="get" role="search">
+    <label class="screen-reader-text" for="site-search-input">Search</label>
+    <input type="search" id="site-search-input" name="q" placeholder="{{ search_placeholder }}" autocomplete="off">
+    <button type="submit" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i><span>Search</span></button>
+  </form>
+{%- endunless -%}
