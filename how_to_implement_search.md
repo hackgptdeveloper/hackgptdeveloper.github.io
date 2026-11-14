@@ -1,3 +1,4 @@
+{% raw %}
 # How the site search box works — and how to copy it to another Jekyll site
 
 This document describes the client-side search implementation used in this
@@ -783,3 +784,5 @@ searchable. Check the browser console first when results never appear.
 - **Server-side alternative**: `jekyll-lunr-js-search` and similar plugins do the
   same job but add configuration; the hand-rolled version above has no plugin
   dependency and survives theme swaps.
+
+{% endraw %}
